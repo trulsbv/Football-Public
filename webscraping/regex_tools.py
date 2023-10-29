@@ -114,3 +114,20 @@ def get_krets(html):
     if match:
         return match.group(1)
     return False
+    
+
+def analysis(str):
+    out = {}
+    out["lag"] = standard_reg(str, r'<li class="([^"]*)"')
+    out["type"] = standard_reg(str, r'<span class="match-event">\s*(.*)')
+    out["minutt"] = standard_reg(str, r'<b>(\d+)<\/b>')
+    out["lenke"] = find_urls(str)
+    out["navn"] = standard_reg(str, r'<a href="[^"]*">(.*)<\/a>')
+    return out
+
+def standard_reg(text, pat):
+    team_pat = re.compile(pat)
+    match = team_pat.search(str(text))
+    if match:
+        return match.group(1)
+    return False

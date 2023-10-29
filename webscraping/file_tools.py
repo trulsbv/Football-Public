@@ -150,7 +150,7 @@ def is_expired(id, days_before_expiration = 0):
     if not find_file(folder, name):
         return True
     if find_html(id) == 1:
-        prints.warning(message=f"The content is outdated: {id}", sender="file_tools\\find_html")
+        prints.warning("file_tools\\find_html", f"The content is outdated: {id}", True)
         return True
     date_str = find_html(id).split("\n")[:1][0]
     date = datetime.strptime(date_str, '%Y-%m-%d').date()
