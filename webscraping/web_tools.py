@@ -1,5 +1,7 @@
 import requests, prints
 
+fetches = 0
+
 def utfify(s):
     s = s.replace("&#248;", "ø")
     s = s.replace("&#216;", "Ø")
@@ -23,13 +25,15 @@ def get_html(url: str, params: dict | None = None, output: str | None = None):
         html (str):
             The HTML of the page, as text.
     """
-    prints.info(f"Fetching from {url}", "WEB")
+    global fetches
+    prints.download(url)
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36',
         'Accept-Charset': 'utf-8'
     }
     # passing the optional parameters argument to the get function
     response = requests.get(url, params=params, headers=headers)
+    fetches += 1
 
     html_str = utfify(response.text)
     if output:

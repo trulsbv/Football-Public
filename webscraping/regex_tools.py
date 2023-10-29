@@ -16,15 +16,17 @@ def find_urls(
         urls (Set[str]) : set with all the urls found in html text
     """
     # create and compile regular expression(s)
-    
     urls = []
+
+    if type(html) != str:
+        return urls
+    
     # 1. find all the anchor tags, then
     a_pat = re.compile(r"<a[^>]+>", flags=re.IGNORECASE)
     # 2. find the urls href attributes
 
     # finds links that start with http
     abs_href_pat = re.compile(r'href="(https[^"]+)"', flags=re.IGNORECASE)
-
     # finds links that starts with two //, same protocol but different host
     new_host_href_pat = re.compile(r'href="([\/]{2}[^"]+)"', flags=re.IGNORECASE)
 
@@ -40,23 +42,30 @@ def find_urls(
         match_same_host2 = same_host_2_pat.search(a_tag)
 
         if match_abs:
-            urls.append(match_abs.group(1))
+            a = match_abs.group(1)
+            if ".pdf" not in a:
+                urls.append(a.rstrip("/"))
         
         elif match_new_host:
-            urls.append(("https:" + match_new_host.group(1)))
+            a = "https:" + match_new_host.group(1)
+            if ".pdf" not in a:
+                urls.append(a.rstrip("/"))
 
         elif match_same_host:
-            urls.append((f"{base_url}" + match_same_host.group(1)))
+            a = f"{base_url}" + match_same_host.group(1)
+            if ".pdf" not in a:
+                urls.append(a.rstrip("/"))
 
         elif match_same_host2:
-            urls.append((f"{base_url}" + match_same_host2.group(1)))
+            a = f"{base_url}" + match_same_host2.group(1)
+            if ".pdf" not in a:
+                urls.append(a.rstrip("/"))
         
     # Write to file if requested
     if output:
         f = open(output, "w", encoding="UTF-8")
         for item in urls:
             f.write(item+"\n")
-
     return urls
 
 def find_league_from_url(url):
@@ -71,6 +80,12 @@ def get_id_from_url(url):
     match = id_pat.search(url)
     if match:
         return match.group(1)
+    
+    id_no_id_pat = re.compile(r'https:\/\/www\.[^.]*\.[A-z]{2,3}\/(.*)')
+    match = id_no_id_pat.search(url)
+    if match:
+        new = match.group(1).replace("/", "-")
+        return new[:-1] if new[-1] == "/" else new
     return False
 
 def get_path_from_url(url):
@@ -82,6 +97,20 @@ def get_path_from_url(url):
 def get_title(html):
     title_pat = re.compile(r'<title>[\s]*([^<]*)<\/title>')
     match = title_pat.search(html)
+    if match:
+        return match.group(1)
+    return False
+
+def get_team_name(html):
+    name_pat = re.compile(r'<title>(.*) - Hjem - Norges Fotballforbund<\/title>')
+    match = name_pat.search(html)
+    if match:
+        return match.group(1)
+    return False
+
+def get_krets(html):
+    krets_pat = re.compile(r'<li><b>Krets: <\/b><a href=[^>]*>([^>]*)<\/a><\/li>')
+    match = krets_pat.search(html)
     if match:
         return match.group(1)
     return False
