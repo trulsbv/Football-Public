@@ -24,7 +24,8 @@ class Page():
         self.html._set_html(True)
 
     def _set_id(self):
-        return self.url.replace("https://www.", "")
+        id = self.url.replace("https://www.", "")
+        return id[:-1] if id[-1] == "/" else id
 
     def __hash__(self):
         return hash(self.url)

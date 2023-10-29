@@ -5,7 +5,8 @@ from bs4 import BeautifulSoup
 import prints, sys
 from errors.PageNotFoundError import PageNotFoundError
 from Page import Page
-import settings
+import settings, re
+from datetime import date, datetime
 
 serier=["Eliteserien"]
 
@@ -75,7 +76,7 @@ class Terminliste():
             runde, dato, dag, tid, _, _hjemmelag, _resultat, _bortelag, _bane, kampnr = cells_text
             
             hjemmelag = self.turnering.create_lag(_hjemmelag, urls[1])
-            bortelag = self.turnering.create_lag(_hjemmelag, urls[3])
+            bortelag = self.turnering.create_lag(_bortelag, urls[3])
             hendelser = Hendelser()
             hendelser.page = Page(urls[2])
             bane = Bane()
@@ -96,10 +97,59 @@ class Kamp():
         self.bortelag = bortelag # Page - To the team
         self.bane = bane # Page - To the pitch
         self.kampnummer = kampnummer
+    
+    def analyse(self):
+        self.resultat.analyse()
+    
+    def __repr__(self) -> str:
+        s = f"{self.runde} ({self.dag} {self.dato} kl. {self.tid}) {self.hjemmelag} "
+        if datetime.strptime(self.dato, "%d.%m.%Y") < datetime.today():
+            s += f"{self.resultat} "
+        else:
+            s += " -  "
+        s += f"{self.bortelag}, {self.bane} ({self.kampnummer})"
+        return s
 
 class Hendelser():
     hendelser = []
+    uref_hendelser = []
     page = None
+
+    def analyse(self):
+        if len(self.uref_hendelser) == 0:
+            self._get_events()
+        for event in self.uref_hendelser:
+            self.hendelser.append(event.analyse())
+
+    def _get_events(self):
+        print()
+        self.uref_hendelser = []
+        document = BeautifulSoup(self.page.html.text, "html.parser")
+        f = document.find(class_="section-heading no-margin--bottom", string=re.compile("^Hendelser"))
+        table = f.find_next("ul")
+
+        rows = table.find_all("li")
+        print(rows)
+        return
+        column_names = [th.get_text(strip=True) for th in rows[0].find_all("th")]
+        assert "Hjemmelag" in column_names
+        for row in rows[1:]:
+            cells = row.find_all(["th", "td"])
+            if not cells:
+                continue
+            urls = rt.find_urls(str(row))
+            cells_text = [cell.get_text(strip=True) for cell in cells]
+            runde, dato, dag, tid, _, _hjemmelag, _resultat, _bortelag, _bane, kampnr = cells_text
+            
+            hjemmelag = self.turnering.create_lag(_hjemmelag, urls[1])
+            bortelag = self.turnering.create_lag(_bortelag, urls[3])
+            hendelser = Hendelser()
+            hendelser.page = Page(urls[2])
+            bane = Bane()
+            bane.page = Page(urls[4])
+
+            kamp = Kamp(runde, dato, dag, tid, hjemmelag, hendelser, bortelag, bane, kampnr)
+            self.kamper.append(kamp)
 
     def __repr__(self) -> str:
         home_goals = 0
@@ -109,10 +159,14 @@ class Hendelser():
                 home_goals += 1
             if type(item) == Bortemaal:
                 away_goals += 1
+        return f"{home_goals} - {away_goals}"
 
 class Hendelse():
-    def __init__(self, hvem, hva, hvor):
-        ...
+    game = None
+    ...
+
+    def analyse(self, row):
+        return Maal(who, when, what) # Spiller, tid, spillemål/straffe?
 
 class Kort(Hendelse):
     ...
@@ -137,6 +191,7 @@ class Bortemaal(Maal):
 
 class Bane():
     page = None
+    navn = None
 
     def fetch_info(self):
         self.navn, self.underlag, self.banetype, self.belysning, self.lengde, self.bredde, self.driftsform, self.krets = ft.get_baneinfo(self.page.html.text)
@@ -149,6 +204,7 @@ class Bane():
 class Lag():
     spillere = []
     page = None
+    navn = None
 
     def _set_navn(self):
         if not rt.get_team_name(self.page.html.text):
@@ -159,6 +215,8 @@ class Lag():
         return rt.get_krets(self.html.text)
     
     def __repr__(self) -> str:
+        if self.navn == None:
+            self.navn = self._set_navn()
         return self.navn
 
 
@@ -205,21 +263,20 @@ def main():
         exit()
 
     prints.start("Finne dager")
-    try:
-        dager = {}
-        pn1_terminliste.fetch_kamper()
-        for game in pn1_terminliste.kamper:
-            #print(f"Runde {game.runde} ({game.dato}, kl.{game.tid}), {game.hjemmelag} {game.resultat} {game.bortelag} på {game.bane} ({game.kampnummer})")
-            if game.dag in dager:
-                dager[game.dag] += 1
-            else:
-                dager[game.dag] = 1
-        prints.success("Finne dager")
-        print(dager)
-        print(f"Antall sider hentet: {wt.fetches}")
-    except:
-        prints.error("Finne dager")
-        exit()
+    dager = {}
+    pn1_terminliste.fetch_kamper()
+    
+    for game in pn1_terminliste.kamper:
+        game.analyse()
+        return
+        print(game)
+        if game.dag in dager:
+            dager[game.dag] += 1
+        else:
+            dager[game.dag] = 1
+    prints.success("Finne dager")
+    print(dager)
+    print(f"Antall sider hentet: {wt.fetches}")
 
 
 
