@@ -1,92 +1,13 @@
 import web_tools as wt
 import regex_tools as rt
 import file_tools as ft
-from datetime import date
 from bs4 import BeautifulSoup
 import prints, sys
 from errors.PageNotFoundError import PageNotFoundError
+from Page import Page
+import settings
 
 serier=["Eliteserien"]
-log_bool=False
-
-def log(where, msg):
-    if log_bool:
-        print
-        ft.log(where, msg)
-
-class HTML():
-    def __init__(self, page, search):
-        self.page = page
-        self.fetched = date.today()
-        self.expires_after_days = 1
-        self.text = self._set_html(search)
-        self.title = self._set_title()
-    
-    def _set_title(self):
-        if not self.text:
-            return ""
-        else:
-            return rt.get_title(self.text)
-
-    def _set_html(self, search=False, force=False):
-        # TODO: Sørg for at den bare oppdaterer om den er utdatert!
-        if (search and ft.is_expired(self.page.id, self.expires_after_days)) or force:
-            text = wt.get_html(self.page.url)
-            self._save_html(text)
-            return text
-        else:
-            value = ft.find_html(self.page.id)
-            if value == 1:
-                return self._set_html(True)
-            if value == 0:
-                return False
-            return ft.find_html(self.page.id)
-
-    def _save_html(self, text=False):
-        t = text if text else self.text
-        ft.save_html(self.page.id, t)
-
-class Page():
-    def __init__(self, url, search=True, force = False):
-        """
-        Set search to false if you don't want to keep the page updated / fetch the page at all
-        """
-        self.url = url
-        self.id = self._set_id()
-        self.fetched = False
-        self.html = HTML(self, search)
-        if force:
-            self.html._set_html(force=True)
-
-    def update_html(self):
-        if not self.html.text:
-            self._update_html()
-            return
-        if self.html.text.split("\n")[0] != str(date.today()):
-            self._update_html()
-    
-    def _update_html(self):
-        self.html._set_html(True)
-
-    def _set_id(self):
-        return self.url.replace("https://www.", "")
-
-    def __hash__(self):
-        return hash(self.url)
-    
-    def __lt__(self, obj):
-        return ((self.id) < (obj.id)) 
-
-    def __eq__(self, other):
-        if type(other) == str:
-            return other == self.url
-        if type(other) == Page:
-            return other.url == self.url
-        return False
-
-    def __repr__(self) -> str:
-        return self.url
-      
 
 class Hovedside():
     turneringer = []

@@ -179,12 +179,12 @@ def get_baneinfo(html):
 entries = 1
 def log(where, msg):
     global entries
-    f = open("log.txt", "a")
+    f = open("log/log.txt", "a")
     f.write(f"{entries} {where}: {msg}\n")
     f.close()
     entries+=1
 
 def clear_log():
-    f = open("log.txt", "w")
+    f = open("log/log.txt", "w")
     f.write(str(d.today()) + "\n")
     f.close()

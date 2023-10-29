@@ -1,0 +1,2017 @@
+2023-10-29
+<!DOCTYPE html>
+
+<html lang="no">
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Toppserien - Norges Fotballforbund</title>
+    <meta name="author" content="Norges Fotballforbund" />
+        <meta name="description" content="Artikler, resultater, tabell, terminliste, statistikk - alt om Toppserien." />
+
+    <!-- Open graph tags (facebok)-->
+<meta property="og:site_name" content="fotball.no - Norges Fotballforbund" />
+<meta property="og:url" content="https://www.fotball.no/turneringer/toppserien" />
+
+
+
+
+    <meta property="og:title" content="Toppserien" />
+        <meta property="og:description" content="Artikler, resultater, tabell, terminliste, statistikk - alt om Toppserien." />
+        <meta property="og:image" content="https://www.fotball.no/Static/images/nfflogo.png" />
+    <META NAME="Keywords" CONTENT="Model.CurrentPage.Name">
+
+<!-- Twitter card tags -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@NFF_info" />
+    <meta name="twitter:title" content="Toppserien" />
+        <meta name="twitter:description" content="Artikler, resultater, tabell, terminliste, statistikk - alt om Toppserien." />
+    <meta name="twitter:image" content="https://www.fotball.no/Static/images/nfflogo.png" />
+    <meta name="twitter:image:alt" content="Norges Fotballforbunds logo" />
+
+
+    <link href="/bundles/defaultcssbundle?v=5pd5YNz6-CSC2KXupRW8J8zNzf0LSv7nb1O3bAQ_U1E1" rel="stylesheet"/>
+
+
+
+    <!-- Fonts Montserrat: Erstatter Gotham -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Fonts bebas-neue-pro: erstatter Tungsten -->
+    <link rel="stylesheet" href="https://use.typekit.net/lfl6ksy.css">
+    <!-- Fonts End -->
+
+    <link rel="stylesheet" type="text/css" href="https://vjs.zencdn.net/5.12.6/video-js.min.css" />
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/Static/images/favicons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/Static/images/favicons/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/Static/images/favicons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/Static/images/favicons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/Static/images/favicons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/Static/images/favicons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/Static/images/favicons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/Static/images/favicons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/Static/images/favicons/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/Static/images/favicons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/Static/images/favicons/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/Static/images/favicons/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/Static/images/favicons/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/Static/images/favicons/manifest.json">
+    <link rel="mask-icon" href="/Static/images/favicons/safari-pinned-tab.svg" color="#00205b">
+    <meta name="msapplication-TileColor" content="#00205b">
+    <meta name="msapplication-TileImage" content="/Static/images/favicons/mstile-144x144.png">
+    <meta name="theme-color" content="#00205b">
+    <!-- Favicons end -->
+    <!-- Include reCAPTCHA v3 script -->
+    <script src="https://www.google.com/recaptcha/api.js?render=6LclITQoAAAAAEmMb_egyLrBd6xaTRm_s9H0FRo0"></script>
+
+
+    <script src="/bundles/defaultjquerybundle?v=gGGRI7xCOnEK-4qvkXXwhmbyGmA8S3tmz-Wto5bGsIc1"></script>
+
+      
+</head>
+<body class="TopicFootballdataPage">
+
+    
+    
+
+
+    
+
+
+
+<div class="skip-links">
+    <a class="skip-links__item js_skip-link" href="#main-content">Hopp til innhold</a>
+</div>
+<a id="top"></a>
+
+
+
+
+<header class="header header--compact ">
+    <div class="container grid header__container">
+        <div class="header__logo grid__item one-sixth">
+            <a href="/"><img src="/Static/images/nfflogo-mini.svg" alt="Gå til forsiden" title="Gå til forsiden"></a><span class="hidden visible-print small-heading">Fotball.no - Norges Fotballforbund</span>
+        </div>
+        
+        <div class="pull-right">
+            <form class="top-search grid__item three-sixths" action="/sok/" method="GET">
+                <button type="button" class="top-search__icon js_search"><span class="visuallyhidden">Show search</span></button>
+
+                <div class="tab-adjustment">
+                    <label class="visuallyhidden" for="qTop">Søk her:</label>
+                    <input tabindex="0" type="search" name="q" class="top-search__input" id="qTop" placeholder="Søk…">
+                    <input tabindex="0" type="submit" class="top-search__button" value="Søk" />
+                </div>
+                <p class="top-search__text medium-text">Søk etter klubber, personer, artikler m.m.</p>
+            </form>
+
+
+            <div class="header-links grid__item two-sixths">
+                <button type="button" class="header-links__button js_favs medium-text"><span class="hidden--portable">Dine favoritter</span></button>
+                <div>
+                    <h3>Dine favoritter</h3>
+                    <p class="medium-text">
+                        <span class="icon icon--white icon-info--white"></span>Her kan du lagre dine favorittsider.
+                    </p>
+                    <div class="favourite-add">
+                        <button type="button" class="favourite-add__button header-links__button js_favs-add track-click" data-event-type="AddFavourite">Lagre som favoritt</button>
+                    </div>
+                    <ul class="favourites-list medium-text linked-list linked-list--less-padded"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+<main class="container" id="main-content">
+
+    
+    <p id="bc1" class="breadcrumbs">
+        <span class="bread">
+            <a href="/"><i class="icon icon-home"></i></a><span class="arrow"> ›</span>
+            <button type="button" class="btn--link" style="display: none;"> (&hellip;) <span class="arrow pull-right"> ›</span></button>
+        </span>
+                <span class="bread">
+                    <a href="/turneringer/">Finn kamper</a><span class="arrow"> ›</span>
+                </span>
+    </p>
+
+
+    
+
+
+
+    <style>
+        .ad-wrap__description {
+            text-align: left;
+        }
+    </style>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            showOrHideBannerSkyskraper();
+            showOrHideBannerTopBoard();
+            showOrHideBannerTopBoardMobile();
+            showOrHideBannerLeaderboard();
+
+            $(window).resize(function () {
+                showOrHideBannerSkyskraper();
+                showOrHideBannerTopBoard();
+                showOrHideBannerTopBoardMobile();
+                showOrHideBannerLeaderboard();
+            });
+        });
+
+        function showOrHideBannerSkyskraper() {
+            if ($(window).width() >= 1640)
+                $(".ad-wrap.ad-wrap-skyskraper.container").fadeIn("slow");
+            else
+                $(".ad-wrap.ad-wrap-skyskraper.container").fadeOut("slow");
+        }
+
+        function showOrHideBannerTopBoard() {
+            if ($(window).width() >= 768)
+                $(".ad-wrap.ad-wrap-topboard.container").fadeIn("slow");
+            else {
+                $(".ad-wrap.ad-wrap-topboard.container").fadeOut("slow");
+                $(".ad-wrap.ad-wrap-leaderboard.container").fadeIn("slow");
+            }
+        }
+
+        function showOrHideBannerTopBoardMobile() {       
+            if ($(window).width() >= 768)
+                $(".ad-wrap.ad-wrap-topboard-mobile.container").fadeOut("slow");
+            else
+                $(".ad-wrap.ad-wrap-topboard-mobile.container").fadeIn("slow");
+        }
+
+        function showOrHideBannerLeaderboard() {
+            if ($(window).width() >= 768)
+                $(".ad-wrap.ad-wrap-leaderboard.container").fadeOut("slow");
+            else
+                $(".ad-wrap.ad-wrap-leaderboard.container").fadeIn("slow");
+        }
+    </script>
+
+
+
+        <div class="skyskraper">
+            <div class="ad-wrap ad-wrap-skyskraper container hidden">
+                <div id="ad">
+                    <p class="ad-wrap__description">Annonse:</p>
+                </div>
+                <div class="ad-wrap__ad">
+                </div>
+            </div>
+        </div>
+
+<div class="fiks-topic-header">
+
+            <div class="fiks-topic-header__banner fiks-topic-header__banner-bread grid__item one-whole">
+                <picture>
+                        
+                            <source media="(max-width: 540px)" srcset="/imagevault/publishedmedia/yil165a2co8v1n3uunmm/Toppserien_Logo_Primary_Light_RGB_539x238.png">
+                        
+                                            
+                            <source media="(max-width: 720px)" srcset="/imagevault/publishedmedia/ckgetmrtwwz4a9jn0kez/23_NFF_Toppserien_Banner_Fotball_no_719x178px_Godk.jpg">
+                        
+                                            
+                            <source media="(max-width: 1024px)" srcset="/imagevault/publishedmedia/jh14ztwsbj6pyfym9fj4/23_NFF_Toppserien_Banner_Fotball_no_1160x212px_God.jpg">
+                        
+                                            
+                            <source media="(max-width: 1160px)" srcset="/imagevault/publishedmedia/ptsljkqxjvkrg1039q6z/23_NFF_Toppserien_Banner_Fotball_no_1160x212px_God.jpg">
+                        
+                    <img src="/imagevault/publishedmedia/v0ork9vz62ovsj0s1r0t/23_NFF_Toppserien_Banner_Fotball_no_1160x212px_God.jpg" width="1160" height="212"/ alt="Toppserien logo hvit bakgrunn" title="Toppserien logo hvit bakgrunn"> 
+                </picture>
+            </div>
+
+    <div class="grid__item one-whole pos-rel">
+                <h1 class="fiks-topic-header__banner-text">
+                    Toppserien
+                </h1>
+
+    </div>
+</div>
+
+    <section class="grid">
+            <div class="grid__item one-third tablet--one-half mobile--one-whole">
+                
+    <h2 class="section-heading">Tabellen</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th title="Plassering"></th>
+            <th title="Lag">Lag</th>
+            <th title="Spilte">S</th>
+            <th title="Poeng">P</th>
+        </tr>
+    </thead>
+    <tbody>
+
+            <tr >
+                <td>1 </td>
+                <td>
+                        <a href="/fotballdata/lag/hjem/?fiksId=379"> Vålerenga</a>
+                </td>
+                <td>24</td>
+                <td>55</td>
+            </tr>
+            <tr >
+                <td>2 <i>*</i></td>
+                <td>
+                        <a href="/fotballdata/lag/hjem/?fiksId=209838"> Rosenborg BK Kvinner</a>
+                </td>
+                <td>24</td>
+                <td>53</td>
+            </tr>
+            <tr >
+                <td>3 </td>
+                <td>
+                        <a href="/fotballdata/lag/hjem/?fiksId=698"> LSK Kvinner</a>
+                </td>
+                <td>24</td>
+                <td>50</td>
+            </tr>
+            <tr >
+                <td>4 </td>
+                <td>
+                        <a href="/fotballdata/lag/hjem/?fiksId=30352"> SK Brann</a>
+                </td>
+                <td>24</td>
+                <td>44</td>
+            </tr>
+            <tr >
+                <td>5 </td>
+                <td>
+                        <a href="/fotballdata/lag/hjem/?fiksId=3396"> Stabæk</a>
+                </td>
+                <td>24</td>
+                <td>31</td>
+            </tr>
+            <tr >
+                <td>6 </td>
+                <td>
+                        <a href="/fotballdata/lag/hjem/?fiksId=133914"> Røa Fotball Elite</a>
+                </td>
+                <td>24</td>
+                <td>23</td>
+            </tr>
+            <tr >
+                <td>7 </td>
+                <td>
+                        <a href="/fotballdata/lag/hjem/?fiksId=3660"> Lyn</a>
+                </td>
+                <td>24</td>
+                <td>23</td>
+            </tr>
+            <tr class="border-dotted">
+                <td>8 </td>
+                <td>
+                        <a href="/fotballdata/lag/hjem/?fiksId=133904"> Åsane</a>
+                </td>
+                <td>24</td>
+                <td>22</td>
+            </tr>
+            <tr class="border-heavy">
+                <td>9 </td>
+                <td>
+                        <a href="/fotballdata/lag/hjem/?fiksId=208758"> Avaldsnes Toppfotball</a>
+                </td>
+                <td>24</td>
+                <td>17</td>
+            </tr>
+            <tr >
+                <td>10 </td>
+                <td>
+                        <a href="/fotballdata/lag/hjem/?fiksId=344"> Arna-Bjørnar</a>
+                </td>
+                <td>24</td>
+                <td>15</td>
+            </tr>
+    </tbody>
+</table>
+<a href="/fotballdata/turnering/tabell/?fiksId=188297" class="btn btn--default">Se utvidet tabell</a>
+
+
+            </div>
+
+        <div class="grid__item one-third tablet--one-half mobile--one-whole">
+            <h2 class="section-heading">Kommende kamper</h2>
+<ul class="match-list">
+
+            <li>
+                <p class="match-list__teams x-large-heading x-large-heading--light">
+                    <a href="/fotballdata/kamp/?fiksId=8223383">Rosenborg BK Kvinner - Avaldsnes Toppfotball<span>&nbsp;›</span></a>
+                </p>
+                <p class="match-list__info">
+                    04.11.2023 13.00
+                            <span> - </span><a href="/fotballdata/anlegg/hjem/?fiksId=1227">Koteng Arena</a>
+                </p>
+            </li>
+            <li>
+                <p class="match-list__teams x-large-heading x-large-heading--light">
+                    <a href="/fotballdata/kamp/?fiksId=8223384">Røa Fotball Elite - Lyn<span>&nbsp;›</span></a>
+                </p>
+                <p class="match-list__info">
+                    04.11.2023 13.00
+                            <span> - </span><a href="/fotballdata/anlegg/hjem/?fiksId=7749">Røa kunstgress</a>
+                </p>
+            </li>
+            <li>
+                <p class="match-list__teams x-large-heading x-large-heading--light">
+                    <a href="/fotballdata/kamp/?fiksId=8223382">Arna-Bjørnar - LSK Kvinner<span>&nbsp;›</span></a>
+                </p>
+                <p class="match-list__info">
+                    04.11.2023 13.00
+                            <span> - </span><a href="/fotballdata/anlegg/hjem/?fiksId=13731">Arna Idrettspark</a>
+                </p>
+            </li>
+            <li>
+                <p class="match-list__teams x-large-heading x-large-heading--light">
+                    <a href="/fotballdata/kamp/?fiksId=8223385">Stabæk - Åsane<span>&nbsp;›</span></a>
+                </p>
+                <p class="match-list__info">
+                    04.11.2023 15.00
+                            <span> - </span><a href="/fotballdata/anlegg/hjem/?fiksId=6588">Nadderud stadion</a>
+                </p>
+            </li>
+            <li>
+                <p class="match-list__teams x-large-heading x-large-heading--light">
+                    <a href="/fotballdata/kamp/?fiksId=8223386">Vålerenga - SK Brann<span>&nbsp;›</span></a>
+                </p>
+                <p class="match-list__info">
+                    04.11.2023 18.00
+                            <span> - </span><a href="/fotballdata/anlegg/hjem/?fiksId=19380">Intility Arena</a>
+                </p>
+            </li>
+</ul>                <a class="btn btn--default" href="/fotballdata/turnering/terminliste/?fiksId=188297">Se terminlisten</a>
+        </div>
+
+        <div class="grid__item one-third portable--one-whole article-feed--one-third-right flex-box--tablet"><div class="article-feed--one-third-right__article">
+        <a class="article-link" href="/turneringer/toppserien/2023/brann-til-champions-league/">
+            <img src="/imagevault/publishedmedia/yovnxzh6vub1zqll2s4e/NTB_S4NShFlialo.jpg" alt="Brann er klare for gruppespillet i Champions League." title="Brann er klare for gruppespillet i Champions League." />
+            <h3 class="medium-heading partial-heading">Brann til Champions League</h3>
+            <p class="small-text no-margin">
+                18.10.2023
+                    <span>Thomas Brekke Sæteren</span>
+            </p>
+
+            <p class="medium-text article-lead">Bergenserne er klare for et historisk gruppespill. Vålerenga ble slått ut av Real Madrid.</p>
+        </a>
+</div>
+<div class="article-feed--one-third-right__article">
+        <a class="article-link" href="/tema/nff-nyheter/2023/hovedterminlister-2024/">
+            <img src="/imagevault/publishedmedia/4n8v10ikv6zt2kz0o5p3/BB221105BB188.jpg" alt="|" title="|" />
+            <h3 class="medium-heading partial-heading">Se hovedterminlistene for 2024</h3>
+            <p class="small-text no-margin">
+                17.10.2023
+                    <span>Christer Madsen</span>
+            </p>
+
+            <p class="medium-text article-lead">Seriestart for Toppserien i 2024 blir 16. mars, mens Eliteserien åpner 1. april. Se hele oversikten over datoer neste sesong her.</p>
+        </a>
+</div>
+</div>    <hr class="no-margin--bottom margin-top--one" />
+
+
+
+
+        <hr class="small transparent">
+        <div class="grid__item one-third mobile--one-whole">
+            <h2 class="section-heading">Spilte kamper</h2>
+<ul class="match-list">
+
+            <li>
+                <p class="match-list__teams x-large-heading x-large-heading--light">
+                    <a href="/fotballdata/kamp/?fiksId=8223379">Lyn <span class="match-list__res">0 - 3</span> Vålerenga<span>&nbsp;›</span></a>
+                </p>
+                <p class="match-list__info">
+                    22.10.2023 15.00
+                </p>
+            </li>
+            <li>
+                <p class="match-list__teams x-large-heading x-large-heading--light">
+                    <a href="/fotballdata/kamp/?fiksId=8223380">SK Brann <span class="match-list__res">2 - 0</span> Rosenborg BK Kvinner<span>&nbsp;›</span></a>
+                </p>
+                <p class="match-list__info">
+                    22.10.2023 15.00
+                </p>
+            </li>
+            <li>
+                <p class="match-list__teams x-large-heading x-large-heading--light">
+                    <a href="/fotballdata/kamp/?fiksId=8223381">Stabæk <span class="match-list__res">4 - 2</span> Røa Fotball Elite<span>&nbsp;›</span></a>
+                </p>
+                <p class="match-list__info">
+                    21.10.2023 16.45
+                </p>
+            </li>
+            <li>
+                <p class="match-list__teams x-large-heading x-large-heading--light">
+                    <a href="/fotballdata/kamp/?fiksId=8223378">LSK Kvinner <span class="match-list__res">2 - 0</span> Åsane<span>&nbsp;›</span></a>
+                </p>
+                <p class="match-list__info">
+                    21.10.2023 15.00
+                </p>
+            </li>
+            <li>
+                <p class="match-list__teams x-large-heading x-large-heading--light">
+                    <a href="/fotballdata/kamp/?fiksId=8223377">Avaldsnes Toppfotball <span class="match-list__res">3 - 2</span> Arna-Bjørnar<span>&nbsp;›</span></a>
+                </p>
+                <p class="match-list__info">
+                    21.10.2023 15.00
+                </p>
+            </li>
+</ul>
+                <a class="btn btn--default" href="/fotballdata/turnering/terminliste/?fiksId=188297">Se terminlisten</a>
+        </div>
+
+
+        <div class="grid__item two-thirds mobile--one-whole article-feed flex-box flex-box--inline article-feed--two-thirds-right"><div class="flex-box__item grid__item one-half mobile--one-whole">
+        <a class="article-link" href="/tema/nff-nyheter/2023/slik-spilles-kvalifiseringen/">
+            <img src="/imagevault/publishedmedia/dw7x0yaknzo5u7e2luor/trekning_playoff.jpg" alt="|" title="|" />
+            <h3 class="medium-heading partial-heading">Slik spilles kvalifiseringen</h3>
+            <p class="small-text no-margin">
+                04.10.2023
+                    <span>Christer Madsen</span>
+            </p>
+
+            <p class="medium-text article-lead">Kampene i kvalifiseringen for Toppserien, Eliteserien og OBOS-ligaen ble trukket onsdag.</p>
+        </a>
+</div>
+<div class="flex-box__item grid__item one-half mobile--one-whole">
+        <a class="article-link" href="/tema/nff-nyheter/2023/okte-inntekter-forste-halvar/">
+            <img src="/imagevault/publishedmedia/6zg4vayz2l75bc32f2pl/porsgrunn_2.jpg" alt="|" title="|" />
+            <h3 class="medium-heading partial-heading">Økte inntekter første halvår</h3>
+            <p class="small-text no-margin">
+                28.09.2023
+                    <span>Christer Madsen</span>
+            </p>
+
+            <p class="medium-text article-lead">Toppklubbenes regnskaper for første halvår 2023 viser et oppsving i inntekter, samtidig som  en del klubber som ikke makter å etablere balanse.</p>
+        </a>
+</div>
+<div class="flex-box__item grid__item one-half mobile--one-whole">
+        <a class="article-link" href="/turneringer/toppserien/2023/tv-kamper-toppserien-runde-25-27/">
+            <img src="/imagevault/publishedmedia/23fa94eyo27ms2a0udyx/NTB_ODDfO_osV84.jpg" alt="Rosenborg og Vålerenga kjemper om gull i Toppserien. Her Emilie Nautnes og Linn Vickius i lagene forrige møte." title="Rosenborg og Vålerenga kjemper om gull i Toppserien. Her Emilie Nautnes og Linn Vickius i lagene forrige møte." />
+            <h3 class="medium-heading partial-heading">TV-kamper Toppserien runde 25-27</h3>
+            <p class="small-text no-margin">
+                27.09.2023
+                    <span>Christer Madsen</span>
+            </p>
+
+            <p class="medium-text article-lead">Se oversikt over tidspunkt og kanaler for de siste tre serierundene i Toppserien.</p>
+        </a>
+</div>
+<div class="flex-box__item grid__item one-half mobile--one-whole">
+        <a class="article-link" href="/turneringer/toppserien/2023/slik-spilles-sluttspillet-i-1.-divisjon/">
+            <img src="/imagevault/publishedmedia/5jc3y7h96ufd8kw0q3xt/BB230326BB475.jpg" alt="Aafk Fortuna endte som nummer to i grunnspillet. Her jubler de for en scoring tidligere i år." title="Aafk Fortuna endte som nummer to i grunnspillet. Her jubler de for en scoring tidligere i år." />
+            <h3 class="medium-heading partial-heading">Slik spilles sluttspillet i 1. divisjon</h3>
+            <p class="small-text no-margin">
+                19.09.2023
+                    <span>Christer Madsen</span>
+            </p>
+
+            <p class="medium-text article-lead">Se hvordan sluttspillet for 1. divisjon kvinner skal spilles. </p>
+        </a>
+</div>
+</div>    <hr class="no-margin--bottom margin-top--one" />
+
+
+
+
+
+    </section>
+
+
+<hr class="small transparent">
+<section class="grid flex-box">
+
+
+        <div class="grid__item one-third mobile--one-whole flex-box">
+            <div class="box box--huge box--huge-alt">
+                <a href="/fotballdata/turnering/kontaktpersoner/?fiksId=188297">
+                    <span class="icon-circle-wrap"><span class="icon icon--medium icon-arrow--medium"></span></span>
+                    <span class="li-text li-heading">Kontaktpersoner</span>
+                    <p class="li-text medium-text">Kontaktpersoner og draktfarger for lagene.</p>
+                </a>
+            </div>
+        </div>
+
+
+<div class="flex-box grid__item one-third mobile--one-whole">
+    <div class="box box--huge box--huge-alt">
+
+        
+
+<a href="/lov-og-reglement/overganger/sok-overganger/" target="">
+
+        <span class="li-text li-heading">Se alle overganger og utlån<span class="al--arrow--after"></span></span>
+
+        <p class="li-text medium-text">Få oversikt over alle overganger og utlån på spillere i Norge.
+Alle nivåer tilgjengelig. Gjelder også for futsal og dommere.</p>
+</a>
+    </div>
+</div><div class="flex-box grid__item one-third mobile--one-whole">
+<div class="box box--huge box--huge-alt">
+    
+
+<a href="/klubb-og-leder/fiks-info-og-support/kamprapport-topp/" target="">
+
+        <span class="li-text li-heading">Kamprapportering<span class="al--arrow--after"></span></span>
+
+        <p class="li-text medium-text">Øverste nivåer (Kamprapportansvarlig)</p>
+</a>
+</div></div><div class="flex-box grid__item one-third mobile--one-whole">
+    <div class="box box--huge box--huge-alt">
+
+        
+
+<a href="/globalassets/turneringer/htk-2023_endelig.pdf" target="">
+
+        <span class="li-text li-heading">Hovedterminliste kvinner<span class="al--pdf--after"></span></span>
+
+        <p class="li-text medium-text">Se oversikten for årets runder.</p>
+</a>
+    </div>
+</div><div class="flex-box grid__item one-third mobile--one-whole">
+<div class="box box--huge box--huge-alt">
+    
+
+<a href="/tema/om-nff/statistikk-og-historikk/seriemesterskap-kvinner/" target="">
+
+        <span class="li-text li-heading">Seriemesterskap kvinner<span class="al--arrow--after"></span></span>
+
+        <p class="li-text medium-text">Her finner du en oversikt over alle seriemestere på øverste nivå i norsk kvinnefotball.</p>
+</a>
+</div></div>
+</section>
+
+<div class="logo-line grid">
+</div>
+
+
+
+    <section class="stats stats--less grid centered-text" id="statistikk">
+        <div class="grid__item one-whole lefted-text">
+                <h2 class="section-heading lefted-text">Spillerstatistikk</h2>
+        </div>
+            <div class="grid__item one-third mobile--one-whole">
+                <span class="icon icon--fourty-eight icon-striker--fourty-eight blockify"></span>
+                <p class="deco-text deco-text--large-light">Toppscorere</p>
+                    <ol class="lefted-text inline-blockify">
+                            <li><a href="/fotballdata/person/profil/?fiksId=2856444">Anna Nerland Aahjem</a> -&nbsp;<b>12&nbsp;mål</b></li>
+                            <li><a href="/fotballdata/person/profil/?fiksId=3737386">Olaug Tvedten</a> -&nbsp;<b>12&nbsp;mål</b></li>
+                            <li><a href="/fotballdata/person/profil/?fiksId=2660342">Karina Sævik</a> -&nbsp;<b>12&nbsp;mål</b></li>
+                    </ol>
+            </div>
+
+
+            <div class="grid__item one-third mobile--one-whole margin-top--two-mobile">
+                <span class="icon icon--fourty-eight icon-yellow-card--fourty-eight blockify"></span>
+                <p class="deco-text deco-text--large-light">Flest gule kort</p>
+                    <ol class="lefted-text inline-blockify">
+                            <li><a href="/fotballdata/person/profil/?fiksId=3266328">Nora Blindheim Nøss</a> -&nbsp;<b>7</b></li>
+                            <li><a href="/fotballdata/person/profil/?fiksId=2964718">Mimmi Matilda L&#246;fwenius Veum</a> -&nbsp;<b>6</b></li>
+                            <li><a href="/fotballdata/person/profil/?fiksId=3661727">Julie Aune Jorde</a> -&nbsp;<b>5</b></li>
+                    </ol>
+
+            </div>
+
+            <div class="grid__item one-third mobile--one-whole margin-top--two-mobile">
+                <span class="icon icon--fourty-eight icon-red-card--fourty-eight blockify"></span>
+                <p class="deco-text deco-text--large-light">Flest røde kort</p>
+                    <ol class="lefted-text inline-blockify">
+                            <li><a href="/fotballdata/person/profil/?fiksId=2972023">Karen Kraft Vistnes</a> -&nbsp;<b>1</b></li>
+                            <li><a href="/fotballdata/person/profil/?fiksId=2796516">Kristin Holmen</a> -&nbsp;<b>1</b></li>
+                            <li><a href="/fotballdata/person/profil/?fiksId=2852795">Emilie Bølviken</a> -&nbsp;<b>1</b></li>
+                    </ol>
+
+            </div>
+
+            <div class="grid__item one-whole">
+                <p><a class="btn btn--default margin-top--two" href="/fotballdata/turnering/toppscorer-gule-og-rode-kort/?fiksId=188297">Se full spillerstatistikk</a></p>
+            </div>
+
+    </section>
+
+    <section class="stats centered-text grid">
+
+            <div class="grid__item one-whole lefted-text">
+
+                    <h2 class="section-heading">Tilskuere og mål</h2>
+
+                    <p class="stats__intro-text">Enkelte tall er avhengig av korrekt registrering av hendelser. Dvs at det kan være avvik på oppgitte tall og faktiske tall pga manglende registrering.</p>
+                    <hr class="stats__intro-text-hr" />
+            </div>
+            <div class="grid__item one-third mobile--one-whole right-bordered">
+                <span class="icon icon--fourty-eight icon-crowd--fourty-eight blockify"></span>
+                <p>
+                    <span class="deco-text deco-text--large-light blockify">55&#160;127</span>
+                    <span class="medium-text stats__wide-text">totalt antall tilskuere. <b>459</b> i snitt pr. kamp</span>
+                </p>
+            </div>
+            <hr class="stats__hr hidden--tablet-and-up">
+
+        <div class="grid__item one-third mobile--one-whole right-bordered">
+            <span class="icon icon--fourty-eight icon-ball--fourty-eight blockify"></span>
+            <p>
+                <span class="deco-text deco-text--large-light blockify">360</span>
+                <span class="medium-text">totalt antall mål</span>
+            </p>
+        </div>
+        <hr class="stats__hr hidden--tablet-and-up">
+        <div class="grid__item one-third mobile--one-whole padding-left--two">
+            <div class="fourty-nine righted-text">
+                <span class="mega-text--smaller deco-text">
+
+                        3,0
+
+                </span>
+            </div>
+            <div class="fourty-nine lefted-text">
+                <span class="medium-text">mål i snitt</span>
+            </div>
+
+            <div class="fourty-nine righted-text">
+                <span class="mega-text--smaller deco-text">326</span>
+            </div>
+            <div class="fourty-nine lefted-text">
+                <span class="medium-text"> spillemål</span>
+            </div>
+
+            <div class="fourty-nine righted-text">
+                <span class="mega-text--smaller deco-text">21</span>
+            </div>
+            <div class="fourty-nine lefted-text">
+                <span class="medium-text"> straffemål</span>
+            </div>
+
+            <div class="fourty-nine righted-text">
+                <span class="mega-text--smaller deco-text">13</span>
+            </div>
+            <div class="inline-blockify fourty-nine lefted-text">
+                <span class="medium-text"> selvmål</span>
+            </div>
+        </div>
+        <div class="hide-this">
+            <hr class="stats__hr">
+            
+            <button type="button" class="show-btn btn btn--secondary">
+                <span class="icon icon-plus"></span>
+                <span class="show-btn__default-text">Vis mer</span><span class="show-btn__selected-text">Skjul</span> statistikk
+            </button>
+
+            <div>
+                    
+
+                        <hr class="stats__hr">
+
+                        <div class="grid__item one-whole hidden--phablet hidden--tablet-and-up">
+                            <p class="mega-text--smaller deco-text">Tilskuersnitt pr runde</p>
+                            <img style="width:100px;" alt="" src="/Static/images/phone.svg" />
+                        </div>
+
+                        <div class="grid__item one-whole hidden--mobile">
+                            <p class="mega-text--smaller deco-text">Tilskuersnitt pr runde</p>
+                            <canvas id="spectatorByRound" width="1160" height="320"></canvas>
+                        </div>
+
+                        <hr class="stats__hr">
+
+                        <div class="grid__item one-whole hidden--phablet hidden--tablet-and-up">
+                            <p class="mega-text--smaller deco-text">Tilskuersnitt pr lag</p>
+                            <img style="width:100px;" alt="" src="/Static/images/phone.svg" />
+                        </div>
+
+                        <div class="grid__item one-whole hidden--mobile">
+                            <p class="mega-text--smaller deco-text">Tilskuersnitt pr lag</p>
+                            <canvas id="spectatorByTeam" width="1160" height="450"></canvas>
+                        </div>
+
+
+                            <hr class="stats__hr">
+                            <div class="grid__item one-whole hidden--phablet hidden--tablet-and-up">
+                                <p class="mega-text--smaller deco-text">Gjennomsnittsalder turnering</p>
+                                <img style="width:100px;" alt="" src="/Static/images/phone.svg" />
+                            </div>
+                            <div class="grid__item one-whole hidden--mobile">
+                                <p class="mega-text--smaller deco-text">Gjennomsnittsalder turnering</p>
+                                <span style="display: inline-block; margin-right: 10px;" class="icon icon--fourty-eight icon-striker--fourty-eight"></span>
+                                <span style="display: inline-block" class="deco-text deco-text--large-light blockify">22,85 år</span>
+                            </div>
+                            <hr class="stats__hr">
+                            <div class="grid__item one-whole hidden--phablet hidden--tablet-and-up">
+                                <p class="mega-text--smaller deco-text">Gjennomsnittsalder lag</p>
+                                <img style="width:100px;" alt="" src="/Static/images/phone.svg" />
+                            </div>
+                            <div class="grid__item one-whole hidden--mobile">
+                                <p class="mega-text--smaller deco-text">Gjennomsnittsalder lag</p>
+                                <span style="font-size: 12px;margin: 0;padding: 0;position: relative;top: -30px;">Utregning av snittalder bruker seriestart som referansedato.</span>
+                                <canvas id="averageAgeByTeam" width="1160" height="450"></canvas>
+                            </div>
+                            <hr class="stats__hr">
+                    
+                        <hr class="stats__hr">
+                        <div class="grid__item one-whole hidden--phablet hidden--tablet-and-up">
+                            <p class="mega-text--smaller deco-text">Alderstrend</p>
+                            <img style="width:100px;" alt="" src="/Static/images/phone.svg" />
+                        </div>
+                        <div class="grid__item one-whole hidden--mobile">
+                            <p class="mega-text--smaller deco-text">Alderstrend</p>
+                            <canvas id="agetrend" width="1160" height="320"></canvas>
+                        </div>
+
+
+
+                <hr class="stats__hr hidden--mobile">
+                <div class="grid__item one-third mobile--one-whole right-bordered">
+                    <span class="deco-text deco-text--large-light blockify light-blue-color-text">
+                            57,2%
+                    </span>
+                    <span class="mega-text--smaller deco-text"> hjemmemål</span>
+                    <span class="deco-text deco-text--large-light blockify margin-top--one red-color-text">
+                            42,8%
+
+                    </span>
+                    <span class="mega-text--smaller deco-text"> bortemål</span>
+
+                </div>
+                <hr class="stats__hr hidden--tablet-and-up">
+                <div class="grid__item one-third mobile--one-half right-bordered">
+                    <span class="icon icon--fourty-eight icon-yellow-card--fourty-eight blockify"></span>
+                    <span class="deco-text deco-text--large-light blockify">172</span>
+                    <span class="mega-text--smaller deco-text"> gule kort</span>
+                </div>
+                <div class="grid__item one-third mobile--one-half">
+                    <span class="icon icon--fourty-eight icon-red-card--fourty-eight blockify"></span>
+                    <span class="deco-text deco-text--large-light blockify">5</span>
+                    <span class="mega-text--smaller deco-text"> røde kort</span>
+                </div>
+
+                <hr class="stats__hr">
+
+                <div class="grid__item one-third mobile--one-whole right-bordered">
+                    <p class="mega-text--smaller deco-text">Kamputfall</p>
+                    <div class="grid">
+                        <div class="grid__item one-half">
+                            <span class="deco-text deco-text--large-light blockify light-blue-color-text">56</span>
+                            <span class="medium-text">hjemmeseiere</span>
+                        </div>
+                        <div class="grid__item one-half">
+                            <span class="deco-text deco-text--large-light blockify red-color-text">38</span>
+                            <span class="medium-text">borteseiere</span>
+                        </div>
+                        <div class="grid__item one-half">
+                            <span class="deco-text deco-text--large-light blockify green-color-text">26</span>
+                            <span class="medium-text">uavgjorte</span>
+                        </div>
+                    </div>
+                </div>
+                <hr class="stats__hr hidden--tablet-and-up">
+                <div class="grid__item one-third mobile--one-whole right-bordered">
+                    <p class="mega-text--smaller deco-text">Kamputfall hjemmelag scorer først</p>
+                    <div class="grid">
+                        <div class="grid__item one-half">
+                            <span class="deco-text deco-text--large-light blockify light-blue-color-text">49</span>
+                            <span class="medium-text">hjemmeseiere</span>
+                        </div>
+                        <div class="grid__item one-half">
+                            <span class="deco-text deco-text--large-light blockify red-color-text">3</span>
+                            <span class="medium-text">borteseiere</span>
+                        </div>
+                        <div class="grid__item one-half">
+                            <span class="deco-text deco-text--large-light blockify green-color-text">11</span>
+                            <span class="medium-text">uavgjorte</span>
+                        </div>
+                    </div>
+                </div>
+                <hr class="stats__hr hidden--tablet-and-up">
+                <div class="grid__item one-third mobile--one-whole">
+                    <p class="mega-text--smaller deco-text">Kamputfall bortelag scorer først</p>
+                    <div class="grid">
+                        <div class="grid__item one-half">
+                            <span class="deco-text deco-text--large-light blockify light-blue-color-text">7</span>
+                            <span class="medium-text">hjemmeseiere</span>
+                        </div>
+                        <div class="grid__item one-half">
+                            <span class="deco-text deco-text--large-light blockify red-color-text">35</span>
+                            <span class="medium-text">borteseiere</span>
+                        </div>
+                        <div class="grid__item one-half">
+                            <span class="deco-text deco-text--large-light blockify green-color-text">7</span>
+                            <span class="medium-text">uavgjorte</span>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="stats__hr">
+
+                <div class="grid__item one-whole hidden--phablet hidden--tablet-and-up">
+                    <p class="mega-text--smaller deco-text">10 vanligste resultater</p>
+                    <img style="width:100px;" alt="" src="/Static/images/phone.svg" />
+                </div>
+
+                <div class="grid__item one-whole hidden--mobile">
+                    <p class="mega-text--smaller deco-text">10 vanligste resultater</p>
+                    <canvas id="usualResults" width="1160" height="320"></canvas>
+
+                </div>
+
+                <hr class="stats__hr">
+
+                <div class="grid__item one-whole hidden--phablet hidden--tablet-and-up">
+                    <p class="mega-text--smaller deco-text">Når i kampen scores det mål?</p>
+                    <img style="width:100px;" alt="" src="/Static/images/phone.svg" />
+                </div>
+
+                <div class="grid__item one-whole hidden--mobile">
+                    <p class="mega-text--smaller deco-text">Når i kampen scores det mål?</p>
+                    <canvas id="scoringByMinute" width="1160" height="320"></canvas>
+                    <p class="medium-text margin-top--two"><span class="blue-color-text">Første omgang</span> - <span class="red-color-text">Andre omgang</span> - (Mål scoret på overtid er vist i siste spilleminutt hver omgang)</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+        <h2 class="section-heading">NFF TV <a href="/nfftv/" class="medium-text pull-right line-height--two">Se alle videoer</a></h2>
+<section class="grid flex-box article-feed"><div class="flex-box__item grid__item one-third mobile--one-whole">        <div class="video-container">
+            <div class="video-content player-wrapper"
+                 id=player-wrapper-c2265f9c-534d-4c00-9110-9c843b404929
+                 data-gobrain-widgetId=player-a40e2127-3700-4afc-a62f-a11a25834ec1
+                 data-gobrain-autoplay="false"
+                 data-gobrain-repeat="false"
+                 data-gobrain-moduleSettings="{" Controls":{"download":{"enabled":false},"sharing":{"enabled":false}}}"
+                 data-gobrain-config="https://video.qbrick.com/play2/api/v1/accounts/996210/configurations/qbrick-player"
+                 data-gobrain-data="https://video.qbrick.com/api/v1/public/accounts/996210/medias/ca3c0759-00080501-a18f783a"
+
+                 onclick="_paq.push(['trackEvent', 'VideoPlayer', 'Click',  location.href.toLowerCase()]);"
+                 >
+                &nbsp;
+            </div>
+            <h3 class="medium-heading partial-heading">Nye seriestrukturen toppfotball kvinner</h3>
+        </div>
+
+</div><div class="flex-box__item grid__item one-third mobile--one-whole">        <div class="video-container">
+            <div class="video-content player-wrapper"
+                 id=player-wrapper-7b11c2b1-be18-4aa3-81d0-600eb8b54cec
+                 data-gobrain-widgetId=player-22c5ad2a-44d9-42b3-a852-47d2b874aa78
+                 data-gobrain-autoplay="false"
+                 data-gobrain-repeat="false"
+                 data-gobrain-moduleSettings="{" Controls":{"download":{"enabled":false},"sharing":{"enabled":false}}}"
+                 data-gobrain-config="https://video.qbrick.com/play2/api/v1/accounts/996210/configurations/qbrick-player"
+                 data-gobrain-data="https://video.qbrick.com/api/v1/public/accounts/996210/medias/b2edc91c-00080501-92e2d9e9"
+
+                 onclick="_paq.push(['trackEvent', 'VideoPlayer', 'Click',  location.href.toLowerCase()]);"
+                 >
+                &nbsp;
+            </div>
+            <h3 class="medium-heading partial-heading">Hva skal til for å utvikle spillere på internasjonalt nivå?</h3>
+        </div>
+
+</div><div class="flex-box__item grid__item one-third mobile--one-whole">        <div class="video-container">
+            <div class="video-content player-wrapper"
+                 id=player-wrapper-c1c7cf2b-9717-4298-ab5c-bdc470d5e15b
+                 data-gobrain-widgetId=player-2935bcd2-b41a-4ef3-a16b-0608c618f4ab
+                 data-gobrain-autoplay="false"
+                 data-gobrain-repeat="false"
+                 data-gobrain-moduleSettings="{" Controls":{"download":{"enabled":false},"sharing":{"enabled":false}}}"
+                 data-gobrain-config="https://video.qbrick.com/play2/api/v1/accounts/996210/configurations/qbrick-player"
+                 data-gobrain-data="https://video.qbrick.com/api/v1/public/accounts/996210/medias/b69f1afd-00080501-812f0732"
+
+                 onclick="_paq.push(['trackEvent', 'VideoPlayer', 'Click',  location.href.toLowerCase()]);"
+                 >
+                &nbsp;
+            </div>
+            <h3 class="medium-heading partial-heading">Hvordan legge til rette for bedre spillerutvikling?</h3>
+        </div>
+
+</div></section>
+        <h2 class="section-heading">Aktuelle saker</h2>
+<section class="grid flex-box article-feed"><div class="flex-box__item grid__item one-third mobile--one-whole">
+        <a class="article-link" href="/tema/nff-nyheter/2023/uwcl-disse-moter-brann-og-valerenga/">
+            <img src="/imagevault/publishedmedia/rt84u8qmgimo8ea2gbp5/uefa_women_s_champions_league_202324_round_2_draw_.png" alt="." title="." />
+            <h3 class="medium-heading partial-heading">UWCL: To norske klubber kjemper om Champions League-plass</h3>
+            <p class="small-text no-margin">
+                15.09.2023
+                    <span>Mari  Stanisic Waagaard</span>
+            </p>
+
+            <p class="medium-text article-lead">Vålerenga og Brann får henholdsvis spansk og skotsk motstand i de siste kvalifiseringskampene til UEFA Women&#39;s Champions League.</p>
+        </a>
+</div>
+<div class="flex-box__item grid__item one-third mobile--one-whole">
+        <a class="article-link" href="/fotballens-verdier/fair-play/2023/fair-play-tabell-toppserien--eliteserien-og-obos-ligaen/">
+            <img src="/imagevault/publishedmedia/fbsnucko0a4mcndsunk5/r-a_og_glimt.jpg" alt="Røa og Bodø/Glimt er på topp når det gjelder Fair play i Toppserien og Eliteserien." title="Røa og Bodø/Glimt er på topp når det gjelder Fair play i Toppserien og Eliteserien." />
+            <h3 class="medium-heading partial-heading">Se stillingen på Fair play-tabellene</h3>
+            <p class="small-text no-margin">
+                14.09.2023
+                    <span>Christer Madsen</span>
+            </p>
+
+            <p class="medium-text article-lead">Røa, Bodø/Glimt og Fredrikstad topper Fair play-tabellene i Toppserien, Eliteserien og OBOS-ligaen. Se hele oversikten her.</p>
+        </a>
+</div>
+<div class="flex-box__item grid__item one-third mobile--one-whole">
+        <a class="article-link" href="/tema/nff-nyheter/2023/podball-rasisme-i-fotballen/">
+            <img src="/imagevault/publishedmedia/z03cfd3y7ag66wxwrvz1/bakenga-pod_16-9.jpg" alt="Mushaga Bakenga er gjest i nyeste PodBall." title="Mushaga Bakenga er gjest i nyeste PodBall." />
+            <h3 class="medium-heading partial-heading">PodBall: Rasisme i fotballen</h3>
+            <p class="small-text no-margin">
+                23.08.2023
+                    <span>Christer Madsen</span>
+            </p>
+
+            <p class="medium-text article-lead">Mushaga Bakenga er gjest i nyeste PodBall, der rasisme i fotballen er tema.</p>
+        </a>
+</div>
+<div class="flex-box__item grid__item one-third mobile--one-whole">
+        <a class="article-link" href="/turneringer/toppserien/2023/tv-kamper-toppserien-runde-18-til-23/">
+            <img src="/imagevault/publishedmedia/ihy982vj28gaaelxa3i4/v-lerenga-jubel_foto_bildbyr-n.jpg" alt="Vålerenga har hatt mye å juble for denne sesongen. Her er det Karina Sævik og Thea Bjelde som jubler sammen med Olaug Tvedten." title="Vålerenga har hatt mye å juble for denne sesongen. Her er det Karina Sævik og Thea Bjelde som jubler sammen med Olaug Tvedten." />
+            <h3 class="medium-heading partial-heading">TV-kamper Toppserien runde 18 til 23</h3>
+            <p class="small-text no-margin">
+                24.05.2023
+                    <span>Christer Madsen</span>
+            </p>
+
+            <p class="medium-text article-lead">Se oversikt over kampene i Toppserien fra runde 18 til 24.</p>
+        </a>
+</div>
+<div class="flex-box__item grid__item one-third mobile--one-whole">
+        <a class="article-link" href="/turneringer/toppserien/2023/roa---stabak-flyttet-til-lsk-hallen/">
+            <img src="/imagevault/publishedmedia/8wcx23dz08uu4j4hsob1/BB220320VG002.jpg" alt="Røa kunstgress." title="Røa kunstgress." />
+            <h3 class="medium-heading partial-heading">Røa - Stabæk spilles likevel på Røa kunstgress</h3>
+            <p class="small-text no-margin">
+                28.04.2023
+                    <span>Christer Madsen</span>
+            </p>
+
+            <p class="medium-text article-lead">På grunn av nye opplysninger og skriftlige garantier fra Røa, spilles onsdagens kamp likevel på Røa kunstgress.</p>
+        </a>
+</div>
+<div class="flex-box__item grid__item one-third mobile--one-whole">
+        <a class="article-link" href="/lov-og-reglement/overganger/2022/nytt-agentregelver---fifa-football-agent-regulations/">
+            <img src="/imagevault/publishedmedia/hb3cj01cz6vvp3h1qkap/porsgrunn_2.jpg" alt="NFF-flagg" title="NFF-flagg" />
+            <h3 class="medium-heading partial-heading">Nytt agentregelverk - FIFA Football Agent Regulations</h3>
+            <p class="small-text no-margin">
+                17.03.2023
+                    <span>Ingunn Berger Sæther</span>
+            </p>
+
+            <p class="medium-text article-lead">FIFA Council har godkjent nytt agentregelverk, gjeldende fra 9. januar 2023</p>
+        </a>
+</div>
+<div class="flex-box__item grid__item one-third mobile--one-whole">
+        <a class="article-link" href="/turneringer/toppserien/2023/to-kamper-flyttet-i-toppserien/">
+            <img src="/imagevault/publishedmedia/zmm2be1pxzyrtixn27o1/rosenborg_avaldsnes_skinnes_hansen.jpg" alt="Kampen mellom Avaldsnes og Rosenborg har fått ny dato. Her fra fjorårets oppgjør." title="Kampen mellom Avaldsnes og Rosenborg har fått ny dato. Her fra fjorårets oppgjør." />
+            <h3 class="medium-heading partial-heading">To kamper flyttet i Toppserien</h3>
+            <p class="small-text no-margin">
+                16.03.2023
+                    <span>Christer Madsen</span>
+            </p>
+
+            <p class="medium-text article-lead">To kamper i Toppserien er flyttet.</p>
+        </a>
+</div>
+<div class="flex-box__item grid__item one-third mobile--one-whole">
+        <a class="article-link" href="/turneringer/toppserien/2023/se-toppseriens-klick-off-tirsdag-13.00/">
+            <img src="/imagevault/publishedmedia/b7uxd3clwy6aoday89jd/NTB_M4WTvQ3ONhk.jpg" alt="Brann gikk til topps i fjorårets serie. Hvem vinner i 2023? " title="Brann gikk til topps i fjorårets serie. Hvem vinner i 2023? " />
+            <h3 class="medium-heading partial-heading">Se Toppseriens kick off tirsdag 13.00</h3>
+            <p class="small-text no-margin">
+                13.03.2023
+                    <span>Christer Madsen</span>
+            </p>
+
+            <p class="medium-text article-lead">Toppfotball Kvinner inviterer til kick off for Toppserien 2023. Se sendingen tirsdag klokken 13.00.</p>
+        </a>
+</div>
+<div class="flex-box__item grid__item one-third mobile--one-whole">
+        <a class="article-link" href="/turneringer/toppserien/2023/ny-seriestruktur-for-kvinner-vedtatt/">
+            <img src="/imagevault/publishedmedia/l8yqpgco0te108f03ab7/BB221030VG040.jpg" alt="Brann kunne juble over seriegullet i fjor." title="Brann kunne juble over seriegullet i fjor." />
+            <h3 class="medium-heading partial-heading">Ny seriestruktur for kvinner vedtatt</h3>
+            <p class="small-text no-margin">
+                05.03.2023
+                    <span>Christer Madsen</span>
+            </p>
+
+            <p class="medium-text article-lead">Forbundstinget vedtok innstillingen til ny seriestruktur. Sluttspillsordningen avvikles og erstattes med seriespill der lagene møtes tre ganger.</p>
+        </a>
+</div>
+<div class="flex-box__item grid__item one-third mobile--one-whole">
+        <a class="article-link" href="/turneringer/toppserien/2023/spilleplan-toppserien-20232/">
+            <img src="/imagevault/publishedmedia/l8yqpgco0te108f03ab7/BB221030VG040.jpg" alt="Brann kunne heve pokalen som seriemester forrige sesong." title="Brann kunne heve pokalen som seriemester forrige sesong." />
+            <h3 class="medium-heading partial-heading">Spilleplan Toppserien 2023</h3>
+            <p class="small-text no-margin">
+                31.01.2023
+                    <span>Christer Madsen</span>
+            </p>
+
+            <p class="medium-text article-lead">Seriestart i Toppserien er 25. mars. Se oversikten over alle rundene her.</p>
+        </a>
+</div>
+<div class="flex-box__item grid__item one-third mobile--one-whole">
+        <a class="article-link" href="/turneringer/toppserien/2023/spilleplan-for-toppserien-kommer-tirsdag/">
+            <img src="/imagevault/publishedmedia/l8yqpgco0te108f03ab7/BB221030VG040.jpg" alt="Brann jubler etter å ha vunnet serien forrige sesong. " title="Brann jubler etter å ha vunnet serien forrige sesong. " />
+            <h3 class="medium-heading partial-heading">Spilleplan for Toppserien kommer tirsdag</h3>
+            <p class="small-text no-margin">
+                30.01.2023
+                    <span>Christer Madsen</span>
+            </p>
+
+            <p class="medium-text article-lead">Tirsdag presenteres spilleplanen for Toppserien og 1. divisjon kvinner i en TV 2-sending.
+</p>
+        </a>
+</div>
+<div class="flex-box__item grid__item one-third mobile--one-whole">
+        <a class="article-link" href="/turneringer/toppserien/2023/norske-klubber-far-uefa-penger-etter-em/">
+            <img src="/imagevault/publishedmedia/odp92ue7mxmpg0ssgcd0/A-kvinner_takker_publikum_etter_-pningskamp_i_EM.jpg" alt="De norske spillerne takker publikum etter seieren over Nord-Irland i EM." title="De norske spillerne takker publikum etter seieren over Nord-Irland i EM." />
+            <h3 class="medium-heading partial-heading">Norske klubber får UEFA-penger etter EM</h3>
+            <p class="small-text no-margin">
+                27.01.2023
+                    <span>Christer Madsen</span>
+            </p>
+
+            <p class="medium-text article-lead">UEFAs nye klubbfordelsprogram sørger for at fem norske klubber for første gang får utbetalt midler.</p>
+        </a>
+</div>
+            <div class="grid__item one-whole" style="margin-top: -1rem;">
+                <form id="GetMoreArticles" class="more-articles inline-blockify-all-screens margin-right--two">
+                    <input type="hidden" name="displayed" id="displayed" value="18" />
+                    <input type="hidden" name="cat" value="8" />
+                    <input type="hidden" name="districtId" />
+                    <input class="btn btn--secondary" type="submit" value="+ Vis flere artikler">
+                </form>
+                <a href="/arkiv/?d=1&amp;kw=8" class="inline-blockify-all-screens">
+                    <span class="">Gå til arkivet</span>
+                </a>
+            </div>
+</section>    <hr class="no-margin--bottom margin-top--one" />
+
+
+
+
+
+
+
+
+
+
+
+    
+
+</main>
+
+
+<a style="height: 50px; width: 50px; background: #00205B;" title="Til toppen av siden" class="scrollup" href="#top">
+    <span style="bottom: 37px; right: 37px; background-image: url(/Static/images/sprite-white.svg); background-position: 0px -289px;" class="icon icon-arrow-up"></span>Til toppen
+</a>
+
+
+
+
+<span class="waypoint-remover"></span>
+
+
+
+<div class="container">
+    <div class="logo-line logo-line--main grid">
+</div>
+
+</div>
+
+
+
+<footer class="footer">
+    <div class="container">
+        <div class="grid margin-bottom--one">
+    <div class="footer__logo grid__item one-whole">
+        <a href="/" class="blockify"><img class="logo--small" src="/Static/images/nfflogo-mini.svg" alt=""><span>Gå til forsiden</span></a>
+    </div>
+    <hr class="footer__hr">
+            <ul class="grid__item one-quarter tablet--one-half phablet--one-half mobile--one-whole">
+                    <li><a href="/turneringer/">Finn kamper</a></li>
+                    <li><a href="/landslag/">Landslag</a></li>
+                    <li><a href="/kretser/">Kretser</a></li>
+            </ul>
+            <ul class="grid__item one-quarter tablet--one-half phablet--one-half mobile--one-whole">
+                    <li><a href="/barn-og-ungdom/">Barnefotball og ungdomsfotball</a></li>
+                    <li><a href="/lov-og-reglement/">Lov og reglement, skjemaer</a></li>
+                    <li><a href="/fotballens-verdier/">Fotballen, samfunnet og bærekraft</a></li>
+            </ul>
+            <ul class="grid__item one-quarter tablet--one-half phablet--one-half mobile--one-whole">
+                    <li><a href="/klubb-og-leder/">Klubb og leder</a></li>
+                    <li><a href="/dommer/">Dommer</a></li>
+                    <li><a href="/futsal/">Futsal</a></li>
+            </ul>
+
+    <ul class="grid__item one-quarter tablet--one-half phablet--one-half mobile--one-whole footer__social">
+            <li>
+                <a href="https://www.facebook.com/fotballandslaget/">
+                    <span class="icon icon--white icon-facebook2--white hidden--mobile hidden--phablet"></span>
+                    <span class="icon icon--medium-white icon-facebook2--medium-white hidden--tablet-and-up"></span>Facebook
+                </a>
+            </li>
+                    <li>
+                <a href="https://twitter.com/NFF_info">
+                    <span class="icon icon--white icon-twitter2--white hidden--mobile hidden--phablet"></span>
+                    <span class="icon icon--medium-white icon-twitter2--medium-white hidden--tablet-and-up"></span>Twitter
+                </a>
+            </li>
+                    <li>
+                <a href="https://www.instagram.com/fotballandslaget/">
+                    <span class="icon icon--white icon-instagram--white hidden--mobile hidden--phablet"></span>
+                    <span class="icon icon--medium-white icon-instagram--medium-white hidden--tablet-and-up"></span>Instagram
+                </a>
+            </li>
+    </ul>
+</div>
+
+<div class="grid"><div class=" grid__item one-quarter tablet--one-half phablet--one-half mobile--one-whole">    <h5>Nyttig innhold</h5>
+
+<ul><li><a href="/tema/om-nff/">Om NFF</a>
+</li><li>    <a href="/link/9559f3db13f247c2ab3991f700ca0988.aspx" target="" >
+        Se alle overganger og utlån
+    </a>
+</li><li><a href="/tema/nff-nyheter/">NFF-nyheter</a>
+</li><li><a href="/tema/billetter/">Billetter</a>
+</li><li><a href="/tema/medieservice/">Medieservice</a>
+</li><li>    <a href="https://candidate.webcruiter.com/nb-no/Home/companyadverts?&amp;link_source=0&amp;companylock=442000#Search" target="_blank" >
+        Ledige stillinger
+    </a>
+</li><li><a href="/nfftv/">NFF TV</a>
+</li><li><a href="/tema/om-nff/forbundstinget/">Forbundstinget i 2024</a>
+</li><li><a href="/lov-og-reglement/skjemaer-og-kontrakter/">Skjemaer og kontrakter</a>
+</li><li><a href="/tema/vare-samarbeidspartnere/">Våre samarbeidspartnere</a>
+</li><li>    <a href="https://antidoping.no/" target="_blank" >
+        Antidoping Norge
+    </a>
+</li></ul>
+</div><div class=" grid__item one-quarter tablet--one-half phablet--one-half mobile--one-whole">
+<ul><li>    <a href="/link/1f43318892cb49a6b13b1473763faf8c.aspx" target="" >
+        Varsling om uønskede hendelser
+    </a>
+</li><li>    <a href="https://portal.mittvarsel.no/skjema/norges-fotballforbund/h4ciQ0kgOyuEz9NT.572" target="_blank" >
+        Varslingsportal for NFF ansatte
+    </a>
+</li><li>    <a href="/link/c9cf8e0de7ef499e8ff99f4e81bdcbdd.aspx" target="" >
+        Idrettens skadetelefon
+    </a>
+</li><li><a href="/klubb-og-leder/forsikring/">Forsikring</a>
+</li><li>    <a href="https://nff.profilsport.no/produktkategori/fairplay/" target="_blank" >
+        Nettbutikk
+    </a>
+</li><li>    <a href="/link/e5ce9250c42542649147686245cff8d0.aspx" target="" >
+        NFFs strategiplan
+    </a>
+</li></ul>
+</div><div class=" grid__item one-quarter tablet--one-half phablet--one-half mobile--one-whole">    <h5>Datterselskaper</h5>
+
+<ul><li>    <a href="https://www.meet-ullevaal.no/" target="_blank" >
+        Meet Ullevaal
+    </a>
+</li><li>    <a href="https://www.idrettshelse.no/" target="_blank" >
+        Idrettens Helsesenter
+    </a>
+</li><li>    <a href="http://www.ullevaal-stadion.no/" target="_blank" >
+        AS Ullevaal Stadion
+    </a>
+</li><li>    <a href="http://www.ullevaal-stadion.no/" target="_blank" >
+        Ullevaal Stadion Idrett AS
+    </a>
+</li><li>    <a href="http://fotballmedia.no/" target="_blank" >
+        Fotball Media
+    </a>
+</li></ul>
+</div><div class=" grid__item one-quarter tablet--one-half phablet--one-half mobile--one-whole">    <h5>Interesseorganisasjoner</h5>
+
+<ul><li>    <a href="http://www.toppfotball.no/" target="_blank" >
+        Norsk Toppfotball
+    </a>
+</li><li>    <a href="https://toppfotballkvinner.no/" target="_blank" >
+        Toppfotball Kvinner
+    </a>
+</li><li>    <a href="https://norskligafotball.no/" target="_blank" >
+        Norsk Ligafotball
+    </a>
+</li><li>    <a href="http://www.fotballtreneren.no/" target="_blank" >
+        Norsk Fotballtrenerforening
+    </a>
+</li><li>    <a href="http://www.fotballsupporter.no/" target="_blank" >
+        Norsk Supporterallianse
+    </a>
+</li><li>    <a href="http://www.uefa.com/" target="_blank" >
+        UEFA
+    </a>
+</li><li>    <a href="http://www.fifa.com/" target="_blank" >
+        FIFA
+    </a>
+</li></ul>
+</div></div>
+<hr class="footer__hr">
+
+<a href="/sok" class="footer__button btn btn--secondary">Til søk</a>
+
+<div style="color: #00163d">NFF-PRD-WEB02 ver. 11.1.470.0</div>
+
+    </div>
+        <div class="footer__bottom">
+            <div class="container">
+                <div class="editorial-block" style="padding: 0;">
+    <p style="text-align: center;">&copy; 2023 Norges Fotballforbund. All rights reserved.<br />Bes&oslash;ksadresse: Sognsveien 75 J<br />Postadresse: Postboks 5000, Ullevaal Stadion, 0840 Oslo<br />Telefon: 21 02 93 00<br />Pressetelefon: 911 16 156<br />Redakt&oslash;r:&nbsp;<a href="mailto:MariStanisic.Waagaard@fotball.no">Mari Stanisic Waagaard</a></p>
+<p style="text-align: center;">&nbsp;<br />Gjenbruk av innhold kun etter avtale. Automatiserte tjenester som roboter, spidere etc er ikke tillatt brukt p&aring; v&aring;re sider.</p>
+</div>
+
+            </div>
+        </div>
+    <div class="footer__bottom footer__bottom--cookies">
+        <div class="container">
+            <p>Vi bruker <a href="/tema/om-nff/nffs-personvernerklaring/fotball.no/"><u>informasjonskapsler (cookies)</u></a> for &aring; &oslash;ke brukervennligheten i samsvar med Lov om elektronisk kommunikasjon. Informasjonskapsler brukes i tr&aring;d med ditt samtykke basert p&aring; innstillinger i din nettleser.<br /><a href="/tema/om-nff/nffs-personvernerklaring/"><u>Bes&oslash;k v&aring;r informasjonsside om personvern</u></a> for mer detaljer rundt v&aring;r bruk av data.</p>
+<p style="text-align: center;">&nbsp;<br />Design og implementasjon: <a href="https://www.noaignite.no/">Noa Ignite</a>&nbsp;/ Drift: <a href="https://www.isky.no/" target="_blank" rel="noopener">iSky</a></p>
+
+        </div>
+    </div>
+</footer>
+
+
+
+
+
+    <script src="/bundles/defaultscriptbundle?v=5VgJpHprRJPkzt8cIEhNh2a2zzNz2bu0Au0JSe3BQR41"></script>
+
+    
+    
+        
+    <script src="/bundles/charts?v=wz31L2bflZGlYMcWLxqWacw9D_KTVbaGREQSQzIXNh01"></script>
+
+    <script type="text/javascript">
+        Chart.defaults.global.responsive = true,
+        Chart.defaults.global.legend.display = false;
+        Chart.defaults.scale.gridLines.display = false;
+        Chart.defaults.scale.ticks.beginAtZero = true;
+
+        $(document).ready(function () {
+            if ($(window).width() >= 360) {
+                
+                    var spectatorByRound = document.getElementById("spectatorByRound");
+                    var spectatorByTeam = document.getElementById("spectatorByTeam");
+                    var spectatorByRoundChart = new Chart(spectatorByRound, {
+                        type: 'line',
+                        data: {
+                            labels: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24],
+                            datasets: [
+                                {
+                                    label: "Tilskuersnitt",
+                                    borderColor: "rgba(0, 32, 91, 1)",
+                                    //fill: false,
+                                    backgroundColor: "rgba(0, 32, 91, 0.2)",
+                                    pointBorderColor: "rgba(0, 32, 91, 0.8)",
+                                    pointBackgroundColor: "rgba(0, 32, 91, 1)",
+                                    pointBorderWidth: 2,
+                                    pointHoverRadius: 8,
+                                    pointHoverBackgroundColor: "rgba(200,16,46, 0.7)",
+                                    pointHoverBorderColor: "rgba(200,16,46, 0.7)",
+                                    pointHoverBorderWidth: 3,
+                                    tension: 0.4,
+                                    data: [330,491,474,304,459,280,432,381,504,356,399,1562,304,328,748,361,441,983,289,342,209,315,315,409]
+                                }
+                            ]
+                        },
+                        options: {
+                            tooltips : {
+                                callbacks:{
+                                    title: function(tooltipItems){
+                                        return 'Runde '+tooltipItems[0].xLabel;
+                                    }
+                                }
+                            }
+                        }
+                    });
+
+                    var spectatorByTeamChart = new Chart(spectatorByTeam, {
+                         type: 'bar',
+                        data: {
+                            labels: ["SK Brann","Rosenborg BK Kvinner","Vålerenga","Lyn","LSK Kvinner","Avaldsnes Toppfotball","Røa Fotball Elite","Stabæk","Arna-Bjørnar","Åsane"],
+                            datasets: [
+                                {
+                                    label: "Tilskuersnitt",
+                                    backgroundColor: "rgba(0, 32, 91, 1)",
+                                    borderWidth: 0,
+                                    hoverBackgroundColor: "rgba(200,16,46,1)",
+                                    data: [1126,792,576,428,309,304,292,283,278,188]
+                                    }
+                            ]
+                        }
+                    });
+                
+
+
+                    
+                        var agetrend = document.getElementById("agetrend");
+                        var agetrendChart = new Chart(agetrend, {
+                            type: 'line',
+                            data: {
+                                labels: [" 2010"," 2014"," 2016"," 2018"," 2020"," 2022"],
+                                datasets: [
+                                    {
+                                        label: "Snittalder",
+                                        borderColor: "rgba(0, 32, 91, 1)",
+                                        //fill: false,
+                                        backgroundColor: "rgba(0, 32, 91, 0.2)",
+                                        pointBorderColor: "rgba(0, 32, 91, 0.8)",
+                                        pointBackgroundColor: "rgba(0, 32, 91, 1)",
+                                        pointBorderWidth: 2,
+                                        pointHoverRadius: 8,
+                                        pointHoverBackgroundColor: "rgba(200,16,46, 0.7)",
+                                        pointHoverBorderColor: "rgba(200,16,46, 0.7)",
+                                        pointHoverBorderWidth: 3,
+                                        tension: 0.4,
+                                        data: [22.38,22.93,23.21,22.78,22.74,22.44]
+                                    }
+                                ]
+                            },
+                            options: {
+                                tooltips : {
+                                    callbacks:{
+                                        title: function(tooltipItems){
+                                            return ''+tooltipItems[0].xLabel;
+                                        }
+                                    }
+                                },
+                                scales: {
+                                    yAxes: [{
+                                        ticks: {
+                                            min: 22,
+                                            max: 28
+                                        }
+                                    }]
+                                }
+                            }
+                        });
+
+                                     
+
+                    
+                        var averageAgeByTeam = document.getElementById("averageAgeByTeam");
+                        var avrageAgeByTeamChart = new Chart(averageAgeByTeam, {
+                            type: 'bar',
+                            data: {
+                                labels: ["SK Brann","Vålerenga","Rosenborg BK Kvinner","LSK Kvinner","Røa Fotball Elite","Stabæk","Lyn","Åsane","Arna-Bjørnar","Avaldsnes Toppfotball"],
+                                datasets: [
+                                    {
+                                        label: "Snittalder",
+                                        backgroundColor: "rgba(0, 32, 91, 1)",
+                                        borderWidth: 0,
+                                        minBarLength: 2000,
+                                        hoverBackgroundColor: "rgba(200,16,46,1)",
+                                        data: [25.33,24.78,23.86,22.89,22.75,22.69,22.26,22.16,20.93,20.86]
+                                    }
+                                ]
+                            },
+                            options: {
+                                scales: {
+                                    yAxes: [{
+                                        ticks: {
+                                            min: 15,
+                                            max: 40
+                                        }
+                                    }]
+                                }
+                            }
+                        });
+                    
+
+
+                    
+                        var usualResults = document.getElementById("usualResults");
+                        var scoringByMinute = document.getElementById("scoringByMinute");
+                        var usualResultsChart = new Chart(usualResults, {
+                            type: 'bar',
+                            data: {
+                                labels: ["1 - 1","1 - 0","2 - 0","0 - 0","0 - 1","4 - 0","0 - 2","0 - 3","1 - 2","2 - 1"],
+                                datasets: [
+                                    {
+                                        label: "Antall",
+                                        backgroundColor: "rgba(0, 32, 91, 1)",
+                                        borderWidth: 0,
+                                        hoverBackgroundColor: "rgba(200,16,46,1)",
+                                        data: [13,11,9,8,7,7,6,5,5,5]
+                                    }
+                                ]
+                            }
+                        });
+
+                        var scoringByMinuteChart = new Chart(scoringByMinute, {
+                            type: 'line',
+                            data: {
+                                labels: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45],
+                                datasets: [
+                                    {
+                                        label: "1.omgang",
+                                        borderColor: "rgba(0, 32, 91, 1)",
+                                        fill: false,
+                                        backgroundColor: "rgba(0, 32, 91, 0.2)",
+                                        pointBorderColor: "rgba(0, 32, 91, 0.8)",
+                                        pointBackgroundColor: "rgba(0, 32, 91, 1)",
+                                        pointBorderWidth: 2,
+                                        pointHoverRadius: 8,
+                                        pointHoverBackgroundColor: "rgba(0, 32, 91, 0.7)",
+                                        pointHoverBorderColor: "rgba(0, 32, 91, 0.7)",
+                                        pointHoverBorderWidth: 3,
+                                        tension: 0.4,
+                                        data: [0,3,2,3,4,5,6,3,6,7,3,2,1,4,5,6,2,5,4,3,2,2,2,6,3,3,7,6,2,3,2,3,5,1,6,3,2,3,1,5,3,4,2,5,4]
+                                        },
+                                    {
+                                        label: "2.omgang",
+                                        borderColor: "rgba(200,16,46, 1)",
+                                        fill: false,
+                                        backgroundColor: "rgba(200,16,46, 0.2)",
+                                        pointBorderColor: "rgba(200,16,46, 0.8)",
+                                        pointBackgroundColor: "rgba(200,16,46, 1)",
+                                        pointBorderWidth: 2,
+                                        pointHoverRadius: 8,
+                                        pointHoverBackgroundColor: "rgba(200,16,46, 0.7)",
+                                        pointHoverBorderColor: "rgba(200,16,46, 0.7)",
+                                        pointHoverBorderWidth: 3,
+                                        tension: 0.4,
+                                        data: [0,1,5,4,2,4,5,8,7,3,4,4,5,2,7,4,4,5,5,6,6,6,3,5,5,2,4,4,2,4,2,3,2,3,9,5,3,2,4,3,4,1,2,5,24]
+                                        }
+                                ]
+                            },
+                            options: {
+                                tooltips : {
+                                    mode: 'label',
+                                    callbacks:{
+                                        title: function(tooltipItems){
+                                            return tooltipItems[0].xLabel+'. Minutt';
+                                        },
+                                        afterLabel: function(){
+                                            return ' Mål';
+                                        }
+                                    }
+                                }
+                            }
+                        });
+
+                    
+            }
+        });
+    </script>
+
+
+    
+
+
+    <script>
+	$(document).ready(function() {
+		if ($('.video-content').length > 0) {
+			window.HELP_IMPROVE_VIDEOJS = false;
+
+			$.getScript('/Scripts/videojs-contrib-hls.min.js')
+				.done(function () {
+					$('.video-content').createArkenaPlayer('996210');
+                 });
+		}
+	});
+</script>
+    <script>
+	$(document).ready(function() {
+		$('.more-articles').on('submit', function (e) {
+			e.preventDefault();
+			var formVals = $(this).find(":input").filter(function () {
+				return $.trim(this.value).length > 0
+			}).serialize();
+			DoArticleSearch(formVals, this);
+		});
+
+		$('.get-more-courses').on('click', function(e) {
+			e.preventDefault();
+			var districts = $(this).data('districtids');
+			var templates = $(this).data('templateids');
+			var skip = $(this).data('skip');
+			GetMoreCourses(districts, templates, skip, this);
+		});
+	});
+	function DoArticleSearch(data, form) {
+		$.ajax({
+			url: '/Articles/GetMoreArticles',
+			type: 'POST',
+			data: data,
+			success: function (value) {
+				$(value).insertBefore($(form).parent());
+				var displayed = $(form).find('#displayed');
+				displayed.val(parseInt(displayed.val()) + 6);
+				if (CountArticleResults(value) < 6)
+					$(form).remove();
+			},
+			error: function () {
+				//$('#Results').html('<p>Noe gikk alvorlig feil under søket, vennligst prøv igjen</p>');
+			}
+		});
+	}
+
+	function CountArticleResults(data) {
+		return $(data).filter('div').length;
+	}
+
+	function GetMoreCourses(districtIds, templatesIds, skip, clickedButton) {
+		$.ajax({
+			url: '/Courses/GetMoreCourses',
+			type: 'POST',
+			data: {
+				districtIds: districtIds,
+				templateIds: templatesIds,
+				skip: skip
+			},
+			success: function (value) {
+				$(clickedButton).parent().find('ul.course-list').append(value);
+				$(clickedButton).hide();
+				$(clickedButton).parent().find('hr').hide();
+			},
+			error: function () {
+				//
+			}
+		});
+	}
+</script>
+    <script>
+	$(document).ready(function() {
+		//bit dull, but this bit is for activating a block, dont know on which page, so for now code lives here.
+		if ($('.activate-chart-lib').length > 0) {
+			$.getScript('/Scripts/moment.min.js')
+			.done(function () {
+				console.log("loaded 1");
+				$.getScript('/Scripts/chart.min.js')
+				.done(function () {
+					console.log("loaded 2");
+					var yearlyStats = new Chart(document.getElementById("yearlyStatsCanvas"), {
+						type: 'line',
+						data: {
+							labels: chartLabels,
+							datasets: [
+								{
+									label: "Ungdom Menn",
+									borderColor: "rgba(0, 32, 91, 1)",
+									fill: false,
+									backgroundColor: "rgba(0, 32, 91, 0.2)",
+									pointBorderColor: "rgba(0, 32, 91, 0.8)",
+									pointBackgroundColor: "rgba(0, 32, 91, 1)",
+									pointBorderWidth: 2,
+									pointHoverRadius: 8,
+									pointHoverBackgroundColor: "rgba(0, 32, 91, 0.7)",
+									pointHoverBorderColor: "rgba(0, 32, 91, 0.7)",
+									pointHoverBorderWidth: 3,
+									tension: 0.4,
+									data: chartYouthMen
+								},
+								{
+									label: "Ungdom Kvinner",
+									borderColor: "rgba(200,16,46, 1)",
+									fill: false,
+									backgroundColor: "rgba(200,16,46, 0.2)",
+									pointBorderColor: "rgba(200,16,46, 0.8)",
+									pointBackgroundColor: "rgba(200,16,46, 1)",
+									pointBorderWidth: 2,
+									pointHoverRadius: 8,
+									pointHoverBackgroundColor: "rgba(200,16,46, 0.7)",
+									pointHoverBorderColor: "rgba(200,16,46, 0.7)",
+									pointHoverBorderWidth: 3,
+									tension: 0.4,
+									data: chartYouthWomen
+								},
+								{
+									label: "Menn",
+									borderColor: "rgba(0,126,168, 1)",
+									fill: false,
+									backgroundColor: "rgba(0,126,168, 0.2)",
+									pointBorderColor: "rgba(0,126,168, 0.8)",
+									pointBackgroundColor: "rgba(0,126,168, 1)",
+									pointBorderWidth: 2,
+									pointHoverRadius: 8,
+									pointHoverBackgroundColor: "rgba(0,126,168, 0.7)",
+									pointHoverBorderColor: "rgba(0,126,168, 0.7)",
+									pointHoverBorderWidth: 3,
+									tension: 0.4,
+									data: chartAdultMen
+								},
+								{
+									label: "Kvinner",
+									borderColor: "rgba(101,161,27, 1)",
+									fill: false,
+									backgroundColor: "rgba(101,161,27, 0.2)",
+									pointBorderColor: "rgba(101,161,27, 0.8)",
+									pointBackgroundColor: "rgba(101,161,27, 1)",
+									pointBorderWidth: 2,
+									pointHoverRadius: 8,
+									pointHoverBackgroundColor: "rgba(101,161,27, 0.7)",
+									pointHoverBorderColor: "rgba(101,161,27, 0.7)",
+									pointHoverBorderWidth: 3,
+									tension: 0.4,
+									data: chartAdultWomen
+								}
+							]
+						},
+						options: {
+							tooltips: {
+								mode: 'label',
+								callbacks: {
+									title: function (tooltipItems) {
+										return tooltipItems[0].xLabel;
+									},
+									afterLabel: function () {
+										return ' Lag';
+									}
+								}
+							}
+						}
+					});
+
+				});
+			});
+		}
+	});
+</script>
+    <script>
+	
+		var AdButler;
+
+		$(document).ready(function() {
+			if ($('.ad-wrap').length > 0) {
+
+				var useTopboard = $('.ad-wrap-topboard').length > 0;
+                var useSmartboard = $('.ad-wrap-smartboard').length > 0;
+                var useTopboardMob = $('.ad-wrap-topboard-mobile').length > 0;
+                var useSkyskraper = $('.ad-wrap-skyskraper').length > 0;
+                var useLeaderboard = $('.ad-wrap-leaderboard').length > 0;
+
+                var plc468096 = window.plc468096 || 0; // TOPBOARD    (desktop)   980 x 150
+                var plc468095 = window.plc468095 || 0; // SMARTBOARD  (desktop)   300 x 250
+				var plc468092 = window.plc468092 || 0; // SKYSKRAPER  (desktop)   180 x 500
+
+                var plc590978 = window.plc590978 || 0; // SKYSKRAPER  (supporterklubben)  980 x 150
+                var plc590979 = window.plc590979 || 0; // SMARTBOARD  (supporerklubben)  365 x 304
+
+                var plc468323 = window.plc468323 || 0; // LEADERBOARD (mobil)     320 x 250
+                var plc468324 = window.plc468324 || 0; // TOPBOARD    (mobil)     320 x 100
+
+				$.getScript('https://servedbyadbutler.com/app.js')
+					.done(function() {
+						window.abkw = [
+							'Toppserien,categoryId_8', 'pageId_' + '68769',
+							'pageTypeId_' + '68'
+						];
+
+						AdButler = AdButler || {};
+						AdButler.ads = AdButler.ads || [];
+						var abkw = window.abkw || '';
+
+                        if (useSmartboard) {
+							CreateAdPlacement('.ad-wrap-smartboard .ad-wrap__ad', 'placement_468095_' + plc468095);
+                            CreateAdPlacement('.ad-wrap-smartboard .ad-wrap__ad', 'placement_590979_' + plc590979);
+
+						}
+
+                        if (useTopboard) {
+                            CreateAdPlacement('.ad-wrap-topboard .ad-wrap__ad', 'placement_468096_' + plc468096);
+                        }
+
+                        if (useTopboardMob) {
+                            CreateAdPlacement('.ad-wrap-topboard-mobile .ad-wrap__ad', 'placement_468324_' + plc468324);
+						}
+
+                        if (useLeaderboard) {
+                            CreateAdPlacement('.ad-wrap-leaderboard .ad-wrap__ad', 'placement_468323_' + plc468323);
+                        }
+
+                        if (useSkyskraper) {
+							CreateAdPlacement('.ad-wrap-skyskraper .ad-wrap__ad', 'placement_468092_' + plc468092);
+                            CreateAdPlacement('.ad-wrap-skyskraper .ad-wrap__ad', 'placement_590978_' + plc590978);
+                        }
+
+                        $('.ad-placement').bind('DOMSubtreeModified',
+							function (e) {
+								if (e.target.innerHTML.length > 0) {
+									$(this).closest('.ad-wrap').removeClass('hidden');
+								}
+						});
+
+                        
+                            window.onload = function () {
+                            var ws = $(window).width();
+
+                            if (ws < 768) // mobile banner
+                            {
+                                if (useTopboardMob)
+                                    PushAdd(468324, [320, 100], 'placement_468324_', plc468324, abkw);
+
+                                if (useLeaderboard)
+                                    PushAdd(468323, [320, 250], 'placement_468323_', plc468323, abkw);
+                            }
+                            if (ws >= 768) // desktop banner
+                            {
+                                if (useTopboard)
+                                    PushAdd(468096, [980, 150], 'placement_468096_', plc468096, abkw);
+
+                                if (useSkyskraper) {
+                                    PushAdd(468092, [180, 500], 'placement_468092_', plc468092, abkw);                                   
+                                }
+
+                                if (useSmartboard) {
+                                    PushAdd(468095, [539, 150], 'placement_468095_', plc468095, abkw);                                    
+                                }
+
+                            }
+                        }
+                        
+
+
+
+
+					});
+			}
+			});
+
+		function CreateAdPlacement(selector, elementId) {
+			$(selector).append('<div class="ad-placement" id="' + elementId + '"></div>');
+		}
+		function PushAdd(zoneId, size, elementId, zoneVar, keywords) {
+			AdButler.ads.push({
+				handler: function(opt) {
+					AdButler.register(167921, zoneId, size, elementId + opt.place, opt);
+				},
+				opt: { place: zoneVar++, keywords: keywords, domain: 'servedbyadbutler.com', click: 'CLICK_MACRO_PLACEHOLDER' }
+			});
+	    }
+    
+</script>
+    <script>
+	$(document).ready(function() {
+		$('a[href$=".pdf"], a[href$=".doc"], a[href$=".docx"], a[href$=".xls"], a[href$=".xlsx"], a[href$=".ppt"], a[href$=".pptx"]').on('click', function (e) {
+			TrackDocumentClick($(this).attr('href'));
+		});
+
+		//$('a[href$=".pdf"], a[href$=".doc*"], a[href$=".xls*"], a[href$=".ppt*"]').on('mousedown', function (e) {
+		//	e.preventDefault();
+		//	if (e.button == 2) {
+		//		console.log($(this).attr('href'));
+		//		TrackDocumentClick($(this).attr('href'));
+		//	}
+		//});
+	});
+	function TrackDocumentClick(href) {
+		if (typeof ga !== 'undefined') {
+			ga('send', 'pageview', href);
+		}
+	}
+</script>
+    <script>
+    $(document).ready(function () {
+
+        $('.content').click(function () {
+            var prev = $(this).prev();
+            if (prev.hasClass('collapsible')) {
+                SetAsFirstUrlParam(prev.attr('id'));
+            }
+        });
+
+        $('.collapsible').click(function () {
+            $(this).find('.arrow').toggleClass('down');
+            $(this).find('.arrow').toggleClass('right');
+            $(this).next('.content').slideToggle(500, 'swing');
+            ToggleUrlParam(this.id);
+            return false;
+        });
+
+        $(".menuButton").click(function () {
+
+            $(".collapsed, .expanded").toggleClass("collapsed expanded");
+        });
+
+
+
+        $(function () {
+            $(".menulink").each(function () {
+                if ($(this).attr("href") === window.location.pathname) {
+                    $(this).addClass("loaded");
+                }
+            });
+        });
+
+
+    });
+</script>
+
+    
+<script type="text/javascript">
+    function addRecaptchaEventListeners() {
+        //Adding event handlers to any reveal buttons.        
+        var revealButtons = document.querySelectorAll('[id^="btn_rev_fetch_captcha_"]');
+        revealButtons.forEach(function (revealButton) {
+            revealButton.addEventListener('click', function () {
+                var personId = this.getAttribute('data-person-id');
+                var controllId = this.getAttribute('data-controll-id');
+
+                // Initialize reCAPTCHA
+                grecaptcha.ready(function () {
+                    grecaptcha.execute('6LclITQoAAAAAEmMb_egyLrBd6xaTRm_s9H0FRo0', { action: 'reveal_info' }).then(function (token) {
+                        // Required to send the recaptcha token to server for verification
+                        fetch(`/Person/ValidateTokenAndGetPersonInfo?recaptchaToken=${token}&personId=${personId}`)
+                            .then(
+                                response => {
+                                    // Parse and return the JSON response
+                                    return response.json()
+                                }
+                            )
+                            .then(data => {
+                                var updatedEmail = false;
+                                var updatedTel = false;
+
+                                // Update the person information returned by the server
+                                if (document.querySelector(`#email_${controllId}`) != null && data.EmailObfuscated && data.EmailObfuscated.length > 0) {
+                                    document.getElementById(`email_${controllId}`).setAttribute("data-address", data.EmailObfuscated);
+                                    updatedEmail = true;
+                                }
+                                if (document.querySelector(`#mobilephone_${controllId}`) != null && data.MobilePhoneObfuscated && data.MobilePhoneObfuscated.length > 0) {
+                                    document.getElementById(`mobilephone_${controllId}`).setAttribute("data-address", data.MobilePhoneObfuscated);
+                                    updatedTel = true;
+                                }
+                                if (document.querySelector(`#workphone_${controllId}`) != null && data.WorkPhoneObfuscated && data.WorkPhoneObfuscated.length > 0) {
+                                    document.getElementById(`workphone_${controllId}`).setAttribute("data-address", data.WorkPhoneObfuscated);
+                                    updatedTel = true;
+                                }
+
+                                // Hide the reveal button and show the person information
+                                if (updatedEmail || updatedTel) {
+                                    if (document.querySelector(`#infoContainer_${controllId}`) != null) {
+                                        document.getElementById(`infoContainer_${controllId}`).style.display = 'block';
+                                    }
+                                    if (document.querySelector(`#btn_rev_fetch_captcha_${controllId}`) != null) {
+                                        document.getElementById(`btn_rev_fetch_captcha_${controllId}`).style.display = 'none';
+                                    }
+
+                                    //Bind the email and telephone links
+                                    if (updatedEmail) {
+                                        BindAddressLinks('.address-link_' + controllId);
+                                    }
+
+                                    if (updatedTel) {
+                                        BindTeleLinks('.tel-link_' + controllId);
+                                    }
+                                }
+                            })
+                            .catch((error) => {
+                                console.error('Failed to verify reCAPTCHA or fetch the info. Please try again.');
+                                console.error('Error:', error);
+                            });
+                    });
+                });
+            });
+        });
+
+        var revealButtonsOnlyCaptcha = document.querySelectorAll('[id^="btn_rev_captcha_"]');
+
+        revealButtonsOnlyCaptcha.forEach(function (revealButton) {
+            revealButton.addEventListener('click', function () {
+                var controllId = this.getAttribute('data-controll-id');
+
+                // Initialize reCAPTCHA
+                grecaptcha.ready(function () {
+                    grecaptcha.execute('6LclITQoAAAAAEmMb_egyLrBd6xaTRm_s9H0FRo0', { action: 'reveal_info' }).then(function (token) {
+                        // Required to send the recaptcha token to server for verification
+                        fetch(`/Person/ValidateToken?recaptchaToken=${token}`)
+                            .then(
+                                response => {
+                                    // Parse and return the JSON response
+                                    return response.json()
+                                }
+                            )
+                            .then(data => {
+                                // Hide the reveal button and show the person information
+                                if (document.querySelector(`#infoContainer_${controllId}`) != null) {
+                                    document.getElementById(`infoContainer_${controllId}`).style.display = 'block';
+                                }
+
+                                // Hides the clicked button
+                                if (document.querySelector(`#btn_rev_captcha_${controllId}`) != null) {
+                                    document.getElementById(`btn_rev_captcha_${controllId}`).style.display = 'none';
+                                }
+                                //Bind the email and telephone links
+                                BindAddressLinks('.address-link_' + controllId);
+                                BindTeleLinks('.tel-link_' + controllId);
+                            })
+                            .catch((error) => {
+                                console.error('Failed to verify reCAPTCHA or fetch the info. Please try again.');
+                                console.error('Error:', error);
+                            });
+                    });
+                });
+            });
+        });
+       
+    };
+
+    //Tracking page_view for more accurate reCapatche score
+    grecaptcha.ready(function () {
+        grecaptcha.execute('6LclITQoAAAAAEmMb_egyLrBd6xaTRm_s9H0FRo0', { action: 'page_view' });
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        addRecaptchaEventListeners();
+    });
+
+</script>
+
+<!-- Matomo -->
+<script>
+  var _paq = window._paq = window._paq || [];
+  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+ _paq.push(['setCustomUrl', location.href.toLowerCase()]); 
+ _paq.push(['trackPageView']);
+ _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="https://matomo.fotball.no/";
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+        const mailtoLinks = document.querySelectorAll("a[class^='address-link_']");
+
+        for (let i = 0; i < mailtoLinks.length; i++) {
+            mailtoLinks[i].addEventListener("click", function(e) {
+                _paq.push(['trackEvent', 'Mailto', 'Click', this.href]);
+            });
+        }
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const revealLinks = document.querySelectorAll("a.revealLink");
+
+        revealLinks.forEach(link => {
+            link.addEventListener("click", function(e) {
+                const personId = this.getAttribute('data-person-id');
+                _paq.push(['trackEvent', 'RevealLink', 'Click', personId]);
+            });
+        });
+    });
+</script>
+
+<!-- End Matomo Code -->
+    <script type="text/javascript" src="https://play2.qbrick.com/qbrick-player/framework/GoBrain.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            initWaypoint();
+        });
+    </script>
+</body>
+</html>

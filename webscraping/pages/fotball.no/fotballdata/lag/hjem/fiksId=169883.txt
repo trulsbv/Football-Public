@@ -1,0 +1,1535 @@
+2023-10-29
+<!DOCTYPE html>
+
+<html lang="no">
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vålerenga Menn Senior B - Hjem - Norges Fotballforbund</title>
+    <meta name="author" content="Norges Fotballforbund" />
+        <meta name="description" content="Kontaktinformasjon til Vålerenga Menn Senior B, og oversikt over de siste og kommende kampene." />
+
+    <!-- Open graph tags (facebok)-->
+<meta property="og:site_name" content="fotball.no - Norges Fotballforbund" />
+<meta property="og:url" content="https://www.fotball.no/fotballdata/lag/hjem/?fiksId=169883" />
+
+
+
+
+    <meta property="og:title" content="Vålerenga Menn Senior B - Hjem" />
+        <meta property="og:description" content="Kontaktinformasjon til Vålerenga Menn Senior B, og oversikt over de siste og kommende kampene." />
+        <meta property="og:image" content="https://www.fotball.no/globalassets/z-klubblogoer/3209.png/large" />
+    <META NAME="Keywords" CONTENT="Model.CurrentPage.Name">
+
+<!-- Twitter card tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@NFF_info">
+    <meta name="twitter:title" content="Vålerenga Menn Senior B - Hjem" />
+        <meta name="twitter:description" content="Kontaktinformasjon til Vålerenga Menn Senior B, og oversikt over de siste og kommende kampene." />
+    <meta name="twitter:image" content="https://www.fotball.no/globalassets/z-klubblogoer/3209.png/large">
+    <meta name="twitter:image:alt" content=" sin logo">
+
+
+    <link href="/bundles/defaultcssbundle?v=5pd5YNz6-CSC2KXupRW8J8zNzf0LSv7nb1O3bAQ_U1E1" rel="stylesheet"/>
+
+
+
+    <!-- Fonts Montserrat: Erstatter Gotham -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Fonts bebas-neue-pro: erstatter Tungsten -->
+    <link rel="stylesheet" href="https://use.typekit.net/lfl6ksy.css">
+    <!-- Fonts End -->
+
+    <link rel="stylesheet" type="text/css" href="https://vjs.zencdn.net/5.12.6/video-js.min.css" />
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/Static/images/favicons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/Static/images/favicons/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/Static/images/favicons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/Static/images/favicons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/Static/images/favicons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/Static/images/favicons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/Static/images/favicons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/Static/images/favicons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/Static/images/favicons/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/Static/images/favicons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/Static/images/favicons/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/Static/images/favicons/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/Static/images/favicons/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/Static/images/favicons/manifest.json">
+    <link rel="mask-icon" href="/Static/images/favicons/safari-pinned-tab.svg" color="#00205b">
+    <meta name="msapplication-TileColor" content="#00205b">
+    <meta name="msapplication-TileImage" content="/Static/images/favicons/mstile-144x144.png">
+    <meta name="theme-color" content="#00205b">
+    <!-- Favicons end -->
+    <!-- Include reCAPTCHA v3 script -->
+    <script src="https://www.google.com/recaptcha/api.js?render=6LclITQoAAAAAEmMb_egyLrBd6xaTRm_s9H0FRo0"></script>
+
+
+    <script src="/bundles/defaultjquerybundle?v=gGGRI7xCOnEK-4qvkXXwhmbyGmA8S3tmz-Wto5bGsIc1"></script>
+
+      
+</head>
+<body class="TeamPage">
+
+    
+    
+
+
+    
+
+
+
+<div class="skip-links">
+    <a class="skip-links__item js_skip-link" href="#main-content">Hopp til innhold</a>
+</div>
+<a id="top"></a>
+
+
+
+
+<header class="header header--compact ">
+    <div class="container grid header__container">
+        <div class="header__logo grid__item one-sixth">
+            <a href="/"><img src="/Static/images/nfflogo-mini.svg" alt="Gå til forsiden" title="Gå til forsiden"></a><span class="hidden visible-print small-heading">Fotball.no - Norges Fotballforbund</span>
+        </div>
+        
+        <div class="pull-right">
+            <form class="top-search grid__item three-sixths" action="/sok/" method="GET">
+                <button type="button" class="top-search__icon js_search"><span class="visuallyhidden">Show search</span></button>
+
+                <div class="tab-adjustment">
+                    <label class="visuallyhidden" for="qTop">Søk her:</label>
+                    <input tabindex="0" type="search" name="q" class="top-search__input" id="qTop" placeholder="Søk…">
+                    <input tabindex="0" type="submit" class="top-search__button" value="Søk" />
+                </div>
+                <p class="top-search__text medium-text">Søk etter klubber, personer, artikler m.m.</p>
+            </form>
+
+
+            <div class="header-links grid__item two-sixths">
+                <button type="button" class="header-links__button js_favs medium-text"><span class="hidden--portable">Dine favoritter</span></button>
+                <div>
+                    <h3>Dine favoritter</h3>
+                    <p class="medium-text">
+                        <span class="icon icon--white icon-info--white"></span>Her kan du lagre dine favorittsider.
+                    </p>
+                    <div class="favourite-add">
+                        <button type="button" class="favourite-add__button header-links__button js_favs-add track-click" data-event-type="AddFavourite">Lagre som favoritt</button>
+                    </div>
+                    <ul class="favourites-list medium-text linked-list linked-list--less-padded"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+<main class="container" id="main-content">
+
+    
+
+
+    
+
+
+
+
+    <style>
+        .ad-wrap__description {
+            text-align: left;
+        }
+    </style>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            showOrHideBannerSkyskraper();
+            showOrHideBannerTopBoard();
+            showOrHideBannerTopBoardMobile();
+            showOrHideBannerLeaderboard();
+
+            $(window).resize(function () {
+                showOrHideBannerSkyskraper();
+                showOrHideBannerTopBoard();
+                showOrHideBannerTopBoardMobile();
+                showOrHideBannerLeaderboard();
+            });
+        });
+
+        function showOrHideBannerSkyskraper() {
+            if ($(window).width() >= 1640)
+                $(".ad-wrap.ad-wrap-skyskraper.container").fadeIn("slow");
+            else
+                $(".ad-wrap.ad-wrap-skyskraper.container").fadeOut("slow");
+        }
+
+        function showOrHideBannerTopBoard() {
+            if ($(window).width() >= 768)
+                $(".ad-wrap.ad-wrap-topboard.container").fadeIn("slow");
+            else {
+                $(".ad-wrap.ad-wrap-topboard.container").fadeOut("slow");
+                $(".ad-wrap.ad-wrap-leaderboard.container").fadeIn("slow");
+            }
+        }
+
+        function showOrHideBannerTopBoardMobile() {       
+            if ($(window).width() >= 768)
+                $(".ad-wrap.ad-wrap-topboard-mobile.container").fadeOut("slow");
+            else
+                $(".ad-wrap.ad-wrap-topboard-mobile.container").fadeIn("slow");
+        }
+
+        function showOrHideBannerLeaderboard() {
+            if ($(window).width() >= 768)
+                $(".ad-wrap.ad-wrap-leaderboard.container").fadeOut("slow");
+            else
+                $(".ad-wrap.ad-wrap-leaderboard.container").fadeIn("slow");
+        }
+    </script>
+
+
+
+        <div class="skyskraper">
+            <div class="ad-wrap ad-wrap-skyskraper container hidden">
+                <div id="ad">
+                    <p class="ad-wrap__description">Annonse:</p>
+                </div>
+                <div class="ad-wrap__ad">
+                </div>
+            </div>
+        </div>
+
+
+    <div class="fiks-header">
+        <div class="share-box--no-margin">
+            
+    <div class="share-box--tablet-and-up hidden--mobile hidden--phablet share-container">
+        <div class="share-container right">
+            Del:
+                <a data-share-type="facebook" href="" class="share pop-window" onclick="ga('send', 'social', 'Facebook', 'Share', location.href);"><span class="icon icon--share icon-facebook2--share">Del på Facebook</span></a>
+                            <a data-share-type="twitter" href="" class="share pop-window" onclick="ga('send', 'social', 'Twitter', 'Tweet', location.href);"><span class="icon icon--share icon-twitter2--share">Del på Twitter</span></a>
+                            <a data-share-type="email" href="" class="share" onclick="ga('send', 'social', 'Email', 'SendEmail', location.href);"><span class="icon icon--share icon-mail--share">Del på mail</span></a>
+                            <a href="javascript:window.print()" onclick="ga('send', 'social', 'Print', 'PrintPage', location.href);"><span class="icon icon--share icon-printer--share">Skriv ut</span></a>
+        </div>
+    </div>
+    <div class="hidden--tablet-and-up share-container">
+        <div class="hide-this margin-top--one">
+            <button type="button" class="show-btn show-btn--clean"><span class="icon icon-plus"></span>Del eller skriv ut</button>
+            <div class="share-box--mobile share-container">
+                    <a data-share-type="facebook" href="#" class="share pop-window" onclick="ga('send', 'social', 'Facebook', 'Share', location.href);"><span class="icon icon--share icon-facebook2--share">Del på Facebook</span></a>
+                                    <a data-share-type="twitter" href="#" class="share pop-window" onclick="ga('send', 'social', 'Twitter', 'Tweet', location.href);"><span class="icon icon--share icon-twitter2--share">Del på Twitter</span></a>
+                                    <a data-share-type="email" href="#" class="share" onclick="ga('send', 'social', 'Email', 'SendEmail', location.href);"><span class="icon icon-mail-alt">Del på mail</span></a>
+                                    <a href="javascript:window.print()" onclick="ga('send', 'social', 'Print', 'PrintPage', location.href);"><span class="icon icon--share icon-printer--share">Skriv ut</span></a>
+            </div>
+        </div>
+    </div>
+
+        </div>
+
+	    <a href="/fotballdata/lag/hjem/?fiksId=169883">
+			    <img src="/globalassets/z-klubblogoer/3209.png/large" alt="Vålerenga Menn Senior B sin logo" title="Vålerenga Menn Senior B sin logo"/>
+	    </a>
+        <h1>
+            <a class="hero-heading" href="/fotballdata/lag/hjem/?fiksId=169883">
+                Vålerenga Menn Senior B
+            </a>
+        </h1>
+    </div>
+
+
+<div class="content-navigation--compact content-navigation--compact-front">
+    <nav class="content-navigation">
+    <ul class="flex-box">
+            <li class="flex-box__item grid-one-third">
+        <a href="/fotballdata/lag/kamper/?fiksId=169883" class="">
+            <h2>Kamper</h2>
+        </a>
+    </li>
+    <li class="flex-box__item grid-one-third">
+        <a href="/fotballdata/lag/tabell/?fiksId=169883" class="">
+            <h2>Tabell</h2>
+        </a>
+    </li>
+    <li class="flex-box__item grid-one-third">
+        <a href="/fotballdata/lag/spillere/?fiksId=169883" class="">
+            <h2>Spillere</h2>
+        </a>
+    </li>
+
+    </ul>
+</nav>
+
+
+</div>
+
+
+<section class="grid">
+
+        <div class="grid__item one-third mobile--one-whole">
+            <h3 class="section-heading no-margin--top">Kontaktpersoner</h3>
+
+
+            <ul class="max-list clean-list">
+                            <li>
+                                <p>
+                                    <b>Kamprapportering:</b>
+                                    <a class="blockify--mobile" href="/fotballdata/person/profil/?fiksId=3892422">Thomas Hafstad</a>
+                                </p>
+
+
+                                
+
+    <a class="revealLink" id="btn_rev_fetch_captcha_3d45f226-2ba7-487e-912b-0fcd1e9c3af7" role="button" data-controll-id="3d45f226-2ba7-487e-912b-0fcd1e9c3af7" data-person-id="3892422">Vis kontaktinformasjon</a>
+    <div id="infoContainer_3d45f226-2ba7-487e-912b-0fcd1e9c3af7" style="display:none;">
+            <p class="">
+                <a href="#" id="email_3d45f226-2ba7-487e-912b-0fcd1e9c3af7" class="address-link_3d45f226-2ba7-487e-912b-0fcd1e9c3af7" data-address=""></a>
+            </p>
+                    <p class="">
+                <a href="#" id="mobilephone_3d45f226-2ba7-487e-912b-0fcd1e9c3af7" class="tel-link_3d45f226-2ba7-487e-912b-0fcd1e9c3af7" data-address=""></a>
+            </p>
+            </div>
+
+
+                            </li>
+                            <li>
+                                <p>
+                                    <b>Kamprapportering:</b>
+                                    <a class="blockify--mobile" href="/fotballdata/person/profil/?fiksId=3767320">Carlos Bryant Lazaro-Paulina</a>
+                                </p>
+
+
+                                
+
+    <a class="revealLink" id="btn_rev_fetch_captcha_02849f6a-617e-47ed-a193-8acc08c3c624" role="button" data-controll-id="02849f6a-617e-47ed-a193-8acc08c3c624" data-person-id="3767320">Vis kontaktinformasjon</a>
+    <div id="infoContainer_02849f6a-617e-47ed-a193-8acc08c3c624" style="display:none;">
+            <p class="">
+                <a href="#" id="email_02849f6a-617e-47ed-a193-8acc08c3c624" class="address-link_02849f6a-617e-47ed-a193-8acc08c3c624" data-address=""></a>
+            </p>
+                    <p class="">
+                <a href="#" id="mobilephone_02849f6a-617e-47ed-a193-8acc08c3c624" class="tel-link_02849f6a-617e-47ed-a193-8acc08c3c624" data-address=""></a>
+            </p>
+            </div>
+
+
+                            </li>
+                            <li>
+                                <p>
+                                    <b>Kamprapportering:</b>
+                                    <a class="blockify--mobile" href="/fotballdata/person/profil/?fiksId=3473212">Arne Næss</a>
+                                </p>
+
+
+                                
+
+    <a class="revealLink" id="btn_rev_fetch_captcha_2e7ac6da-9453-4dc4-93bd-6307563ad744" role="button" data-controll-id="2e7ac6da-9453-4dc4-93bd-6307563ad744" data-person-id="3473212">Vis kontaktinformasjon</a>
+    <div id="infoContainer_2e7ac6da-9453-4dc4-93bd-6307563ad744" style="display:none;">
+            <p class="">
+                <a href="#" id="email_2e7ac6da-9453-4dc4-93bd-6307563ad744" class="address-link_2e7ac6da-9453-4dc4-93bd-6307563ad744" data-address=""></a>
+            </p>
+                    <p class="">
+                <a href="#" id="mobilephone_2e7ac6da-9453-4dc4-93bd-6307563ad744" class="tel-link_2e7ac6da-9453-4dc4-93bd-6307563ad744" data-address=""></a>
+            </p>
+            </div>
+
+
+                            </li>
+                            <li>
+                                <p>
+                                    <b>Kamprapportering:</b>
+                                    <a class="blockify--mobile" href="/fotballdata/person/profil/?fiksId=3281306">Terje Risa</a>
+                                </p>
+
+
+                                
+
+    <a class="revealLink" id="btn_rev_fetch_captcha_7c9b6b5a-eb75-4de4-a50d-b4ca4257fc00" role="button" data-controll-id="7c9b6b5a-eb75-4de4-a50d-b4ca4257fc00" data-person-id="3281306">Vis kontaktinformasjon</a>
+    <div id="infoContainer_7c9b6b5a-eb75-4de4-a50d-b4ca4257fc00" style="display:none;">
+            <p class="">
+                <a href="#" id="email_7c9b6b5a-eb75-4de4-a50d-b4ca4257fc00" class="address-link_7c9b6b5a-eb75-4de4-a50d-b4ca4257fc00" data-address=""></a>
+            </p>
+                    <p class="">
+                <a href="#" id="mobilephone_7c9b6b5a-eb75-4de4-a50d-b4ca4257fc00" class="tel-link_7c9b6b5a-eb75-4de4-a50d-b4ca4257fc00" data-address=""></a>
+            </p>
+            </div>
+
+
+                            </li>
+                            <li>
+                                <p>
+                                    <b>Kamprapportering:</b>
+                                    <a class="blockify--mobile" href="/fotballdata/person/profil/?fiksId=2455489">Øystein Sanden</a>
+                                </p>
+
+
+                                
+
+    <a class="revealLink" id="btn_rev_fetch_captcha_cf4dff83-12f5-47d8-bbcf-872ec19b0b17" role="button" data-controll-id="cf4dff83-12f5-47d8-bbcf-872ec19b0b17" data-person-id="2455489">Vis kontaktinformasjon</a>
+    <div id="infoContainer_cf4dff83-12f5-47d8-bbcf-872ec19b0b17" style="display:none;">
+            <p class="">
+                <a href="#" id="email_cf4dff83-12f5-47d8-bbcf-872ec19b0b17" class="address-link_cf4dff83-12f5-47d8-bbcf-872ec19b0b17" data-address=""></a>
+            </p>
+                    <p class="">
+                <a href="#" id="mobilephone_cf4dff83-12f5-47d8-bbcf-872ec19b0b17" class="tel-link_cf4dff83-12f5-47d8-bbcf-872ec19b0b17" data-address=""></a>
+            </p>
+            </div>
+
+
+                            </li>
+                            <li>
+                                <p>
+                                    <b>Kamprapportering:</b>
+                                    <a class="blockify--mobile" href="/fotballdata/person/profil/?fiksId=3986411">Jon-Anders Schyberg</a>
+                                </p>
+
+
+                                
+
+    <a class="revealLink" id="btn_rev_fetch_captcha_06fb6e05-f4c0-4ef6-bb0c-3017049028c5" role="button" data-controll-id="06fb6e05-f4c0-4ef6-bb0c-3017049028c5" data-person-id="3986411">Vis kontaktinformasjon</a>
+    <div id="infoContainer_06fb6e05-f4c0-4ef6-bb0c-3017049028c5" style="display:none;">
+            <p class="">
+                <a href="#" id="email_06fb6e05-f4c0-4ef6-bb0c-3017049028c5" class="address-link_06fb6e05-f4c0-4ef6-bb0c-3017049028c5" data-address=""></a>
+            </p>
+                    <p class="">
+                <a href="#" id="mobilephone_06fb6e05-f4c0-4ef6-bb0c-3017049028c5" class="tel-link_06fb6e05-f4c0-4ef6-bb0c-3017049028c5" data-address=""></a>
+            </p>
+            </div>
+
+
+                            </li>
+                            <li>
+                                <p>
+                                    <b>Kontaktperson:</b>
+                                    <a class="blockify--mobile" href="/fotballdata/person/profil/?fiksId=3089701">Anita Alexandersen</a>
+                                </p>
+
+
+                                
+
+    <a class="revealLink" id="btn_rev_fetch_captcha_3ff8cd5e-50b3-47d5-8ed3-dbe88ba10451" role="button" data-controll-id="3ff8cd5e-50b3-47d5-8ed3-dbe88ba10451" data-person-id="3089701">Vis kontaktinformasjon</a>
+    <div id="infoContainer_3ff8cd5e-50b3-47d5-8ed3-dbe88ba10451" style="display:none;">
+            <p class="">
+                <a href="#" id="email_3ff8cd5e-50b3-47d5-8ed3-dbe88ba10451" class="address-link_3ff8cd5e-50b3-47d5-8ed3-dbe88ba10451" data-address=""></a>
+            </p>
+                    <p class="">
+                <a href="#" id="mobilephone_3ff8cd5e-50b3-47d5-8ed3-dbe88ba10451" class="tel-link_3ff8cd5e-50b3-47d5-8ed3-dbe88ba10451" data-address=""></a>
+            </p>
+            </div>
+
+
+                            </li>
+                            <li>
+                                <p>
+                                    <b>Trener:</b>
+                                    <a class="blockify--mobile" href="/fotballdata/person/profil/?fiksId=3727497">Trond Fredriksen</a>
+                                </p>
+
+
+                                
+
+    <a class="revealLink" id="btn_rev_fetch_captcha_860eea4f-9f96-4640-8754-090c4d35cac4" role="button" data-controll-id="860eea4f-9f96-4640-8754-090c4d35cac4" data-person-id="3727497">Vis kontaktinformasjon</a>
+    <div id="infoContainer_860eea4f-9f96-4640-8754-090c4d35cac4" style="display:none;">
+            <p class="">
+                <a href="#" id="email_860eea4f-9f96-4640-8754-090c4d35cac4" class="address-link_860eea4f-9f96-4640-8754-090c4d35cac4" data-address=""></a>
+            </p>
+                    <p class="">
+                <a href="#" id="mobilephone_860eea4f-9f96-4640-8754-090c4d35cac4" class="tel-link_860eea4f-9f96-4640-8754-090c4d35cac4" data-address=""></a>
+            </p>
+            </div>
+
+
+                            </li>
+                            <li>
+                                <p>
+                                    <b>Trener:</b>
+                                    <a class="blockify--mobile" href="/fotballdata/person/profil/?fiksId=3767320">Carlos Bryant Lazaro-Paulina</a>
+                                </p>
+
+
+                                
+
+    <a class="revealLink" id="btn_rev_fetch_captcha_04cff717-7d97-4763-a44b-74f03f59d9d3" role="button" data-controll-id="04cff717-7d97-4763-a44b-74f03f59d9d3" data-person-id="3767320">Vis kontaktinformasjon</a>
+    <div id="infoContainer_04cff717-7d97-4763-a44b-74f03f59d9d3" style="display:none;">
+            <p class="">
+                <a href="#" id="email_04cff717-7d97-4763-a44b-74f03f59d9d3" class="address-link_04cff717-7d97-4763-a44b-74f03f59d9d3" data-address=""></a>
+            </p>
+                    <p class="">
+                <a href="#" id="mobilephone_04cff717-7d97-4763-a44b-74f03f59d9d3" class="tel-link_04cff717-7d97-4763-a44b-74f03f59d9d3" data-address=""></a>
+            </p>
+            </div>
+
+
+                            </li>
+                            <li>
+                                <p>
+                                    <b>Trener:</b>
+                                    <a class="blockify--mobile" href="/fotballdata/person/profil/?fiksId=2455489">Øystein Sanden</a>
+                                </p>
+
+
+                                
+
+    <a class="revealLink" id="btn_rev_fetch_captcha_1f4cda8e-7043-4915-bda1-9c59ef5f00b5" role="button" data-controll-id="1f4cda8e-7043-4915-bda1-9c59ef5f00b5" data-person-id="2455489">Vis kontaktinformasjon</a>
+    <div id="infoContainer_1f4cda8e-7043-4915-bda1-9c59ef5f00b5" style="display:none;">
+            <p class="">
+                <a href="#" id="email_1f4cda8e-7043-4915-bda1-9c59ef5f00b5" class="address-link_1f4cda8e-7043-4915-bda1-9c59ef5f00b5" data-address=""></a>
+            </p>
+                    <p class="">
+                <a href="#" id="mobilephone_1f4cda8e-7043-4915-bda1-9c59ef5f00b5" class="tel-link_1f4cda8e-7043-4915-bda1-9c59ef5f00b5" data-address=""></a>
+            </p>
+            </div>
+
+
+                            </li>
+                            <li>
+                                <p>
+                                    <b>Ass.trener:</b>
+                                    <a class="blockify--mobile" href="/fotballdata/person/profil/?fiksId=3543784">Andreas Druzkowski</a>
+                                </p>
+
+
+                                
+
+    <a class="revealLink" id="btn_rev_fetch_captcha_6cb59b45-faf6-4c56-ad87-649c48f9f983" role="button" data-controll-id="6cb59b45-faf6-4c56-ad87-649c48f9f983" data-person-id="3543784">Vis kontaktinformasjon</a>
+    <div id="infoContainer_6cb59b45-faf6-4c56-ad87-649c48f9f983" style="display:none;">
+            <p class="">
+                <a href="#" id="email_6cb59b45-faf6-4c56-ad87-649c48f9f983" class="address-link_6cb59b45-faf6-4c56-ad87-649c48f9f983" data-address=""></a>
+            </p>
+                    <p class="">
+                <a href="#" id="mobilephone_6cb59b45-faf6-4c56-ad87-649c48f9f983" class="tel-link_6cb59b45-faf6-4c56-ad87-649c48f9f983" data-address=""></a>
+            </p>
+            </div>
+
+
+                            </li>
+                            <li>
+                                <p>
+                                    <b>Materialforvalter:</b>
+                                    <a class="blockify--mobile" href="/fotballdata/person/profil/?fiksId=3986411">Jon-Anders Schyberg</a>
+                                </p>
+
+
+                                
+
+    <a class="revealLink" id="btn_rev_fetch_captcha_5cd05a4c-bf04-45c0-86b9-96d833123aa6" role="button" data-controll-id="5cd05a4c-bf04-45c0-86b9-96d833123aa6" data-person-id="3986411">Vis kontaktinformasjon</a>
+    <div id="infoContainer_5cd05a4c-bf04-45c0-86b9-96d833123aa6" style="display:none;">
+            <p class="">
+                <a href="#" id="email_5cd05a4c-bf04-45c0-86b9-96d833123aa6" class="address-link_5cd05a4c-bf04-45c0-86b9-96d833123aa6" data-address=""></a>
+            </p>
+                    <p class="">
+                <a href="#" id="mobilephone_5cd05a4c-bf04-45c0-86b9-96d833123aa6" class="tel-link_5cd05a4c-bf04-45c0-86b9-96d833123aa6" data-address=""></a>
+            </p>
+            </div>
+
+
+                            </li>
+                            <li>
+                                <p>
+                                    <b>Fysioterapeut:</b>
+                                    <a class="blockify--mobile" href="/fotballdata/person/profil/?fiksId=2875909">Eirik Tveiten</a>
+                                </p>
+
+
+                                
+
+    <a class="revealLink" id="btn_rev_fetch_captcha_8b3cbe37-0d5d-4073-891c-0d6726dbde1f" role="button" data-controll-id="8b3cbe37-0d5d-4073-891c-0d6726dbde1f" data-person-id="2875909">Vis kontaktinformasjon</a>
+    <div id="infoContainer_8b3cbe37-0d5d-4073-891c-0d6726dbde1f" style="display:none;">
+            <p class="">
+                <a href="#" id="email_8b3cbe37-0d5d-4073-891c-0d6726dbde1f" class="address-link_8b3cbe37-0d5d-4073-891c-0d6726dbde1f" data-address=""></a>
+            </p>
+                    <p class="">
+                <a href="#" id="mobilephone_8b3cbe37-0d5d-4073-891c-0d6726dbde1f" class="tel-link_8b3cbe37-0d5d-4073-891c-0d6726dbde1f" data-address=""></a>
+            </p>
+            </div>
+
+
+                            </li>
+
+            </ul>
+            <a class="show-max-list btn btn--secondary"><span class="icon icon-plus"></span><span class="change-text">Vis alle</span></a>
+        </div>
+
+    
+        <div class="ad-wrap ad-wrap-leaderboard container hidden">
+            <div id="ad">
+                <p class="ad-wrap__description">Annonse:</p>
+            </div>
+            <div class="ad-wrap__ad" style="padding-bottom: 5px;">
+            </div>
+        </div>
+
+
+    <div class="grid__item one-third mobile--one-whole">
+        <h3 class="section-heading no-margin--top">Laginfo</h3>
+        <ul class="clean-list">
+            <li><b>Klubb: </b><a href="/fotballdata/klubb/hjem/?fiksId=3209">Vålerenga Fotball Elite</a></li>
+            <li><b>Krets: </b><a href="/kretser/oslo/">NFF Oslo</a></li>
+            <li><b>Draktfarge (Trøye | Shorts | Sokker): </b><br />Blå | Hvit | Rød</li>
+                <li><b>Hjemmeside: </b><a class="break" href="http://www.vif-fotball.no" target="_blank"><span class="icon icon-ext"></span>www.vif-fotball.no</a></li>
+        </ul>
+    </div>
+
+        <div class="grid__item one-third mobile--one-whole">
+            <h3 class="section-heading no-margin--top">Turneringer</h3>
+            <ul class="clean-list">
+                    <li><a href="/fotballdata/turnering/hjem/?fiksId=186856">Post Nord-ligaen avd. 1</a></li>
+            </ul>
+        </div>
+</section>
+<hr class="transparent small">
+<section class="grid">
+        <div class="grid__item one-half tablet--one-whole mobile--one-whole">
+            <h3 class="section-heading">Neste kamp</h3>
+            <div class="grid next-prev-matches">
+                <div class="grid__item two-sixths mobile--one-half">
+                    <img src="/globalassets/z-klubblogoer/1057.png/medium" />
+                    <p class="medium-heading">Brattvåg</p>
+                </div>
+                <div class="grid__item two-sixths last-match-results">
+                    <p>
+                            <strong><a href="/fotballdata/anlegg/hjem/?fiksId=7823">Brattvåg kunstgress</a></strong>
+                        <br>
+                        30.10.2023 16.30
+                        <br>
+                        <a href="/fotballdata/kamp/?fiksId=8192926">Gå til kampfakta</a>
+                    </p>
+                </div>
+                <div class="grid__item two-sixths mobile--one-half">
+                    <img src="/globalassets/z-klubblogoer/3209.png/medium" />
+                    <p class="medium-heading">Vålerenga 2</p>
+                </div>
+            </div>
+            <hr class="hidden--desktop">
+        </div>
+            <div class="grid__item one-half tablet--one-whole mobile--one-whole">
+            <h3 class="section-heading">Forrige kamp</h3>
+            <div class="grid next-prev-matches">
+                <div class="grid__item two-sixths mobile--one-half">
+                    <img src="/globalassets/z-klubblogoer/3209.png/medium" />
+                    <p class="medium-heading">Vålerenga 2</p>
+                </div>
+                <div class="grid__item two-sixths last-match-results">
+                    <p>
+                        <span class="x-large-heading">2 - 0</span><br>
+                            
+                                <a href="/fotballdata/anlegg/hjem/?fiksId=19380">Intility Arena</a><br>
+                            
+
+                        23.10.2023 19.00<br>
+                        <a href="/fotballdata/kamp/?fiksId=8192923">Gå til kampfakta</a>
+                    </p>
+                </div>
+                <div class="grid__item two-sixths mobile--one-half">
+                    <img src="/globalassets/z-klubblogoer/184.png/medium" />
+                    <p class="medium-heading">Kjelsås</p>
+                </div>
+            </div>
+        </div>
+</section>
+
+        <div class="ad-wrap ad-wrap-topboard container hidden">
+            <div id="ad">
+                <p class="ad-wrap__description">Annonse:</p>
+            </div>
+            <div class="ad-wrap__ad">
+            </div>
+        </div>
+
+
+<hr class="transparent small">
+<section class="grid">
+
+
+        <div class="grid__item one-half mobile--one-whole">
+            <h3 class="section-heading">Kommende kamper</h3>
+            <ul class="match-list">
+        <li>
+            <p class="match-list__teams x-large-heading x-large-heading--light">
+                <a href="/fotballdata/kamp/?fiksId=8192937">Vålerenga 2 - Egersund<span>&nbsp;›</span></a>
+            </p>
+            <p class="match-list__info">
+                04.11.2023 13.00
+
+                    <span> - </span><a href="/fotballdata/anlegg/hjem/?fiksId=19380">Intility Arena</a>
+
+            </p>
+
+        </li>
+        <li>
+            <p class="match-list__teams x-large-heading x-large-heading--light">
+                <a href="/fotballdata/kamp/?fiksId=8192938">Aalesund 2 - Vålerenga 2<span>&nbsp;›</span></a>
+            </p>
+            <p class="match-list__info">
+                11.11.2023 13.00
+
+                    <span> - </span><a href="/fotballdata/anlegg/hjem/?fiksId=9508">Color Line Stadion</a>
+
+            </p>
+
+        </li>
+</ul>
+
+        </div>
+            <div class="grid__item one-half mobile--one-whole">
+            <h3 class="section-heading">Spilte kamper</h3>
+            <ul class="match-list">    
+            <li>
+                <p class="match-list__teams x-large-heading x-large-heading--light">
+                    <a href="/fotballdata/kamp/?fiksId=8192913">Fløy-Flekkerøy <span class="match-list__res">1 - 3</span> Vålerenga 2<span>&nbsp;›</span></a>
+                </p>
+                <p class="match-list__info">
+                    09.10.2023 17.00
+                </p>
+            </li>
+            <li>
+                <p class="match-list__teams x-large-heading x-large-heading--light">
+                    <a href="/fotballdata/kamp/?fiksId=8192905">Fram <span class="match-list__res">3 - 1</span> Vålerenga 2<span>&nbsp;›</span></a>
+                </p>
+                <p class="match-list__info">
+                    02.10.2023 16.00
+                </p>
+            </li>
+            <li>
+                <p class="match-list__teams x-large-heading x-large-heading--light">
+                    <a href="/fotballdata/kamp/?fiksId=8192902">Vålerenga 2 <span class="match-list__res">2 - 1</span> Notodden<span>&nbsp;›</span></a>
+                </p>
+                <p class="match-list__info">
+                    25.09.2023 19.00
+                </p>
+            </li>
+            <li>
+                <p class="match-list__teams x-large-heading x-large-heading--light">
+                    <a href="/fotballdata/kamp/?fiksId=8192894">Træff <span class="match-list__res">1 - 0</span> Vålerenga 2<span>&nbsp;›</span></a>
+                </p>
+                <p class="match-list__info">
+                    18.09.2023 19.00
+                </p>
+            </li>
+</ul>
+
+        </div>
+    <div class="grid__item one-whole">
+        <a class="btn btn--default margin-top--one" href="/fotballdata/lag/kamper/?fiksId=169883">Se alle kamper</a>
+    </div>
+</section>
+<hr class="transparent small">
+    <section class="stats grid centered-text">
+        <div class="grid__item one-whole">
+            <h3 class="margin-bottom--two section-heading lefted-text">Laget i tall</h3>
+        </div>
+
+        <div class="grid__item one-third mobile--one-half right-bordered">
+            <span class="icon icon--fourty-eight icon-ball--fourty-eight"></span>
+            <p>
+                <span class="mega-text deco-text blockify">26</span>
+                <span class="medium-text stats__wide-text">mål hittil i år (<span>spillemål: 24</span>, <span>straffemål: 2</span>), 1<span>&nbsp;</span>selvmål</span>
+            </p>
+
+        </div>
+        <div class="grid__item one-third mobile--one-half right-bordered">
+            <span class="icon icon--fourty-eight icon-pitch--fourty-eight"></span>
+            <p><span class="mega-text deco-text blockify">23</span><span class="medium-text">kamper spilt i år</span></p>
+        </div>
+        <div class="grid__item one-third mobile--one-whole">
+            <span class="icon icon--fourty-eight icon-striker--fourty-eight"></span>
+            <p>
+                <span class="mega-text deco-text blockify">
+
+                        1,1
+                </span><span class="medium-text">mål per kamp</span>
+            </p>
+        </div>
+        <hr>
+    </section>
+
+
+
+
+
+
+    <section class="grid box-feed flex-box"><div class="flex-box__item grid__item one-third mobile--one-whole">
+<div class="box box--huge box--huge-alt">
+    
+
+<a href="/klubb-og-leder/fiks-info-og-support/" target="">
+
+        <span class="li-text li-heading">FIKS - manualer og brukerveiledning<span class="al--arrow--after"></span></span>
+
+        <p class="li-text medium-text">Manualer og veiledning, support, spørsmål og svar, og innlogging til FIKS</p>
+</a>
+</div></div><div class="flex-box__item grid__item one-third mobile--one-whole">
+<div class="box box--huge box--huge-alt">
+    
+
+<a href="/lov-og-reglement/spilleregler/" target="">
+
+        <span class="li-text li-heading">Spilleregler<span class="al--arrow--after"></span></span>
+
+        <p class="li-text medium-text">Spilleregler og retningslinjer for spill på små baner. Barn, ungdom og voksen.</p>
+</a>
+</div></div><div class="flex-box__item grid__item one-third mobile--one-whole">
+<div class="box box--huge box--huge-alt">
+    
+
+<a href="/lov-og-reglement/skjemaer-og-kontrakter/" target="">
+
+        <span class="li-text li-heading">Skjemaer og kontrakter<span class="al--arrow--after"></span></span>
+
+        <p class="li-text medium-text">Her finner du alt av skjemaer og kontrakter, både for topp- og breddefotball.</p>
+</a>
+</div></div><div class="flex-box__item grid__item one-third mobile--one-whole">
+<div class="box box--huge box--huge-alt">
+    
+
+<a href="/lov-og-reglement/overganger/" target="">
+
+        <span class="li-text li-heading">Overganger<span class="al--arrow--after"></span></span>
+
+        <p class="li-text medium-text">Overganger og spillerkontrakter. Avtaler mellom klubber/spillere/formidlere.</p>
+</a>
+</div></div><div class="flex-box__item grid__item one-third mobile--one-whole">
+<div class="box box--huge box--huge-alt">
+    
+
+<a href="/klubb-og-leder/fiks-info-og-support/artikler/endre-person-klubb-og-lagsinformasjon/" target="">
+
+        <span class="li-text li-heading">Endre person, klubb og lagsinformasjon<span class="al--arrow--after"></span></span>
+
+        <p class="li-text medium-text">Hva gjør jeg hvis kontaktinformasjonen min, eller lagets, eller klubbens info er feil? Eller hvis personinfo ikke er tilgjengelig?</p>
+</a>
+</div></div><div class="flex-box__item grid__item one-third mobile--one-whole">
+<div class="box box--huge box--huge-alt">
+    
+
+<a href="/fotballdata/finn-ledige-dommere/" target="">
+
+        <span class="li-text li-heading">Ledige dommere<span class="al--arrow--after"></span></span>
+
+</a>
+</div></div><div class="flex-box__item grid__item one-third mobile--one-whole">
+<div class="box box--huge box--huge-alt">
+    
+
+<a href="/barn-og-ungdom/treningsokta/" target="">
+
+        <span class="li-text li-heading">Treningsøkta<span class="al--arrow--after"></span></span>
+
+        <p class="li-text medium-text">Informasjon om treningsverktøyet Treningsøkta.</p>
+</a>
+</div></div><div class="flex-box__item grid__item one-third mobile--one-whole">
+<div class="box box--huge box--huge-alt">
+    
+
+<a href="/klubb-og-leder/forsikring/" target="">
+
+        <span class="li-text li-heading">Forsikring<span class="al--arrow--after"></span></span>
+
+        <p class="li-text medium-text">Informasjon om NFFs forsikringer for fotball og futsal</p>
+</a>
+</div></div><div class="flex-box__item grid__item one-third mobile--one-whole">
+    <div class="box box--huge box--huge-alt">
+
+        
+
+<a href="/finn-klubbturneringer/" target="">
+
+        <span class="li-text li-heading">Søk cuper <span class="al--arrow--after"></span></span>
+
+        <p class="li-text medium-text">Søk blant alle godkjente turneringer i klubbregi.</p>
+</a>
+    </div>
+</div></section>
+
+</main>
+
+
+<a style="height: 50px; width: 50px; background: #00205B;" title="Til toppen av siden" class="scrollup" href="#top">
+    <span style="bottom: 37px; right: 37px; background-image: url(/Static/images/sprite-white.svg); background-position: 0px -289px;" class="icon icon-arrow-up"></span>Til toppen
+</a>
+
+
+
+
+<span class="waypoint-remover"></span>
+
+
+
+<div class="container">
+    <div class="logo-line logo-line--main grid">
+</div>
+
+</div>
+
+
+
+<footer class="footer">
+    <div class="container">
+        <div class="grid margin-bottom--one">
+    <div class="footer__logo grid__item one-whole">
+        <a href="/" class="blockify"><img class="logo--small" src="/Static/images/nfflogo-mini.svg" alt=""><span>Gå til forsiden</span></a>
+    </div>
+    <hr class="footer__hr">
+            <ul class="grid__item one-quarter tablet--one-half phablet--one-half mobile--one-whole">
+                    <li><a href="/turneringer/">Finn kamper</a></li>
+                    <li><a href="/landslag/">Landslag</a></li>
+                    <li><a href="/kretser/">Kretser</a></li>
+            </ul>
+            <ul class="grid__item one-quarter tablet--one-half phablet--one-half mobile--one-whole">
+                    <li><a href="/barn-og-ungdom/">Barnefotball og ungdomsfotball</a></li>
+                    <li><a href="/lov-og-reglement/">Lov og reglement, skjemaer</a></li>
+                    <li><a href="/fotballens-verdier/">Fotballen, samfunnet og bærekraft</a></li>
+            </ul>
+            <ul class="grid__item one-quarter tablet--one-half phablet--one-half mobile--one-whole">
+                    <li><a href="/klubb-og-leder/">Klubb og leder</a></li>
+                    <li><a href="/dommer/">Dommer</a></li>
+                    <li><a href="/futsal/">Futsal</a></li>
+            </ul>
+
+    <ul class="grid__item one-quarter tablet--one-half phablet--one-half mobile--one-whole footer__social">
+            <li>
+                <a href="https://www.facebook.com/fotballandslaget/">
+                    <span class="icon icon--white icon-facebook2--white hidden--mobile hidden--phablet"></span>
+                    <span class="icon icon--medium-white icon-facebook2--medium-white hidden--tablet-and-up"></span>Facebook
+                </a>
+            </li>
+                    <li>
+                <a href="https://twitter.com/NFF_info">
+                    <span class="icon icon--white icon-twitter2--white hidden--mobile hidden--phablet"></span>
+                    <span class="icon icon--medium-white icon-twitter2--medium-white hidden--tablet-and-up"></span>Twitter
+                </a>
+            </li>
+                    <li>
+                <a href="https://www.instagram.com/fotballandslaget/">
+                    <span class="icon icon--white icon-instagram--white hidden--mobile hidden--phablet"></span>
+                    <span class="icon icon--medium-white icon-instagram--medium-white hidden--tablet-and-up"></span>Instagram
+                </a>
+            </li>
+    </ul>
+</div>
+
+<div class="grid"><div class=" grid__item one-quarter tablet--one-half phablet--one-half mobile--one-whole">    <h5>Nyttig innhold</h5>
+
+<ul><li><a href="/tema/om-nff/">Om NFF</a>
+</li><li>    <a href="/link/9559f3db13f247c2ab3991f700ca0988.aspx" target="" >
+        Se alle overganger og utlån
+    </a>
+</li><li><a href="/tema/nff-nyheter/">NFF-nyheter</a>
+</li><li><a href="/tema/billetter/">Billetter</a>
+</li><li><a href="/tema/medieservice/">Medieservice</a>
+</li><li>    <a href="https://candidate.webcruiter.com/nb-no/Home/companyadverts?&amp;link_source=0&amp;companylock=442000#Search" target="_blank" >
+        Ledige stillinger
+    </a>
+</li><li><a href="/nfftv/">NFF TV</a>
+</li><li><a href="/tema/om-nff/forbundstinget/">Forbundstinget i 2024</a>
+</li><li><a href="/lov-og-reglement/skjemaer-og-kontrakter/">Skjemaer og kontrakter</a>
+</li><li><a href="/tema/vare-samarbeidspartnere/">Våre samarbeidspartnere</a>
+</li><li>    <a href="https://antidoping.no/" target="_blank" >
+        Antidoping Norge
+    </a>
+</li></ul>
+</div><div class=" grid__item one-quarter tablet--one-half phablet--one-half mobile--one-whole">
+<ul><li>    <a href="/link/1f43318892cb49a6b13b1473763faf8c.aspx" target="" >
+        Varsling om uønskede hendelser
+    </a>
+</li><li>    <a href="https://portal.mittvarsel.no/skjema/norges-fotballforbund/h4ciQ0kgOyuEz9NT.572" target="_blank" >
+        Varslingsportal for NFF ansatte
+    </a>
+</li><li>    <a href="/link/c9cf8e0de7ef499e8ff99f4e81bdcbdd.aspx" target="" >
+        Idrettens skadetelefon
+    </a>
+</li><li><a href="/klubb-og-leder/forsikring/">Forsikring</a>
+</li><li>    <a href="https://nff.profilsport.no/produktkategori/fairplay/" target="_blank" >
+        Nettbutikk
+    </a>
+</li><li>    <a href="/link/e5ce9250c42542649147686245cff8d0.aspx" target="" >
+        NFFs strategiplan
+    </a>
+</li></ul>
+</div><div class=" grid__item one-quarter tablet--one-half phablet--one-half mobile--one-whole">    <h5>Datterselskaper</h5>
+
+<ul><li>    <a href="https://www.meet-ullevaal.no/" target="_blank" >
+        Meet Ullevaal
+    </a>
+</li><li>    <a href="https://www.idrettshelse.no/" target="_blank" >
+        Idrettens Helsesenter
+    </a>
+</li><li>    <a href="http://www.ullevaal-stadion.no/" target="_blank" >
+        AS Ullevaal Stadion
+    </a>
+</li><li>    <a href="http://www.ullevaal-stadion.no/" target="_blank" >
+        Ullevaal Stadion Idrett AS
+    </a>
+</li><li>    <a href="http://fotballmedia.no/" target="_blank" >
+        Fotball Media
+    </a>
+</li></ul>
+</div><div class=" grid__item one-quarter tablet--one-half phablet--one-half mobile--one-whole">    <h5>Interesseorganisasjoner</h5>
+
+<ul><li>    <a href="http://www.toppfotball.no/" target="_blank" >
+        Norsk Toppfotball
+    </a>
+</li><li>    <a href="https://toppfotballkvinner.no/" target="_blank" >
+        Toppfotball Kvinner
+    </a>
+</li><li>    <a href="https://norskligafotball.no/" target="_blank" >
+        Norsk Ligafotball
+    </a>
+</li><li>    <a href="http://www.fotballtreneren.no/" target="_blank" >
+        Norsk Fotballtrenerforening
+    </a>
+</li><li>    <a href="http://www.fotballsupporter.no/" target="_blank" >
+        Norsk Supporterallianse
+    </a>
+</li><li>    <a href="http://www.uefa.com/" target="_blank" >
+        UEFA
+    </a>
+</li><li>    <a href="http://www.fifa.com/" target="_blank" >
+        FIFA
+    </a>
+</li></ul>
+</div></div>
+<hr class="footer__hr">
+
+<a href="/sok" class="footer__button btn btn--secondary">Til søk</a>
+
+<div style="color: #00163d">NFF-PRD-WEB02 ver. 11.1.470.0</div>
+
+    </div>
+        <div class="footer__bottom">
+            <div class="container">
+                <div class="editorial-block" style="padding: 0;">
+    <p style="text-align: center;">&copy; 2023 Norges Fotballforbund. All rights reserved.<br />Bes&oslash;ksadresse: Sognsveien 75 J<br />Postadresse: Postboks 5000, Ullevaal Stadion, 0840 Oslo<br />Telefon: 21 02 93 00<br />Pressetelefon: 911 16 156<br />Redakt&oslash;r:&nbsp;<a href="mailto:MariStanisic.Waagaard@fotball.no">Mari Stanisic Waagaard</a></p>
+<p style="text-align: center;">&nbsp;<br />Gjenbruk av innhold kun etter avtale. Automatiserte tjenester som roboter, spidere etc er ikke tillatt brukt p&aring; v&aring;re sider.</p>
+</div>
+
+            </div>
+        </div>
+    <div class="footer__bottom footer__bottom--cookies">
+        <div class="container">
+            <p>Vi bruker <a href="/tema/om-nff/nffs-personvernerklaring/fotball.no/"><u>informasjonskapsler (cookies)</u></a> for &aring; &oslash;ke brukervennligheten i samsvar med Lov om elektronisk kommunikasjon. Informasjonskapsler brukes i tr&aring;d med ditt samtykke basert p&aring; innstillinger i din nettleser.<br /><a href="/tema/om-nff/nffs-personvernerklaring/"><u>Bes&oslash;k v&aring;r informasjonsside om personvern</u></a> for mer detaljer rundt v&aring;r bruk av data.</p>
+<p style="text-align: center;">&nbsp;<br />Design og implementasjon: <a href="https://www.noaignite.no/">Noa Ignite</a>&nbsp;/ Drift: <a href="https://www.isky.no/" target="_blank" rel="noopener">iSky</a></p>
+
+        </div>
+    </div>
+</footer>
+
+
+
+
+
+    <script src="/bundles/defaultscriptbundle?v=5VgJpHprRJPkzt8cIEhNh2a2zzNz2bu0Au0JSe3BQR41"></script>
+
+    
+    
+
+
+    <script>
+	$(document).ready(function() {
+		if ($('.video-content').length > 0) {
+			window.HELP_IMPROVE_VIDEOJS = false;
+
+			$.getScript('/Scripts/videojs-contrib-hls.min.js')
+				.done(function () {
+					$('.video-content').createArkenaPlayer('996210');
+                 });
+		}
+	});
+</script>
+    <script>
+	$(document).ready(function() {
+		$('.more-articles').on('submit', function (e) {
+			e.preventDefault();
+			var formVals = $(this).find(":input").filter(function () {
+				return $.trim(this.value).length > 0
+			}).serialize();
+			DoArticleSearch(formVals, this);
+		});
+
+		$('.get-more-courses').on('click', function(e) {
+			e.preventDefault();
+			var districts = $(this).data('districtids');
+			var templates = $(this).data('templateids');
+			var skip = $(this).data('skip');
+			GetMoreCourses(districts, templates, skip, this);
+		});
+	});
+	function DoArticleSearch(data, form) {
+		$.ajax({
+			url: '/Articles/GetMoreArticles',
+			type: 'POST',
+			data: data,
+			success: function (value) {
+				$(value).insertBefore($(form).parent());
+				var displayed = $(form).find('#displayed');
+				displayed.val(parseInt(displayed.val()) + 6);
+				if (CountArticleResults(value) < 6)
+					$(form).remove();
+			},
+			error: function () {
+				//$('#Results').html('<p>Noe gikk alvorlig feil under søket, vennligst prøv igjen</p>');
+			}
+		});
+	}
+
+	function CountArticleResults(data) {
+		return $(data).filter('div').length;
+	}
+
+	function GetMoreCourses(districtIds, templatesIds, skip, clickedButton) {
+		$.ajax({
+			url: '/Courses/GetMoreCourses',
+			type: 'POST',
+			data: {
+				districtIds: districtIds,
+				templateIds: templatesIds,
+				skip: skip
+			},
+			success: function (value) {
+				$(clickedButton).parent().find('ul.course-list').append(value);
+				$(clickedButton).hide();
+				$(clickedButton).parent().find('hr').hide();
+			},
+			error: function () {
+				//
+			}
+		});
+	}
+</script>
+    <script>
+	$(document).ready(function() {
+		//bit dull, but this bit is for activating a block, dont know on which page, so for now code lives here.
+		if ($('.activate-chart-lib').length > 0) {
+			$.getScript('/Scripts/moment.min.js')
+			.done(function () {
+				console.log("loaded 1");
+				$.getScript('/Scripts/chart.min.js')
+				.done(function () {
+					console.log("loaded 2");
+					var yearlyStats = new Chart(document.getElementById("yearlyStatsCanvas"), {
+						type: 'line',
+						data: {
+							labels: chartLabels,
+							datasets: [
+								{
+									label: "Ungdom Menn",
+									borderColor: "rgba(0, 32, 91, 1)",
+									fill: false,
+									backgroundColor: "rgba(0, 32, 91, 0.2)",
+									pointBorderColor: "rgba(0, 32, 91, 0.8)",
+									pointBackgroundColor: "rgba(0, 32, 91, 1)",
+									pointBorderWidth: 2,
+									pointHoverRadius: 8,
+									pointHoverBackgroundColor: "rgba(0, 32, 91, 0.7)",
+									pointHoverBorderColor: "rgba(0, 32, 91, 0.7)",
+									pointHoverBorderWidth: 3,
+									tension: 0.4,
+									data: chartYouthMen
+								},
+								{
+									label: "Ungdom Kvinner",
+									borderColor: "rgba(200,16,46, 1)",
+									fill: false,
+									backgroundColor: "rgba(200,16,46, 0.2)",
+									pointBorderColor: "rgba(200,16,46, 0.8)",
+									pointBackgroundColor: "rgba(200,16,46, 1)",
+									pointBorderWidth: 2,
+									pointHoverRadius: 8,
+									pointHoverBackgroundColor: "rgba(200,16,46, 0.7)",
+									pointHoverBorderColor: "rgba(200,16,46, 0.7)",
+									pointHoverBorderWidth: 3,
+									tension: 0.4,
+									data: chartYouthWomen
+								},
+								{
+									label: "Menn",
+									borderColor: "rgba(0,126,168, 1)",
+									fill: false,
+									backgroundColor: "rgba(0,126,168, 0.2)",
+									pointBorderColor: "rgba(0,126,168, 0.8)",
+									pointBackgroundColor: "rgba(0,126,168, 1)",
+									pointBorderWidth: 2,
+									pointHoverRadius: 8,
+									pointHoverBackgroundColor: "rgba(0,126,168, 0.7)",
+									pointHoverBorderColor: "rgba(0,126,168, 0.7)",
+									pointHoverBorderWidth: 3,
+									tension: 0.4,
+									data: chartAdultMen
+								},
+								{
+									label: "Kvinner",
+									borderColor: "rgba(101,161,27, 1)",
+									fill: false,
+									backgroundColor: "rgba(101,161,27, 0.2)",
+									pointBorderColor: "rgba(101,161,27, 0.8)",
+									pointBackgroundColor: "rgba(101,161,27, 1)",
+									pointBorderWidth: 2,
+									pointHoverRadius: 8,
+									pointHoverBackgroundColor: "rgba(101,161,27, 0.7)",
+									pointHoverBorderColor: "rgba(101,161,27, 0.7)",
+									pointHoverBorderWidth: 3,
+									tension: 0.4,
+									data: chartAdultWomen
+								}
+							]
+						},
+						options: {
+							tooltips: {
+								mode: 'label',
+								callbacks: {
+									title: function (tooltipItems) {
+										return tooltipItems[0].xLabel;
+									},
+									afterLabel: function () {
+										return ' Lag';
+									}
+								}
+							}
+						}
+					});
+
+				});
+			});
+		}
+	});
+</script>
+    <script>
+	
+		var AdButler;
+
+		$(document).ready(function() {
+			if ($('.ad-wrap').length > 0) {
+
+				var useTopboard = $('.ad-wrap-topboard').length > 0;
+                var useSmartboard = $('.ad-wrap-smartboard').length > 0;
+                var useTopboardMob = $('.ad-wrap-topboard-mobile').length > 0;
+                var useSkyskraper = $('.ad-wrap-skyskraper').length > 0;
+                var useLeaderboard = $('.ad-wrap-leaderboard').length > 0;
+
+                var plc468096 = window.plc468096 || 0; // TOPBOARD    (desktop)   980 x 150
+                var plc468095 = window.plc468095 || 0; // SMARTBOARD  (desktop)   300 x 250
+				var plc468092 = window.plc468092 || 0; // SKYSKRAPER  (desktop)   180 x 500
+
+                var plc590978 = window.plc590978 || 0; // SKYSKRAPER  (supporterklubben)  980 x 150
+                var plc590979 = window.plc590979 || 0; // SMARTBOARD  (supporerklubben)  365 x 304
+
+                var plc468323 = window.plc468323 || 0; // LEADERBOARD (mobil)     320 x 250
+                var plc468324 = window.plc468324 || 0; // TOPBOARD    (mobil)     320 x 100
+
+				$.getScript('https://servedbyadbutler.com/app.js')
+					.done(function() {
+						window.abkw = [
+							'', 'pageId_' + '11',
+							'pageTypeId_' + '15'
+						];
+
+						AdButler = AdButler || {};
+						AdButler.ads = AdButler.ads || [];
+						var abkw = window.abkw || '';
+
+                        if (useSmartboard) {
+							CreateAdPlacement('.ad-wrap-smartboard .ad-wrap__ad', 'placement_468095_' + plc468095);
+                            CreateAdPlacement('.ad-wrap-smartboard .ad-wrap__ad', 'placement_590979_' + plc590979);
+
+						}
+
+                        if (useTopboard) {
+                            CreateAdPlacement('.ad-wrap-topboard .ad-wrap__ad', 'placement_468096_' + plc468096);
+                        }
+
+                        if (useTopboardMob) {
+                            CreateAdPlacement('.ad-wrap-topboard-mobile .ad-wrap__ad', 'placement_468324_' + plc468324);
+						}
+
+                        if (useLeaderboard) {
+                            CreateAdPlacement('.ad-wrap-leaderboard .ad-wrap__ad', 'placement_468323_' + plc468323);
+                        }
+
+                        if (useSkyskraper) {
+							CreateAdPlacement('.ad-wrap-skyskraper .ad-wrap__ad', 'placement_468092_' + plc468092);
+                            CreateAdPlacement('.ad-wrap-skyskraper .ad-wrap__ad', 'placement_590978_' + plc590978);
+                        }
+
+                        $('.ad-placement').bind('DOMSubtreeModified',
+							function (e) {
+								if (e.target.innerHTML.length > 0) {
+									$(this).closest('.ad-wrap').removeClass('hidden');
+								}
+						});
+
+                        
+                            window.onload = function () {
+                            var ws = $(window).width();
+
+                            if (ws < 768) // mobile banner
+                            {
+                                if (useTopboardMob)
+                                    PushAdd(468324, [320, 100], 'placement_468324_', plc468324, abkw);
+
+                                if (useLeaderboard)
+                                    PushAdd(468323, [320, 250], 'placement_468323_', plc468323, abkw);
+                            }
+                            if (ws >= 768) // desktop banner
+                            {
+                                if (useTopboard)
+                                    PushAdd(468096, [980, 150], 'placement_468096_', plc468096, abkw);
+
+                                if (useSkyskraper) {
+                                    PushAdd(468092, [180, 500], 'placement_468092_', plc468092, abkw);                                   
+                                }
+
+                                if (useSmartboard) {
+                                    PushAdd(468095, [539, 150], 'placement_468095_', plc468095, abkw);                                    
+                                }
+
+                            }
+                        }
+                        
+
+
+
+
+					});
+			}
+			});
+
+		function CreateAdPlacement(selector, elementId) {
+			$(selector).append('<div class="ad-placement" id="' + elementId + '"></div>');
+		}
+		function PushAdd(zoneId, size, elementId, zoneVar, keywords) {
+			AdButler.ads.push({
+				handler: function(opt) {
+					AdButler.register(167921, zoneId, size, elementId + opt.place, opt);
+				},
+				opt: { place: zoneVar++, keywords: keywords, domain: 'servedbyadbutler.com', click: 'CLICK_MACRO_PLACEHOLDER' }
+			});
+	    }
+    
+</script>
+    <script>
+	$(document).ready(function() {
+		$('a[href$=".pdf"], a[href$=".doc"], a[href$=".docx"], a[href$=".xls"], a[href$=".xlsx"], a[href$=".ppt"], a[href$=".pptx"]').on('click', function (e) {
+			TrackDocumentClick($(this).attr('href'));
+		});
+
+		//$('a[href$=".pdf"], a[href$=".doc*"], a[href$=".xls*"], a[href$=".ppt*"]').on('mousedown', function (e) {
+		//	e.preventDefault();
+		//	if (e.button == 2) {
+		//		console.log($(this).attr('href'));
+		//		TrackDocumentClick($(this).attr('href'));
+		//	}
+		//});
+	});
+	function TrackDocumentClick(href) {
+		if (typeof ga !== 'undefined') {
+			ga('send', 'pageview', href);
+		}
+	}
+</script>
+    <script>
+    $(document).ready(function () {
+
+        $('.content').click(function () {
+            var prev = $(this).prev();
+            if (prev.hasClass('collapsible')) {
+                SetAsFirstUrlParam(prev.attr('id'));
+            }
+        });
+
+        $('.collapsible').click(function () {
+            $(this).find('.arrow').toggleClass('down');
+            $(this).find('.arrow').toggleClass('right');
+            $(this).next('.content').slideToggle(500, 'swing');
+            ToggleUrlParam(this.id);
+            return false;
+        });
+
+        $(".menuButton").click(function () {
+
+            $(".collapsed, .expanded").toggleClass("collapsed expanded");
+        });
+
+
+
+        $(function () {
+            $(".menulink").each(function () {
+                if ($(this).attr("href") === window.location.pathname) {
+                    $(this).addClass("loaded");
+                }
+            });
+        });
+
+
+    });
+</script>
+
+    
+<script type="text/javascript">
+    function addRecaptchaEventListeners() {
+        //Adding event handlers to any reveal buttons.        
+        var revealButtons = document.querySelectorAll('[id^="btn_rev_fetch_captcha_"]');
+        revealButtons.forEach(function (revealButton) {
+            revealButton.addEventListener('click', function () {
+                var personId = this.getAttribute('data-person-id');
+                var controllId = this.getAttribute('data-controll-id');
+
+                // Initialize reCAPTCHA
+                grecaptcha.ready(function () {
+                    grecaptcha.execute('6LclITQoAAAAAEmMb_egyLrBd6xaTRm_s9H0FRo0', { action: 'reveal_info' }).then(function (token) {
+                        // Required to send the recaptcha token to server for verification
+                        fetch(`/Person/ValidateTokenAndGetPersonInfo?recaptchaToken=${token}&personId=${personId}`)
+                            .then(
+                                response => {
+                                    // Parse and return the JSON response
+                                    return response.json()
+                                }
+                            )
+                            .then(data => {
+                                var updatedEmail = false;
+                                var updatedTel = false;
+
+                                // Update the person information returned by the server
+                                if (document.querySelector(`#email_${controllId}`) != null && data.EmailObfuscated && data.EmailObfuscated.length > 0) {
+                                    document.getElementById(`email_${controllId}`).setAttribute("data-address", data.EmailObfuscated);
+                                    updatedEmail = true;
+                                }
+                                if (document.querySelector(`#mobilephone_${controllId}`) != null && data.MobilePhoneObfuscated && data.MobilePhoneObfuscated.length > 0) {
+                                    document.getElementById(`mobilephone_${controllId}`).setAttribute("data-address", data.MobilePhoneObfuscated);
+                                    updatedTel = true;
+                                }
+                                if (document.querySelector(`#workphone_${controllId}`) != null && data.WorkPhoneObfuscated && data.WorkPhoneObfuscated.length > 0) {
+                                    document.getElementById(`workphone_${controllId}`).setAttribute("data-address", data.WorkPhoneObfuscated);
+                                    updatedTel = true;
+                                }
+
+                                // Hide the reveal button and show the person information
+                                if (updatedEmail || updatedTel) {
+                                    if (document.querySelector(`#infoContainer_${controllId}`) != null) {
+                                        document.getElementById(`infoContainer_${controllId}`).style.display = 'block';
+                                    }
+                                    if (document.querySelector(`#btn_rev_fetch_captcha_${controllId}`) != null) {
+                                        document.getElementById(`btn_rev_fetch_captcha_${controllId}`).style.display = 'none';
+                                    }
+
+                                    //Bind the email and telephone links
+                                    if (updatedEmail) {
+                                        BindAddressLinks('.address-link_' + controllId);
+                                    }
+
+                                    if (updatedTel) {
+                                        BindTeleLinks('.tel-link_' + controllId);
+                                    }
+                                }
+                            })
+                            .catch((error) => {
+                                console.error('Failed to verify reCAPTCHA or fetch the info. Please try again.');
+                                console.error('Error:', error);
+                            });
+                    });
+                });
+            });
+        });
+
+        var revealButtonsOnlyCaptcha = document.querySelectorAll('[id^="btn_rev_captcha_"]');
+
+        revealButtonsOnlyCaptcha.forEach(function (revealButton) {
+            revealButton.addEventListener('click', function () {
+                var controllId = this.getAttribute('data-controll-id');
+
+                // Initialize reCAPTCHA
+                grecaptcha.ready(function () {
+                    grecaptcha.execute('6LclITQoAAAAAEmMb_egyLrBd6xaTRm_s9H0FRo0', { action: 'reveal_info' }).then(function (token) {
+                        // Required to send the recaptcha token to server for verification
+                        fetch(`/Person/ValidateToken?recaptchaToken=${token}`)
+                            .then(
+                                response => {
+                                    // Parse and return the JSON response
+                                    return response.json()
+                                }
+                            )
+                            .then(data => {
+                                // Hide the reveal button and show the person information
+                                if (document.querySelector(`#infoContainer_${controllId}`) != null) {
+                                    document.getElementById(`infoContainer_${controllId}`).style.display = 'block';
+                                }
+
+                                // Hides the clicked button
+                                if (document.querySelector(`#btn_rev_captcha_${controllId}`) != null) {
+                                    document.getElementById(`btn_rev_captcha_${controllId}`).style.display = 'none';
+                                }
+                                //Bind the email and telephone links
+                                BindAddressLinks('.address-link_' + controllId);
+                                BindTeleLinks('.tel-link_' + controllId);
+                            })
+                            .catch((error) => {
+                                console.error('Failed to verify reCAPTCHA or fetch the info. Please try again.');
+                                console.error('Error:', error);
+                            });
+                    });
+                });
+            });
+        });
+       
+    };
+
+    //Tracking page_view for more accurate reCapatche score
+    grecaptcha.ready(function () {
+        grecaptcha.execute('6LclITQoAAAAAEmMb_egyLrBd6xaTRm_s9H0FRo0', { action: 'page_view' });
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        addRecaptchaEventListeners();
+    });
+
+</script>
+
+<!-- Matomo -->
+<script>
+  var _paq = window._paq = window._paq || [];
+  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+ _paq.push(['setCustomUrl', location.href.toLowerCase()]); 
+ _paq.push(['trackPageView']);
+ _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="https://matomo.fotball.no/";
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+        const mailtoLinks = document.querySelectorAll("a[class^='address-link_']");
+
+        for (let i = 0; i < mailtoLinks.length; i++) {
+            mailtoLinks[i].addEventListener("click", function(e) {
+                _paq.push(['trackEvent', 'Mailto', 'Click', this.href]);
+            });
+        }
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const revealLinks = document.querySelectorAll("a.revealLink");
+
+        revealLinks.forEach(link => {
+            link.addEventListener("click", function(e) {
+                const personId = this.getAttribute('data-person-id');
+                _paq.push(['trackEvent', 'RevealLink', 'Click', personId]);
+            });
+        });
+    });
+</script>
+
+<!-- End Matomo Code -->
+    <script type="text/javascript" src="https://play2.qbrick.com/qbrick-player/framework/GoBrain.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            initWaypoint();
+        });
+    </script>
+</body>
+</html>
