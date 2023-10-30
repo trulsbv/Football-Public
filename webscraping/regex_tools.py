@@ -116,13 +116,20 @@ def get_krets(html):
     return False
     
 
-def analysis(str):
+def analysis(text):
     out = {}
-    out["lag"] = standard_reg(str, r'<li class="([^"]*)"')
-    out["type"] = standard_reg(str, r'<span class="match-event">\s*(.*)')
-    out["minutt"] = standard_reg(str, r'<b>(\d+)<\/b>')
-    out["lenke"] = find_urls(str)
-    out["navn"] = standard_reg(str, r'<a href="[^"]*">(.*)<\/a>')
+    out["lag"] = standard_reg(text, r'<li class="([^"]*)"').replace(" sametime-event", "")
+    out["minutt"] = standard_reg(text, r'<b>(\d+)<\/b>')
+    out["lenke"] = find_urls(str(text))
+    out["id"] = standard_reg(text, r'<li class="[^"]*" id="([^"]*)"')
+    out["type"] = standard_reg(text, r'<span class="match-event">\s*(.*)')
+    if out["type"] == "Bytte inn" or out["type"] == "Bytte ut":
+        r = standard_reg_two(text, r'<a href="[^"]*">(.*)<\/a>')
+        s1 = (r[0], out["lenke"][0])
+        s2 = (r[1], out["lenke"][1])
+        out["navn"] = (s1, s2) if out["type"] == "Bytte ut" else (s2, s1)
+    else:
+        out["navn"] = standard_reg(text, r'<a href="[^"]*">(.*)<\/a>')
     return out
 
 def standard_reg(text, pat):
@@ -131,3 +138,37 @@ def standard_reg(text, pat):
     if match:
         return match.group(1)
     return False
+
+def standard_findall(text, pat):
+    team_pat = re.compile(pat)
+    match = team_pat.findall(str(text))
+    if match:
+        return match
+    return False
+
+def standard_reg_two(text, pat):
+    team_pat = re.compile(pat)
+    match = team_pat.findall(str(text))
+    if match:
+        return (match[0], match[1])
+    return False
+
+def get_name_url(text):
+    unrefined_name = standard_reg(str(text), r'<a class="player-name" href="[^"]*">([^<.]*)')
+    list_name = standard_findall(str(unrefined_name), r'([^-\s]*)')
+    prev = False
+    name = ""
+    for item in list_name:
+        if prev:
+            name += " "
+            prev = False
+        if item:
+            name+=item
+            prev = True
+    name = name[:-1] if name[-1] == " " else name
+    name = name.replace(" (strøket)", "")
+    url = find_urls(str(text))[0]
+    return (name, url)
+
+def li_class(text):
+    return standard_reg(str(text), r'<li class="([^"]*)">')

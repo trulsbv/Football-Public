@@ -2,6 +2,7 @@ from colorama import Fore
 prev_len = 0
 pos = "✓"
 neg = "✘"
+prev_str = ""
 
 def fill_blanks(string, meta):
     while len(string)-meta < prev_len:
@@ -18,14 +19,21 @@ def _prints(s, newline, meta=0):
         print(s, end='\r')
         prev_len = len(s)-meta
 
-def success(where):
-    s = f"{Fore.GREEN}{pos}{Fore.RESET} {where}"
+def success(where=None):
+    global prev_str
+    s = ""
+    if where:
+        s += f"{Fore.GREEN}{pos}{Fore.RESET} {where}"
+    else:
+        s += f"{Fore.GREEN}{pos}{Fore.RESET} {prev_str}"
     meta = len(f"{Fore.RESET}{Fore.RESET}")
     _prints(s, True, meta)
 
 def start(where):
+    global prev_str
     s = f"{Fore.CYAN}→{Fore.RESET} {where}"
     meta = len(f"{Fore.CYAN}{Fore.RESET}")
+    prev_str = where
     _prints(s, False, meta)
 
 def error(where, message="No reason given, sorry."):
@@ -53,9 +61,6 @@ def download(url):
     meta = len(f"{Fore.CYAN}{Fore.RESET}")
     _prints(s, False, meta)
 
-def info(message, sender="INFO", newline=False):
-    """
-    Prints a message to the user
-    """
-    s = f"[{sender.upper()}] {message}"
+def info(message, sender="?", newline=False):
+    s = f"{sender} {message}"
     _prints(s, newline)

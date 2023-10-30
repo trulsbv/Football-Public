@@ -48,8 +48,9 @@ class Turnering():
     
     def create_lag(self, navn, url):
         if not navn in self.lag:
-            self.lag[navn] = Lag()
-            self.lag[navn].page = Page(url)
+            self.lag[navn] = Lag(Page(url))
+            # Dette er dust, må ha en egen funksjon for dette din dritt
+            self.lag[navn].navn = self.lag[navn]._set_navn()
         return self.lag[navn]
         
 
@@ -77,8 +78,7 @@ class Terminliste():
             
             hjemmelag = self.turnering.create_lag(_hjemmelag, urls[1])
             bortelag = self.turnering.create_lag(_bortelag, urls[3])
-            hendelser = Hendelser()
-            hendelser.page = Page(urls[2])
+            hendelser = Hendelser(Page(urls[2]))
             bane = Bane()
             bane.page = Page(urls[4])
 
@@ -87,6 +87,10 @@ class Terminliste():
     
 
 class Kamp():
+    hendelser = []
+    hometeam = None,
+    awayteam = None
+
     def __init__(self, runde, dato, dag, tid, hjemmelag, resultat, bortelag, bane, kampnummer):
         self.runde = runde
         self.dato = dato
@@ -97,9 +101,18 @@ class Kamp():
         self.bortelag = bortelag # Page - To the team
         self.bane = bane # Page - To the pitch
         self.kampnummer = kampnummer
+
+    def _is_played(self):
+        return datetime.strptime(self.dato, "%d.%m.%Y") < datetime.today()
     
     def analyse(self):
-        self.resultat.analyse(self)
+        if self._is_played():
+            self.hendelser = self.resultat.analyse(self)
+            result = self.resultat.get_team_sheet()
+            if result:
+                hometeam, awayteam = self.resultat.get_team_sheet()
+        else:
+            prints.warning(f"{self.hjemmelag} - {self.bortelag} has not been played yet!")
     
     def __repr__(self) -> str:
         s = f"{self.runde} ({self.dag} {self.dato} kl. {self.tid}) {self.hjemmelag} "
@@ -116,112 +129,188 @@ class Hendelser():
     page = None
     kamp = None
 
+    def __init__(self, page):
+        self.page = page
+
     def analyse(self, parent):
+        self.hendelser = []
         self.kamp = parent
         if len(self.uref_hendelser) == 0:
-            print("Henter events")
             self._get_events()
             
-            print("Hentet events")
         for text in self.uref_hendelser:
-            f = Factory(parent, text)
-            self.hendelser.append(f.analyse())
-        
-        i = 0
-        while i < len(self.hendelser):
-            if type(self.hendelser[i]) == Bytte:
-                self.hendelser[i] = self.hendelser[i] + self.hendelser[i+1]
-                self.hendelser.remove(self.hendelser[i+1])
-
-        print(self.hendelser)
+            h = self._analyse(text)
+            if h:
+                self.hendelser.append(h)
+        return self.hendelser
 
     def _get_events(self):
         self.uref_hendelser = []
         document = BeautifulSoup(self.page.html.text, "html.parser")
         f = document.find(class_="section-heading no-margin--bottom", string=re.compile("^Hendelser"))
+        if not f:
+            return
         table = f.find_next("ul")
+        for found in table.find_all("li"):
+            if rt.li_class(found) == "clear-li":
+                continue
+            self.uref_hendelser.append(found)
+    
+    def get_team_sheet(self):
+        hometeam = [[], []]
+        awayteam = [[], []]
+        document = BeautifulSoup(self.page.html.text, "html.parser")
+        f = document.find(class_="section-heading", string=re.compile("^Kamptroppen"))
+        if not f:
+            prints.error(self, f"Failed to find 'Kamptroppen' in {self.page.url}")
+            return False
+        table = f.find_next("ul")
+        i = 1
+        for found in table.find_all("li"):
+            player_name, player_url = rt.get_name_url(found)
+            player = self.kamp.hjemmelag.get_player(player_name, player_url)
 
-        self.uref_hendelser = table.find_all("li")
+            if i > 11:
+                hometeam[1].append(player)
+            else:
+                hometeam[0].append(player)
+            i+=1
 
-    def __repr__(self) -> str:
-        home_goals = 0
-        away_goals = 0 
-        if self.kamp == None:
-            return f"{home_goals} - {away_goals}"
-        
-        for item in self.hendelser:
-            if type(item) == Maal(): # Spillemaal / straffemaal?
-                if item.team == self.kamp.hjemmelag:
-                    home_goals += 1
-                else:
-                    away_goals += 1
-        return f"{home_goals} - {away_goals}"
+        table = table.find_next("ul")
+        i = 1
+        for found in table.find_all("li"):
+            player_name, player_url = rt.get_name_url(found)
+            player = self.kamp.bortelag.get_player(player_name, player_url)
 
-class Factory():
-    def __init__(self, game, text):
-        self.game = game
-        self.text = text
+            if i > 11:
+                awayteam[1].append(player)
+            else:
+                awayteam[0].append(player)
+            i+=1
 
-    def analyse(self):
-        r = rt.analysis(self.text)
+        return (hometeam, awayteam)
+    
+    def _analyse(self, text):
+        r = rt.analysis(text)
         lag = r["lag"]
         type = r["type"]
         minutt = r["minutt"]
         lenke = r["lenke"]
         navn = r["navn"]
-        id = r["id"]
-        print(type)
-
+        
         match type:
-            case "Spillemål": type = Spillemaal(self.game, minutt, lag, (navn, lenke))
-            case "Advarsel": type = GultKort(self.game, minutt, lag, (navn, lenke))
-            case "Bytte inn": type = Bytte(self.game, minutt, lag, (navn, lenke), None, id)
-            case "Bytte ut": type = Bytte(self.game, minutt, lag, None, (navn, lenke), id)
-            case _: prints.warning(self, f"{type} not handled!"); type = None
-
+            case "Spillemål": type = Spillemaal(self.kamp, minutt, lag, (navn, lenke))
+            case "Straffemål": type = Straffemaal(self.kamp, minutt, lag, (navn, lenke))
+            case "Selvmål": type = Selvmaal(self.kamp, minutt, lag, (navn, lenke))
+            case "Advarsel": type = GultKort(self.kamp, minutt, lag, (navn, lenke))
+            case "Utvisning": type = RodtKort(self.kamp, minutt, lag, (navn, lenke))
+            case "Bytte inn": type = Bytte(self.kamp, minutt, lag, (navn, lenke))
+            case "Bytte ut": type = Bytte(self.kamp, minutt, lag, (navn, lenke))
+            case "Advarsel for Leder": return None
+            case "Utvisning for Leder": return None
+            case _: prints.error(self, f"{type} not handled! {self.parent.page.url}\n{text}"); type = None; exit()
         return type # Spiller, tid, spillemål/straffe?
+
+    def _get_team(self, str):
+        if str == "home-team":
+            return self.kamp.hjemmelag
+        if str == "away-team":
+            return self.kamp.bortelag
+        prints.warning(self, f"'{str}' not valid for team")
+
+    def __repr__(self) -> str:
+        home_goals = 0
+        away_goals = 0
+
+        if self.kamp == None:
+            return f"{home_goals} - {away_goals}"
+        
+        for item in self.hendelser:
+            if (type(item) == Spillemaal or type(item) == Straffemaal): # Spillemaal / straffemaal?
+                if item.team == self.kamp.hjemmelag:
+                    home_goals += 1
+                else:
+                    away_goals += 1
+            if (type(item) == Selvmaal):
+                if item.team == self.kamp.hjemmelag:
+                    away_goals += 1
+                else:
+                    home_goals += 1
+        return f"{home_goals} - {away_goals}"
+
 class Hendelse():
     def __init__(self, game, time, team):
         self.game = game
         self.time = time
-        self.team = game.hjemmelag if team == "home team" else game.bortelag
+        self.team = game.hjemmelag if team == "home-team" else game.bortelag
+    
+    def __repr__(self) -> str:
+        return f"{self.time} "
 
 class Kort(Hendelse):
     def __init__(self, game, time, team, player):
         super().__init__(game, time, team)
         self.player = player
+    
+    def __repr__(self) -> str:
+        return super().__repr__()
 
 class GultKort(Kort):
     def __init__(self, game, time, team, player):
         super().__init__(game, time, team, player)
+    
+    def __repr__(self) -> str:
+        return super().__repr__()+" gult kort"
 
 class RodtKort(Kort):
     def __init__(self, game, time, team, player):
         super().__init__(game, time, team, player)
+    
+    def __repr__(self) -> str:
+        return super().__repr__()+" rødt kort"
 
 class Bytte(Hendelse):
-    def __init__(self, game, time, team, player_in, player_out, id):
+    def __init__(self, game, time, team, player):
         super().__init__(game, time, team)
-        self.player_in = player_in
-        self.player_out = player_out
-        self.id = id
+        self.player_in = player[0]
+        self.player_out = player[1]
+    
+    def __repr__(self) -> str:
+        return super().__repr__()+" bytte"
 
 class Maal(Hendelse):
     def __init__(self, game, time, team, player):
         super().__init__(game, time, team)
         self.player = player
+    
+    def __repr__(self) -> str:
+        return super().__repr__()
 
 class Spillemaal(Maal):
     def __init__(self, game, time, team, player):
         super().__init__(game, time, team, player)
+    
+    def __repr__(self) -> str:
+        return super().__repr__()+" spillemål"
 
 class Straffemaal(Maal):
     def __init__(self, game, time, team, player):
         super().__init__(game, time, team, player)
+    
+    def __repr__(self) -> str:
+        return super().__repr__()+" straffemål"
+
+class Selvmaal(Maal):
+    def __init__(self, game, time, team, player):
+        super().__init__(game, time, team, player)
+    
+    def __repr__(self) -> str:
+        return super().__repr__()+" selvmål"
 
 class Bane():
-    page = None
-    navn = None
+    def __init__(self):
+        self.page = None
+        self.navn = None
 
     def fetch_info(self):
         self.navn, self.underlag, self.banetype, self.belysning, self.lengde, self.bredde, self.driftsform, self.krets = ft.get_baneinfo(self.page.html.text)
@@ -232,9 +321,39 @@ class Bane():
         return self.navn
 
 class Lag():
-    spillere = []
-    page = None
-    navn = None
+    def __init__(self, page):
+        self.spillere = []
+        self.page = page
+        self.navn = None
+
+    def print_team(self):
+        self.spillere.sort()
+        print(self.navn, f"({len(self.spillere)})")
+        for player in self.spillere:
+            print(" -",player)
+
+    def set_navn(self):
+        self.navn = self._set_navn()
+
+    def get_player(self, name, url=False):
+        if not url:
+            prints.warning(self, "Player url not provided")
+            exit()
+        
+        # Only suggest unless we have the correct url.
+        for player in self.spillere:
+            if url == player.url and name == player.name:
+                return player
+            if url == player.url:
+                inp = input(f"Is {url} the url of {player.name} instead of {name}? [Enter for yes]")
+                if inp == "":
+                    player.name = name
+                    return player
+        
+        player = Spiller(self, name, url)
+        prints.warning(self, f"Created a new player: {name}, lacking number and position", newline=False)
+        self.spillere.append(player)
+        return player
 
     def _set_navn(self):
         if not rt.get_team_name(self.page.html.text):
@@ -246,28 +365,35 @@ class Lag():
     
     def __repr__(self) -> str:
         if self.navn == None:
-            self.navn = self._set_navn()
+            self.set_navn()
         return self.navn
 
 
 class Spiller():
-    def __init__(self, team, name, number, position):
+    def __init__(self, team, name, url):
         self.team = team
         self.name = name
-        self.number = number
-        self.position = position
+        self.url = url
+        self.number = False
+        self.position = False
+
+    def __lt__(self, obj):
+        return ((self.name) < (obj.name)) 
+
+    def __repr__(self) -> str:
+        return self.name
 
 def main():
     hoved = Hovedside()
     prints.start("Hovedside")
     hoved.page = Page("https://www.fotball.no/turneringer/")
-    prints.success("Hovedside")
+    prints.success()
 
     
     prints.start("Turneringer")
     try:
         hoved.fetch_turneringer()
-        prints.success("Turneringer")
+        prints.success()
     except PageNotFoundError as e:
         prints.error("Turneringer", e)
         exit()
@@ -278,7 +404,7 @@ def main():
     prints.start("Postnord avd. 1")
     try:
         postnord1 = hoved.get_turnering("Post Nord-ligaen avd. 1")
-        prints.success("Postnord avd. 1")
+        prints.success()
     except:
         prints.error("Postnord avd. 1")
         exit()
@@ -287,28 +413,25 @@ def main():
     try:
         pn1_terminliste = Terminliste(postnord1)
         pn1_terminliste.page = Page(postnord1.get_termin_url())
-        prints.success("Terminliste")
+        prints.success()
     except:
         prints.error("Terminliste")
         exit()
 
-    prints.start("Finne dager")
-    dager = {}
+    prints.start("Analysere kamper")
     pn1_terminliste.fetch_kamper()
     
     for game in pn1_terminliste.kamper:
         game.analyse()
-        return
-        print(game)
-        if game.dag in dager:
-            dager[game.dag] += 1
-        else:
-            dager[game.dag] = 1
-    prints.success("Finne dager")
-    print(dager)
+        prints.info(game, newline=False)
+    prints.success()
+
+    print("Antall lag:", len(postnord1.lag))
+
+    for lag in postnord1.lag:
+        postnord1.lag[lag].print_team()
+
     print(f"Antall sider hentet: {wt.fetches}")
-
-
 
 if __name__=="__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "-log":
