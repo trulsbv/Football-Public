@@ -5,14 +5,15 @@ from bs4 import BeautifulSoup
 import prints, sys
 from errors.PageNotFoundError import PageNotFoundError
 from Page import Page
-import settings, re
+import settings, re, os
 from datetime import date, datetime
 
 serier=["Eliteserien"]
 
 class Hovedside():
-    turneringer = []
-    page = None
+    def __init__(self):
+        self.turneringer = []
+        self.page = None
     
     def get_turnering(self, navn):
         if self.turneringer is []:
@@ -35,16 +36,18 @@ class Hovedside():
 
 
 class Turnering():
-    terminliste = None
-    lag = {}
-    analyser = None
-    page = None
-
     def __init__(self, parent):
         self.hovedside = parent
+        self.terminliste = None
+        self.lag = {}
+        self.analyser = None
+        self.page = None
 
     def get_termin_url(self):
-        return self.page.url.replace("hjem", "terminliste")
+        document = BeautifulSoup(self.page.html.text, "html.parser")
+        ml = document.find(class_="match-list")
+        btn = ml.find_next(class_="btn btn--default")
+        return rt.find_urls(str(btn))[0]
     
     def create_lag(self, navn, url):
         if not navn in self.lag:
@@ -55,11 +58,10 @@ class Turnering():
         
 
 class Terminliste():
-    kamper = []
-    page = None
-
     def __init__(self, parent):
         self.turnering = parent
+        self.kamper = []
+        self.page = None
 
     def fetch_kamper(self):
         document = BeautifulSoup(self.page.html.text, "html.parser")
@@ -74,7 +76,10 @@ class Terminliste():
                 continue
             urls = rt.find_urls(str(row))
             cells_text = [cell.get_text(strip=True) for cell in cells]
-            runde, dato, dag, tid, _, _hjemmelag, _resultat, _bortelag, _bane, kampnr = cells_text
+            try:
+                runde, dato, dag, tid, _, _hjemmelag, _resultat, _bortelag, _bane, kampnr = cells_text
+            except:
+                runde, dato, dag, tid, _, _hjemmelag, _resultat, _bortelag, _bane, kampnr, _live = cells_text
             
             hjemmelag = self.turnering.create_lag(_hjemmelag, urls[1])
             bortelag = self.turnering.create_lag(_bortelag, urls[3])
@@ -84,13 +89,8 @@ class Terminliste():
 
             kamp = Kamp(runde, dato, dag, tid, hjemmelag, hendelser, bortelag, bane, kampnr)
             self.kamper.append(kamp)
-    
 
 class Kamp():
-    hendelser = []
-    hometeam = None,
-    awayteam = None
-
     def __init__(self, runde, dato, dag, tid, hjemmelag, resultat, bortelag, bane, kampnummer):
         self.runde = runde
         self.dato = dato
@@ -101,40 +101,51 @@ class Kamp():
         self.bortelag = bortelag # Page - To the team
         self.bane = bane # Page - To the pitch
         self.kampnummer = kampnummer
+        self.hendelser = []
+
+        self.hometeam = None
+        self.awayteam = None
+        self.spectators = None
+        self.winner = None
+        self.score = None
 
     def _is_played(self):
-        return datetime.strptime(self.dato, "%d.%m.%Y") < datetime.today()
+        return datetime.strptime(self.dato, "%d.%m.%Y") < current_date
     
     def analyse(self):
         if self._is_played():
-            self.hendelser = self.resultat.analyse(self)
-            result = self.resultat.get_team_sheet()
+            result = self.resultat.get_team_sheet(self)
+            self.hendelser = self.resultat.analyse()
             if result:
-                hometeam, awayteam = self.resultat.get_team_sheet()
+                self.hometeam, self.awayteam = result
+            self.score = self.resultat.get_result()
+            if self.score[0] > self.score[1]:
+                self.winner = self.hjemmelag
+            elif self.score[0] < self.score[1]:
+                self.winner = self.bortelag
         else:
             prints.warning(f"{self.hjemmelag} - {self.bortelag} has not been played yet!")
     
     def __repr__(self) -> str:
         s = f"{self.runde} ({self.dag} {self.dato} kl. {self.tid}) {self.hjemmelag} "
-        if datetime.strptime(self.dato, "%d.%m.%Y") < datetime.today():
+        if datetime.strptime(self.dato, "%d.%m.%Y") < current_date:
             s += f"{self.resultat} "
         else:
             s += " -  "
         s += f"{self.bortelag}, {self.bane} ({self.kampnummer})"
+        if self.spectators:
+            s += f" - {self.spectators} attended"
         return s
 
 class Hendelser():
-    hendelser = []
-    uref_hendelser = []
-    page = None
-    kamp = None
-
     def __init__(self, page):
         self.page = page
-
-    def analyse(self, parent):
         self.hendelser = []
-        self.kamp = parent
+        self.uref_hendelser = []
+        self.kamp = None
+
+    def analyse(self):
+        self.hendelser = []
         if len(self.uref_hendelser) == 0:
             self._get_events()
             
@@ -142,10 +153,20 @@ class Hendelser():
             h = self._analyse(text)
             if h:
                 self.hendelser.append(h)
+            elif h == False:
+                if input("\nRestart? Press [Enter] for accept") == "":
+                    prints.RESTART()
+                    os.execv(sys.executable, ['python'] + sys.argv)
+
+        document = BeautifulSoup(self.page.html.text, "html.parser")
+        gi = document.find(class_="grid__item grid__item match__arenainfo one-third margin-top--two right-bordered mobile--one-whole")
+        if gi:
+            self.kamp.spectators = rt.get_spectators(gi)
         return self.hendelser
 
     def _get_events(self):
         self.uref_hendelser = []
+
         document = BeautifulSoup(self.page.html.text, "html.parser")
         f = document.find(class_="section-heading no-margin--bottom", string=re.compile("^Hendelser"))
         if not f:
@@ -156,7 +177,8 @@ class Hendelser():
                 continue
             self.uref_hendelser.append(found)
     
-    def get_team_sheet(self):
+    def get_team_sheet(self, parent):
+        self.kamp = parent
         hometeam = [[], []]
         awayteam = [[], []]
         document = BeautifulSoup(self.page.html.text, "html.parser")
@@ -171,8 +193,10 @@ class Hendelser():
             player = self.kamp.hjemmelag.get_player(player_name, player_url)
 
             if i > 11:
+                player.matches["benched"].append(self.kamp)
                 hometeam[1].append(player)
             else:
+                player.matches["started"].append(self.kamp)
                 hometeam[0].append(player)
             i+=1
 
@@ -183,8 +207,10 @@ class Hendelser():
             player = self.kamp.bortelag.get_player(player_name, player_url)
 
             if i > 11:
+                player.matches["benched"].append(self.kamp)
                 awayteam[1].append(player)
             else:
+                player.matches["started"].append(self.kamp)
                 awayteam[0].append(player)
             i+=1
 
@@ -197,18 +223,20 @@ class Hendelser():
         minutt = r["minutt"]
         lenke = r["lenke"]
         navn = r["navn"]
-        
+
+        lag = self.kamp.hjemmelag if "home-team" == lag else self.kamp.bortelag
         match type:
             case "Spillemål": type = Spillemaal(self.kamp, minutt, lag, (navn, lenke))
             case "Straffemål": type = Straffemaal(self.kamp, minutt, lag, (navn, lenke))
             case "Selvmål": type = Selvmaal(self.kamp, minutt, lag, (navn, lenke))
             case "Advarsel": type = GultKort(self.kamp, minutt, lag, (navn, lenke))
             case "Utvisning": type = RodtKort(self.kamp, minutt, lag, (navn, lenke))
-            case "Bytte inn": type = Bytte(self.kamp, minutt, lag, (navn, lenke))
-            case "Bytte ut": type = Bytte(self.kamp, minutt, lag, (navn, lenke))
+            case "Bytte inn": type = Bytte(self.kamp, minutt, lag, navn)
+            case "Bytte ut": type = Bytte(self.kamp, minutt, lag, navn)
             case "Advarsel for Leder": return None
             case "Utvisning for Leder": return None
-            case _: prints.error(self, f"{type} not handled! {self.parent.page.url}\n{text}"); type = None; exit()
+            case "Kampen er slutt": return None
+            case _: prints.error(self, f"\"{type}\" not handled! {self.page.url}\n{text}"); return False
         return type # Spiller, tid, spillemål/straffe?
 
     def _get_team(self, str):
@@ -218,12 +246,12 @@ class Hendelser():
             return self.kamp.bortelag
         prints.warning(self, f"'{str}' not valid for team")
 
-    def __repr__(self) -> str:
+    def get_result(self):
         home_goals = 0
         away_goals = 0
 
         if self.kamp == None:
-            return f"{home_goals} - {away_goals}"
+            return
         
         for item in self.hendelser:
             if (type(item) == Spillemaal or type(item) == Straffemaal): # Spillemaal / straffemaal?
@@ -236,13 +264,18 @@ class Hendelser():
                     away_goals += 1
                 else:
                     home_goals += 1
+        return (home_goals, away_goals)
+        
+
+    def __repr__(self) -> str:
+        home_goals, away_goals = self.get_result()
         return f"{home_goals} - {away_goals}"
 
 class Hendelse():
     def __init__(self, game, time, team):
         self.game = game
         self.time = time
-        self.team = game.hjemmelag if team == "home-team" else game.bortelag
+        self.team = team
     
     def __repr__(self) -> str:
         return f"{self.time} "
@@ -250,7 +283,8 @@ class Hendelse():
 class Kort(Hendelse):
     def __init__(self, game, time, team, player):
         super().__init__(game, time, team)
-        self.player = player
+        self.player = team.get_player(player[0], player[1], warning=True)
+        self.player.events.append(self)
     
     def __repr__(self) -> str:
         return super().__repr__()
@@ -271,9 +305,13 @@ class RodtKort(Kort):
 
 class Bytte(Hendelse):
     def __init__(self, game, time, team, player):
+        _out, _in = player
         super().__init__(game, time, team)
-        self.player_in = player[0]
-        self.player_out = player[1]
+        self.player_in = team.get_player(_in[0], _in[1], warning=True)
+        self.player_out = team.get_player(_out[0], _out[1], warning=True)
+        self.player_in.matches["sub in"] = {game: self}
+        self.player_out.matches["sub out"] = {game: self}
+        self.current_score = game.resultat.get_result()
     
     def __repr__(self) -> str:
         return super().__repr__()+" bytte"
@@ -281,7 +319,8 @@ class Bytte(Hendelse):
 class Maal(Hendelse):
     def __init__(self, game, time, team, player):
         super().__init__(game, time, team)
-        self.player = player
+        self.player = team.get_player(player[0], player[1], warning=True)
+        self.player.events.append(self)
     
     def __repr__(self) -> str:
         return super().__repr__()
@@ -325,35 +364,49 @@ class Lag():
         self.spillere = []
         self.page = page
         self.navn = None
+        self.number = None
+        self.position = None
+        self._init_players()
 
     def print_team(self):
         self.spillere.sort()
-        print(self.navn, f"({len(self.spillere)})")
+        a = (55-len(self))
+        prints.header(f"{self} ({len(self.spillere)}){' '*a}(ST, SI, SO, BE)")
         for player in self.spillere:
-            print(" -",player)
+            prints.row(f"   {player.print_row()}")
 
     def set_navn(self):
         self.navn = self._set_navn()
 
-    def get_player(self, name, url=False):
+    def get_player(self, name, url=False, warning=False):
         if not url:
             prints.warning(self, "Player url not provided")
             exit()
+
         
         # Only suggest unless we have the correct url.
         for player in self.spillere:
-            if url == player.url and name == player.name:
-                return player
             if url == player.url:
-                inp = input(f"Is {url} the url of {player.name} instead of {name}? [Enter for yes]")
-                if inp == "":
-                    player.name = name
-                    return player
-        
+                return player
+            if name == player.name:
+                input(f"HÆÆÆÆ: {url} !=??? {player.url}")
+        if warning:
+            prints.warning(self, f"Created a new player: {name}, lacking number and position")
+
         player = Spiller(self, name, url)
-        prints.warning(self, f"Created a new player: {name}, lacking number and position", newline=False)
         self.spillere.append(player)
         return player
+    
+    def _init_players(self):
+        url = self.page.url.replace("hjem", "spillere")
+        players = Page(url)
+        document = BeautifulSoup(players.html.text, "html.parser")
+        ul = document.find("section")
+        for found in ul.find_all("li"):
+            number, link, name, position = rt.get_player_info(found)
+            player = self.get_player(name, link)
+            player.number = number
+            player.position = position
 
     def _set_navn(self):
         if not rt.get_team_name(self.page.html.text):
@@ -363,11 +416,19 @@ class Lag():
     def _set_krets(self):
         return rt.get_krets(self.html.text)
     
+    def __len__(self):
+        return len(self.navn.title().replace("Menn Senior ", ""))
+    
     def __repr__(self) -> str:
         if self.navn == None:
             self.set_navn()
-        return self.navn
+        return self.navn.title().replace("Menn Senior ", "")
 
+    def __eq__(self, other) -> bool:
+        if type(other) == str:
+            return self.navn.title().replace("Menn Senior ", "") == other
+        if type(other) == Lag:
+            return self.navn == other.navn
 
 class Spiller():
     def __init__(self, team, name, url):
@@ -376,19 +437,125 @@ class Spiller():
         self.url = url
         self.number = False
         self.position = False
+        self.matches = {"started": [], "sub in": {}, "sub out": {}, "benched": []}
+        self.events = []
+    
+    def iterate_events(self, event_type):
+        types = []
+        return_types = []
+        if event_type == Maal:
+            types.append(Selvmaal)
+            types.append(Spillemaal)
+            types.append(Straffemaal)
+        elif event_type == Kort:
+            types.append(RodtKort)
+            types.append(GultKort)
+        else:
+            types.append(event_type)
+
+        for item in self.events:
+            if type(item) in types:
+                return_types.append(item)
+        return return_types
+
+    def results_while_playing(self):
+        results_while_playing = [] # <-- (before, after)
+        games = self.matches["started"]
+        for game in games:
+            cur = (0, 0)
+            if game in self.matches["sub out"]:
+                fin = self.matches["sub out"][game].current_score
+            else:
+                fin = game.resultat.get_result()
+            results_while_playing.append((game, (cur, fin)))
+        
+        for game in self.matches["sub in"]:
+            cur = self.matches["sub in"][game].current_score
+            if game in self.matches["sub out"]:
+                fin = self.matches["sub out"][game].current_score
+            else:
+                fin = game.resultat.get_result()
+            results_while_playing.append((game, (cur, fin)))        
+        return results_while_playing
+    
+    def get_goals(self):
+        goals = self.iterate_events(Maal)
+        goal_counter = 0
+        for g in goals:
+            if type(g) == Selvmaal:
+                goal_counter -= 1
+            else:
+                goal_counter += 1
+        return goal_counter
+
+    def get_num_games_result(self):
+        win = 0
+        draw = 0
+        loss = 0
+        for game in self.matches["started"]:
+            if game.winner == self.team:
+                win += 1
+            elif game.winner == None:
+                draw += 1
+            else:
+                loss += 1
+
+        for sub in self.matches["sub in"]:
+            if self.matches["sub in"][sub].game.winner == self.team:
+                win += 1
+            elif self.matches["sub in"][sub].game.winner == None:
+                draw += 1
+            else:
+                loss += 1
+        
+        if win+draw+loss==0:
+            return None
+        
+        return (win, draw, loss)
 
     def __lt__(self, obj):
         return ((self.name) < (obj.name)) 
-
+    
     def __repr__(self) -> str:
         return self.name
 
+    def print_row(self) -> str:
+        s = ""
+        if self.position:
+            s += f"{self.position.upper():>8}, "
+        else:
+            s += "          "
+
+        split = self.name.split(" ")    
+        navn = f"{split[0]} ... {split[-1]}" if len(self.name.split(" ")) > 4 and len(self.name) > 40 else self.name 
+        s += f"{navn:>40}"
+        if self.number:
+            s += f", {self.number:>2} - "
+        else:
+            s += "       "
+        s += f"({len(self.matches['started']):>2}, {len(self.matches['sub in']):>2}, {len(self.matches['sub out']):>2}, {len(self.matches['benched']):>2})"
+        s += f" - {self.get_goals():>2} goals"
+        res = self.get_num_games_result()
+        if res:
+            win, draw, loss = res
+            sum = win+draw+loss
+            win_percent = round((win/sum)*100, 2)
+            draw_percent = round((draw/sum)*100, 2)
+            loss_percent = round((loss/sum)*100, 2)
+            s+= f" ({win} {win_percent}%, {draw} {draw_percent}%, {loss} {loss_percent}%)"
+        return s
+
 def main():
+    #search = "Eliteserien"
+    search = "Post Nord-ligaen avd. 1"
+    #search = "Post Nord-ligaen avd. 2"
+    #search = "Toppserien"
+    #search = "Norsk Tipping-Ligaen avd. 2"
     hoved = Hovedside()
     prints.start("Hovedside")
     hoved.page = Page("https://www.fotball.no/turneringer/")
     prints.success()
-
+    
     
     prints.start("Turneringer")
     try:
@@ -401,35 +568,62 @@ def main():
         prints.error("Turneringer")
         exit()
 
-    prints.start("Postnord avd. 1")
+    prints.start(search)
     try:
-        postnord1 = hoved.get_turnering("Post Nord-ligaen avd. 1")
+        liga = hoved.get_turnering(search)
         prints.success()
     except:
-        prints.error("Postnord avd. 1")
+        prints.error(search)
         exit()
+    liga.get_termin_url()
 
     prints.start("Terminliste")
     try:
-        pn1_terminliste = Terminliste(postnord1)
-        pn1_terminliste.page = Page(postnord1.get_termin_url())
+        terminliste = Terminliste(liga)
+        terminliste.page = Page(liga.get_termin_url())
         prints.success()
     except:
         prints.error("Terminliste")
         exit()
 
     prints.start("Analysere kamper")
-    pn1_terminliste.fetch_kamper()
+    terminliste.fetch_kamper()
     
-    for game in pn1_terminliste.kamper:
+    for game in terminliste.kamper:
         game.analyse()
         prints.info(game, newline=False)
     prints.success()
 
-    print("Antall lag:", len(postnord1.lag))
+    print("Antall lag:", len(liga.lag))
 
-    for lag in postnord1.lag:
-        postnord1.lag[lag].print_team()
+    for lag in liga.lag:
+        print(lag)
+        if lag == "Lyn 1896 FK":
+            liga.lag[lag].print_team()
+            for spiller in liga.lag[lag].spillere:
+                result = spiller.results_while_playing()
+                print(spiller)
+                for res in result:
+                    if res:
+                        game, results = res
+                        pre, post = results
+                        home_pre, away_pre = pre
+                        home_post, away_post = post
+                        for_goals = 0
+                        against_goals = 0
+
+                        if game.hjemmelag == liga.lag[lag]:
+                            for_goals = home_post - home_pre
+                            against_goals = away_post - away_pre
+
+                        elif game.bortelag == liga.lag[lag]:
+                            for_goals = away_post - away_pre
+                            against_goals = home_post - home_pre
+                        
+                        total_goals = for_goals-against_goals
+                        print(f"   {home_pre}-{away_pre} -> {home_post}-{away_post} | for: {for_goals}, agst: {against_goals}, tot: {total_goals}")
+            
+        prints.whiteline()
 
     print(f"Antall sider hentet: {wt.fetches}")
 
@@ -437,4 +631,9 @@ if __name__=="__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "-log":
         ft.clear_log()
         log_bool = True
+        
+    if len(sys.argv) > 1 and sys.argv[1] == "-test":
+        current_date = datetime.strptime("11.04.2023", "%d.%m.%Y")
+    else:
+        current_date = datetime.today()
     main()

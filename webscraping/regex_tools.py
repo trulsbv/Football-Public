@@ -130,6 +130,10 @@ def analysis(text):
         out["navn"] = (s1, s2) if out["type"] == "Bytte ut" else (s2, s1)
     else:
         out["navn"] = standard_reg(text, r'<a href="[^"]*">(.*)<\/a>')
+        try:
+            out["lenke"] = out["lenke"][0]
+        except:
+            ...
     return out
 
 def standard_reg(text, pat):
@@ -172,3 +176,15 @@ def get_name_url(text):
 
 def li_class(text):
     return standard_reg(str(text), r'<li class="([^"]*)">')
+
+def get_player_info(text):
+    number = standard_reg(str(text), r'<span>(\d+)<\/span>')
+    link = find_urls(str(text))[0]
+    name = standard_reg(str(text), r'<a class="medium-heading" href="[^"]*">(.*)<\/a><br\/>')
+    position = standard_reg(str(text), r'<\/a><br\/>[\n|.| ]*([^-\s<]*)')
+    return (number, link,name, position)
+
+def get_spectators(text):
+    specs = standard_reg(str(text), r'<span>(\d+)<\/span>')
+    if specs:
+        return int(specs)

@@ -1,4 +1,4 @@
-from colorama import Fore
+from colorama import Fore, Back
 prev_len = 0
 pos = "✓"
 neg = "✘"
@@ -64,3 +64,43 @@ def download(url):
 def info(message, sender="?", newline=False):
     s = f"{sender} {message}"
     _prints(s, newline)
+
+def RESTART():
+    global prev 
+    prev = False
+    s = f"{Back.RED}{Fore.BLACK}RESTARTING THE SCRIPT{Fore.RESET}{Back.RESET}"
+    meta = len(f"{Back.RED}{Fore.BLACK}{Fore.RESET}{Back.RESET}")
+    _prints(s, newline=True, meta=meta)
+
+
+"""
+def header(message):
+    global prev 
+    prev = False
+    s = f"{Back.RED}{Fore.BLACK}{message}{Fore.RESET}{Back.RESET}"
+    meta = len(f"{Back.RED}{Fore.BLACK}{Fore.RESET}{Back.RESET}")
+    _prints(s, newline=True, meta=meta)
+
+prev = False
+def row(message):
+    global prev
+    s = ""
+    meta = 0
+    if prev:
+        s += f"{Back.LIGHTRED_EX}{Fore.BLACK}{message}{Fore.RESET}{Back.RESET}"
+        meta = len(f"{Back.LIGHTMAGENTA_EX}{Fore.BLACK}{Fore.RESET}{Back.RESET}")
+        prev = False
+    else:
+        s += f"{Back.LIGHTGREEN_EX}{Fore.BLACK}{message}{Fore.RESET}{Back.RESET}"
+        meta = len(f"{Back.LIGHTGREEN_EX}{Fore.BLACK}{Fore.RESET}{Back.RESET}")
+        prev = True
+
+    _prints(s, newline=True, meta=meta)
+"""
+
+def header(message):
+    _prints(message, newline=True)
+def row(message):
+    _prints(message, newline=True)
+def whiteline():
+    print()
