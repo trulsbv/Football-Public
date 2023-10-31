@@ -25,62 +25,95 @@ class Team():
         self.name = self._set_navn()
 
     def get_player_influence(self):
+        output = {}
         for player in self.players:
             result = player.results_while_playing()
-            output = []
-            first = True
             for res in result:
-                if first:
-                    print(player)
-                    first = False
                 if res:
                     game, results, sub_time = res
-                    in_t, out_t = sub_time
                     pre, post, end = results
                     home_pre, away_pre = pre
                     home_post, away_post = post
-                    for_goals = 0
-                    against_goals = 0
+                    goals_for = 0
+                    goals_against = 0
+                    loc = "Home"
 
                     if game.home == self:
-                        for_goals = home_post - home_pre
-                        against_goals = away_post - away_pre
-
+                        goals_for = home_post - home_pre
+                        goals_against = away_post - away_pre
                     elif game.away == self:
-                        for_goals = away_post - away_pre
-                        against_goals = home_post - home_pre
+                        goals_for = away_post - away_pre
+                        goals_against = home_post - home_pre
+                        loc = "Away"
 
-                    actual_res = "(draw)"
-                    if end[0] > end[1]:
-                        if game.home == self:
-                            actual_res = "(win) "
-                        else:
-                            actual_res = "(loss)"
-                    if end[0] < end[1]:
-                        if game.home == self:
-                            actual_res = "(loss)"
-                        else:
-                            actual_res = "(win) "
+                    if not player in output:
+                        output[player] = []
 
-
-                    personal_res = "(draw)"
-                    if for_goals > against_goals:
-                        personal_res = "(win) "
-                    elif for_goals < against_goals:
-                        personal_res = "(loss)"
-
+                    if not "goals_for" in player.influence:
+                        player.influence["goals_for"] = goals_for
+                        player.influence["goals_against"] = goals_against
+                        player.influence["num_games"] = 1
+                        player.influence["num_minutes"] = sub_time[1]-sub_time[0]
+                    else:
+                        player.influence["goals_for"] += goals_for
+                        player.influence["goals_against"] += goals_against
+                        player.influence["num_games"] += 1
+                        player.influence["num_minutes"] += (sub_time[1])-sub_time[0]
                     
-                    total_goals = for_goals-against_goals
-                    in_t = "'"+str(in_t)
-                    out_t = "'"+str(out_t)
-                    print(f" {in_t:>3}-{out_t:>3} | {home_pre:>2} - {away_pre:<2} -> {home_post:>2} - {away_post:<2} {personal_res:<4} | Result {end[0]:>2} - {end[1]:<2} {actual_res:<4} | for: {for_goals:>2}, agst: {against_goals:>2}, tot: {total_goals:>3} | {game.result.page.url}")
+                    output[player].append([game, loc, sub_time, pre, post, end, goals_for, goals_against])
+        return output
+    
+    def print_player_influence(self, influence):
+        game, loc, sub_time, pre, post, end, goals_for, goals_against = influence
+        in_t, out_t = sub_time
+        home_pre, away_pre = pre
+        home_post, away_post = post
+        total_goals = goals_for-goals_against
+        actual_res = prints.get_yellow_fore("(draw)")
+        if end[0] > end[1]:
+            if game.home == self:
+                actual_res = prints.get_green_fore("(win) ")
+            else:
+                actual_res = prints.get_red_fore("(loss)")
+        if end[0] < end[1]:
+            if game.home == self:
+                actual_res = prints.get_red_fore("(loss)")
+            else:
+                actual_res = prints.get_green_fore("(win) ")
+
+        personal_res = prints.get_yellow_fore("(draw)")
+        if goals_for > goals_against:
+            personal_res = prints.get_green_fore("(win) ")
+        elif goals_for < goals_against:
+            personal_res = prints.get_red_fore("(loss)")
+
+        in_t = "'"+str(in_t)
+        out_t = "'"+str(out_t)
+        print(f" {in_t:>3}-{out_t:>3} | {home_pre:>2} - {away_pre:<2} -> {home_post:>2} - {away_post:<2} {personal_res:<4} | {loc} | Result {end[0]:>2} - {end[1]:<2} {actual_res:<4} | for: {goals_for:>2}, agst: {goals_against:>2}, tot: {total_goals:>3} | {game.result.page.url}")
+
+    def print_team_influence(self):
+        influence = self.get_player_influence()
+        for player in influence:
+            p_tot = player.influence['goals_for'] - player.influence['goals_against']    
+            ppg = 0 if player.influence['num_games'] == 0 else round(p_tot/player.influence['num_games'], 2)
+            mpg = round(player.influence['num_minutes']/player.influence['num_games'], 0)
+            s = f"{player}, personal total: {p_tot}"
+            s += f" | avg. {prints.get_fore_color_int(ppg)} per game"
+            s += f" | avg. {mpg} minutes per game"
+            try:
+                ppm = round(p_tot/player.influence['num_minutes'], 5)
+                s += f" | avg. {prints.get_fore_color_int(ppm)} points per minute"
+            except:
+                ...
+            print(s)
+            for i in range(len(influence[player])):
+                self.print_player_influence(influence[player][i])
 
     def get_player(self, name, url=False, warning=False):
         if not url:
-            prints.warning(self, "Player url not provided")
+            prints.error(self, "Player url not provided")
             exit()
-
-        
+    
         # Only suggest unless we have the correct url.
         for player in self.players:
             if url == player.url:

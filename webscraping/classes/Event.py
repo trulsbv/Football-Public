@@ -1,7 +1,7 @@
 class Event():
     def __init__(self, game, time, team):
         self.game = game
-        self.time = time
+        self.time = int(time)
         self.team = team
     
     def __repr__(self) -> str:

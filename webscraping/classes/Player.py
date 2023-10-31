@@ -9,6 +9,7 @@ class Player():
         self.position = False
         self.matches = {"started": [], "sub in": {}, "sub out": {}, "benched": []}
         self.events = []
+        self.influence = {}
     
     def iterate_events(self, event_type):
         types = []

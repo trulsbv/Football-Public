@@ -73,35 +73,25 @@ def RESTART():
     meta = len(f"{Back.RED}{Fore.BLACK}{Fore.RESET}{Back.RESET}")
     _prints(s, newline=True, meta=meta)
 
-
-"""
-def header(message):
-    global prev 
-    prev = False
-    s = f"{Back.RED}{Fore.BLACK}{message}{Fore.RESET}{Back.RESET}"
-    meta = len(f"{Back.RED}{Fore.BLACK}{Fore.RESET}{Back.RESET}")
-    _prints(s, newline=True, meta=meta)
-
-prev = False
-def row(message):
-    global prev
-    s = ""
-    meta = 0
-    if prev:
-        s += f"{Back.LIGHTRED_EX}{Fore.BLACK}{message}{Fore.RESET}{Back.RESET}"
-        meta = len(f"{Back.LIGHTMAGENTA_EX}{Fore.BLACK}{Fore.RESET}{Back.RESET}")
-        prev = False
-    else:
-        s += f"{Back.LIGHTGREEN_EX}{Fore.BLACK}{message}{Fore.RESET}{Back.RESET}"
-        meta = len(f"{Back.LIGHTGREEN_EX}{Fore.BLACK}{Fore.RESET}{Back.RESET}")
-        prev = True
-
-    _prints(s, newline=True, meta=meta)
-"""
-
 def header(message):
     _prints(message, newline=True)
+
 def row(message):
     _prints(message, newline=True)
+
 def whiteline():
     print()
+
+def get_green_fore(message):
+    return f"{Fore.GREEN}{message}{Fore.RESET}" 
+
+def get_yellow_fore(message):
+    return f"{Fore.YELLOW}{message}{Fore.RESET}" 
+
+def get_red_fore(message):
+    return f"{Fore.RED}{message}{Fore.RESET}" 
+
+def get_fore_color_int(int):
+    if int > 0: return get_green_fore(int)
+    if int < 0: return get_red_fore(int)
+    return get_yellow_fore(int)

@@ -11,8 +11,8 @@ import settings
 
 def main():
     #search = "Eliteserien"
-    #search = "Post Nord-ligaen avd. 1"
-    search = "Post Nord-ligaen avd. 2"
+    search = "Post Nord-ligaen avd. 1"
+    #search = "Post Nord-ligaen avd. 2"
     #search = "Toppserien"
     #search = "Norsk Tipping-Ligaen avd. 2"
     main = Mainpage()
@@ -21,7 +21,7 @@ def main():
     prints.success()
     
     
-    prints.start("tournaments")
+    prints.start("Tournaments")
     main.fetch_tournament()
     prints.success()
 
@@ -33,7 +33,7 @@ def main():
     league.create_schedule()
     prints.success()
 
-    prints.start("Analysere games")
+    prints.start("Analyse games")
     terminliste = league.schedule
     terminliste.fetch_games()
     
@@ -46,8 +46,7 @@ def main():
 
     for team in league.team:
         league.team[team].print_team()
-        league.team[team].get_player_influence()
-            
+        league.team[team].print_team_influence()
         prints.whiteline()
 
     print(f"Antall sider hentet: {wt.fetches}")
