@@ -11,9 +11,9 @@ import settings
 
 def main():
     #search = "Eliteserien"
-    search = "Post Nord-ligaen avd. 1"
+    #search = "Post Nord-ligaen avd. 1"
     #search = "Post Nord-ligaen avd. 2"
-    #search = "Toppserien"
+    search = "Toppserien"
     #search = "Norsk Tipping-Ligaen avd. 2"
     main = Mainpage()
     prints.start("Mainpage")

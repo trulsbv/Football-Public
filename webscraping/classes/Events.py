@@ -16,7 +16,7 @@ class Events():
         self.uref_hendelser = []
         self.game = None
 
-    def analyse(self):
+    def analyse(self, restart=0):
         self.events = []
         if len(self.uref_hendelser) == 0:
             self._get_events()
@@ -25,9 +25,12 @@ class Events():
             if h:
                 self.events.append(h)
             elif h == False:
-                if input("\nRestart? Press [Enter] for accept") == "":
-                    prints.RESTART()
-                    os.execv(sys.executable, ['python'] + sys.argv)
+                if restart == 2:
+                    if input("\nRestart? Press [Enter] for accept") == "":
+                        prints.RESTART()
+                        os.execv(sys.executable, ['python'] + sys.argv)
+                prints.warning(self, f"Failed to read data, retrying {2-restart} times")
+                return self.analyse(restart=restart+1)
 
         document = BeautifulSoup(self.page.html.text, "html.parser")
         gi = document.find(class_="grid__item grid__item match__arenainfo one-third margin-top--two right-bordered mobile--one-whole")
@@ -86,10 +89,7 @@ class Events():
 
         return (hometeam, awayteam)
 
-    def _analyse(self, text, restart=0):
-        if restart == 3:
-            prints.error(self, f"\"{type}\" not handled! {self.page.url}\n{text}")
-            return False
+    def _analyse(self, text):
         r = rt.analysis(text)
         team = r["team"]
         type = r["type"]
@@ -109,7 +109,7 @@ class Events():
             case "Advarsel for Leder": return None
             case "Utvisning for Leder": return None
             case "Kampen er slutt": return None
-            case _: prints.warning(self, f"Failed to read '{type}', trying again"); return self._analyse(text, restart + 1)
+            case _: prints.warning(self, f"Failed to read '{type}', trying again"); return False
         return type # Player, time, spillemål/straffe?
 
     def _get_team(self, str):
