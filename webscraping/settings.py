@@ -1,4 +1,5 @@
 # Initialise global variables
+global current_date
 
 def init():
     global log_bool

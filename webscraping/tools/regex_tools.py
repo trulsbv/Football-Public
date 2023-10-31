@@ -118,21 +118,22 @@ def get_krets(html):
 
 def analysis(text):
     out = {}
-    out["lag"] = standard_reg(text, r'<li class="([^"]*)"').replace(" sametime-event", "")
-    out["minutt"] = standard_reg(text, r'<b>(\d+)<\/b>')
-    out["lenke"] = find_urls(str(text))
+    out["team"] = standard_reg(text, r'<li class="([^"]*)"').replace(" sametime-event", "")
+    out["minute"] = standard_reg(text, r'<b>(\d+)<\/b>')
+    out["url"] = find_urls(str(text))
     out["id"] = standard_reg(text, r'<li class="[^"]*" id="([^"]*)"')
     out["type"] = standard_reg(text, r'<span class="match-event">\s*(.*)')
     if out["type"] == "Bytte inn" or out["type"] == "Bytte ut":
         r = standard_reg_two(text, r'<a href="[^"]*">(.*)<\/a>')
-        s1 = (r[0], out["lenke"][0])
-        s2 = (r[1], out["lenke"][1])
-        out["navn"] = (s1, s2) if out["type"] == "Bytte ut" else (s2, s1)
+        s1 = (r[0], out["url"][0])
+        s2 = (r[1], out["url"][1])
+        out["name"] = (s1, s2) if out["type"] == "Bytte ut" else (s2, s1)
     else:
-        out["navn"] = standard_reg(text, r'<a href="[^"]*">(.*)<\/a>')
+        out["name"] = standard_reg(text, r'<a href="[^"]*">(.*)<\/a>')
         try:
-            out["lenke"] = out["lenke"][0]
+            out["url"] = out["url"][0]
         except:
+            # TODO: Ye
             ...
     return out
 
