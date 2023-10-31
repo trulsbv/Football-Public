@@ -378,6 +378,30 @@ class Lag():
     def set_navn(self):
         self.navn = self._set_navn()
 
+    def get_player_influence(self):
+        for spiller in self.spillere:
+            result = spiller.results_while_playing()
+            output = []
+            for res in result:
+                if res:
+                    game, results = res
+                    pre, post = results
+                    home_pre, away_pre = pre
+                    home_post, away_post = post
+                    for_goals = 0
+                    against_goals = 0
+
+                    if game.hjemmelag == self:
+                        for_goals = home_post - home_pre
+                        against_goals = away_post - away_pre
+
+                    elif game.bortelag == self:
+                        for_goals = away_post - away_pre
+                        against_goals = home_post - home_pre
+                    
+                    total_goals = for_goals-against_goals
+                    print(f"   {home_pre}-{away_pre} -> {home_post}-{away_post} | for: {for_goals}, agst: {against_goals}, tot: {total_goals}")
+
     def get_player(self, name, url=False, warning=False):
         if not url:
             prints.warning(self, "Player url not provided")
@@ -598,30 +622,8 @@ def main():
 
     for lag in liga.lag:
         print(lag)
-        if lag == "Lyn 1896 FK":
-            liga.lag[lag].print_team()
-            for spiller in liga.lag[lag].spillere:
-                result = spiller.results_while_playing()
-                print(spiller)
-                for res in result:
-                    if res:
-                        game, results = res
-                        pre, post = results
-                        home_pre, away_pre = pre
-                        home_post, away_post = post
-                        for_goals = 0
-                        against_goals = 0
-
-                        if game.hjemmelag == liga.lag[lag]:
-                            for_goals = home_post - home_pre
-                            against_goals = away_post - away_pre
-
-                        elif game.bortelag == liga.lag[lag]:
-                            for_goals = away_post - away_pre
-                            against_goals = home_post - home_pre
-                        
-                        total_goals = for_goals-against_goals
-                        print(f"   {home_pre}-{away_pre} -> {home_post}-{away_post} | for: {for_goals}, agst: {against_goals}, tot: {total_goals}")
+        liga.lag[lag].print_team()
+        liga.lag[lag].get_player_influence()
             
         prints.whiteline()
 
