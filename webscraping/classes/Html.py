@@ -1,7 +1,7 @@
 from datetime import date
-import web_tools as wt
-import regex_tools as rt
-import file_tools as ft
+import tools.file_tools as ft
+import tools.regex_tools as rt
+import tools.web_tools as wt
 
 class HTML():
     def __init__(self, page, search):

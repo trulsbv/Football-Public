@@ -1,5 +1,5 @@
+from classes.Html import HTML
 from datetime import date
-from Html import HTML
 
 class Page():
     def __init__(self, url, search=True, force = False):

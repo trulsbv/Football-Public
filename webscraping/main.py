@@ -1,12 +1,15 @@
-import web_tools as wt
-import regex_tools as rt
-import file_tools as ft
 from bs4 import BeautifulSoup
-import prints, sys
-from errors.PageNotFoundError import PageNotFoundError
-from Page import Page
-import settings, re, os
+from classes.Page import Page
 from datetime import date, datetime
+from errors.PageNotFoundError import PageNotFoundError
+import os
+import re
+import settings
+import sys
+import tools.file_tools as ft
+import tools.prints as prints
+import tools.regex_tools as rt
+import tools.web_tools as wt
 
 serier=["Eliteserien"]
 
