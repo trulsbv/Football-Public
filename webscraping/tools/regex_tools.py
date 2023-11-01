@@ -189,3 +189,9 @@ def get_spectators(text):
     specs = standard_reg(str(text), r'<span>(\d+)<\/span>')
     if specs:
         return int(specs)
+
+def get_coords(text):
+    lat = standard_reg(str(text), r'"latitude":(\d+\.\d+)')
+    lng = standard_reg(str(text), r'"longitude":(\d+\.\d+)')
+    nat = standard_reg(str(text), r'"country":"([^"]*)"')
+    return (nat, (lat, lng)) 

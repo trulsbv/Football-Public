@@ -26,9 +26,8 @@ class Events():
                 self.events.append(h)
             elif h == False:
                 if restart == 2:
-                    if input("\nRestart? Press [Enter] for accept") == "":
-                        prints.RESTART()
-                        os.execv(sys.executable, ['python'] + sys.argv)
+                    prints.RESTART()
+                    os.execv(sys.executable, ['python'] + sys.argv)
                 prints.warning(self, f"Failed to read data, retrying {2-restart} times")
                 return self.analyse(restart=restart+1)
 
