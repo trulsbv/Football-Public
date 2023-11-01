@@ -4,6 +4,7 @@ from classes.Events import Events
 from classes.Game import Game
 from classes.Page import Page
 from classes.Pitch import Pitch
+from datetime import date, datetime
 
 class Schedule():
     def __init__(self, parent, page):
@@ -31,7 +32,14 @@ class Schedule():
             
             home = self.turnering.create_team(_hometeam, urls[1])
             away = self.turnering.create_team(_awayteam, urls[3])
-            events = Events(Page(urls[2]))
+            if self._is_played(date):
+                events = Events(Page(urls[2], expires_after_days=False))
+            else:
+                events = Events(Page(urls[2]))
             pitch = Pitch(Page(urls[4]))
             game = Game(round, date, day, time, home, events, away, pitch, gameId)
             self.games.append(game)
+
+    def _is_played(self, d):
+        return datetime.strptime(d, "%d.%m.%Y").date() < date.today()
+    

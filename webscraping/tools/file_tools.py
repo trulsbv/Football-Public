@@ -57,8 +57,6 @@ def find_html(id, extension=".txt"):
     file = open(file, encoding="UTF-8")
     lines = file.readlines()
     s = ""
-    if lines[0].strip() != str(d.today()):
-        return 1
     for line in lines:
         s+=line
     return s
@@ -147,17 +145,16 @@ def create_folder(folders):
             os.mkdir(f)
     return Path(place)
 
-def is_expired(id, days_before_expiration = 0):
+def is_expired(id, expires_after_days):
     folder, name = id_to_folder_name(id)
     if not find_file(folder, name):
         return True
-    if find_html(id) == 1:
-        prints.warning("file_tools\\find_html", f"The content is outdated: {id}", True)
-        return True
+    if expires_after_days == False:
+        return False
     date_str = find_html(id).split("\n")[:1][0]
     date = datetime.strptime(date_str, '%Y-%m-%d').date()
-    delta = date - d.today()
-    return delta.days > days_before_expiration
+    delta = date - datetime.strptime("11.11.2023", "%d.%m.%Y").date()
+    return delta.days > expires_after_days
 
 def get_baneinfo(html):
     document = BeautifulSoup(html, "html.parser")

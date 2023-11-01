@@ -4,10 +4,10 @@ import tools.regex_tools as rt
 import tools.web_tools as wt
 
 class HTML():
-    def __init__(self, page, search):
+    def __init__(self, page, search, exp):
         self.page = page
         self.fetched = date.today()
-        self.expires_after_days = 1
+        self.expires_after_days = exp
         self.text = self._set_html(search)
         self.title = self._set_title()
     
@@ -25,8 +25,6 @@ class HTML():
             return text
         else:
             value = ft.find_html(self.page.id)
-            if value == 1:
-                return self._set_html(True)
             if value == 0:
                 return False
             return ft.find_html(self.page.id)

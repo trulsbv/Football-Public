@@ -2,14 +2,14 @@ from classes.Html import HTML
 from datetime import date
 
 class Page():
-    def __init__(self, url, search=True, force = False):
+    def __init__(self, url, search=True, force=False, expires_after_days=1):
         """
         Set search to false if you don't want to keep the page updated / fetch the page at all
         """
         self.url = url
         self.id = self._set_id()
         self.fetched = False
-        self.html = HTML(self, search)
+        self.html = HTML(self, search, expires_after_days)
         if force:
             self.html._set_html(force=True)
 
