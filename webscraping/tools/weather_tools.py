@@ -1,10 +1,8 @@
-import http.client, urllib.parse
 import tools.regex_tools as rt
 import tools.file_tools as ft
 import requests
 
 visualcrossing_key = "2REC7AEQW2EWVYQZ4BZUT745W"
-positionstack_key = "42823db8e0906080f89377abc4223bbb"
 
 def get_weather_data(pitch, date, time):
     ds = date.split(".")
