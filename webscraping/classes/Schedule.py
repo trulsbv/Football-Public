@@ -34,9 +34,10 @@ class Schedule():
             away = self.turnering.create_team(_awayteam, urls[3])
             if self._is_played(date):
                 events = Events(Page(urls[2], expires_after_days=False))
+                pitch = Pitch(Page(urls[4], expires_after_days=False))
             else:
                 events = Events(Page(urls[2]))
-            pitch = Pitch(Page(urls[4]))
+                pitch = Pitch(Page(urls[4]))
             game = Game(round, date, day, time, home, events, away, pitch, gameId)
             self.games.append(game)
 

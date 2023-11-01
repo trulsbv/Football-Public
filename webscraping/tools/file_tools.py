@@ -153,7 +153,7 @@ def is_expired(id, expires_after_days):
         return False
     date_str = find_html(id).split("\n")[:1][0]
     date = datetime.strptime(date_str, '%Y-%m-%d').date()
-    delta = date - datetime.strptime("11.11.2023", "%d.%m.%Y").date()
+    delta = date - date.today() # datetime.strptime("11.10.2023", "%d.%m.%Y").date()
     return delta.days > expires_after_days
 
 def get_baneinfo(html):
