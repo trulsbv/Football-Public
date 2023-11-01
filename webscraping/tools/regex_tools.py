@@ -190,8 +190,8 @@ def get_spectators(text):
     if specs:
         return int(specs)
 
-def get_coords(text):
-    lat = standard_reg(str(text), r'"latitude":(\d+\.\d+)')
-    lng = standard_reg(str(text), r'"longitude":(\d+\.\d+)')
-    nat = standard_reg(str(text), r'"country":"([^"]*)"')
-    return (nat, (lat, lng)) 
+def get_pitch_coords(text):
+    link = standard_reg(str(text), r'(<a href="http:\/\/www\.google\.com\/maps\?q=\d+\.\d+,\d+\.\d+" target="_blank">)')
+    lat = standard_reg(str(link), r'<a href="http:\/\/www\.google\.com\/maps\?q=(\d+\.\d+),\d+\.\d+" target="_blank">')
+    lng = standard_reg(str(link), r'<a href="http:\/\/www\.google\.com\/maps\?q=\d+\.\d+,(\d+\.\d+)" target="_blank">')
+    return (lat, lng)

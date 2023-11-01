@@ -6,26 +6,25 @@ import requests
 visualcrossing_key = "2REC7AEQW2EWVYQZ4BZUT745W"
 positionstack_key = "42823db8e0906080f89377abc4223bbb"
 
-def get_weather_data(stadium_name, hometeam, time):
-    file_name = f"weather/{stadium_name}"
+def get_weather_data(pitch, date, time):
+    ds = date.split(".")
+    ts = time.split(".")
+    time = f"{ds[2]}-{ds[1]}-{ds[0]}T{ts[0]}:{ts[1]}:00"
+    file_name = f"weather/{time}/{pitch.name}"
     file_name = file_name.replace("Æ", "Ae")
     file_name = file_name.replace("æ", "ae")
     file_name = file_name.replace("Ø", "O")
     file_name = file_name.replace("ø", "o")
     file_name = file_name.replace("Å", "Aa")
     file_name = file_name.replace("å", "aa")
+    file_name = file_name.replace(":", "_")
     data = ft.find_html(file_name)
-    data = get_coords(stadium_name)
-    if data[0] != "Norway":
-        print("Wrraa")
-        data = get_coords(hometeam)
-    print(data)
+    if not data:
+        cords = get_coords(pitch)
+        data = get_historic_data(cords, time)
+        ft.save_html(file_name, str(data))
+    return data
 
-    return
-    ft.save_html(file_name, "4")
-
-    print(get_coords("Intility Arena"))
-    #print(get_historic_data(get_coords("Bislett"), "2020-12-15T13:00:00"))
 
 def get_historic_data(coordinates, time):
     x_coord, y_coord = coordinates
@@ -39,28 +38,6 @@ def get_historic_data(coordinates, time):
     return json
 
 
-def get_coords(name, region=False):
-    conn = http.client.HTTPConnection('api.positionstack.com')
-
-    if not region:
-        params = urllib.parse.urlencode({
-            'access_key': positionstack_key,
-            'query': name,
-            'country': "NO",
-            'limit': 1,
-        })
-    if region:
-        params = urllib.parse.urlencode({
-            'access_key': positionstack_key,
-            'query': name,
-            'country': "NO",
-            'region': "Oslo",
-            'limit': 1,
-        })
-
-    conn.request('GET', '/v1/forward?{}'.format(params))
-
-    res = conn.getresponse()
-    data = res.read()
-    print(data.decode('utf-8'))
-    return rt.get_coords(data.decode('utf-8'))
+def get_coords(pitch):
+    res = rt.get_pitch_coords(pitch.page.html.text)
+    return res

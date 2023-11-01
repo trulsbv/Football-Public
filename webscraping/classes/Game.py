@@ -1,4 +1,5 @@
 from datetime import datetime
+from classes.Weather import Weather
 import tools.prints as prints
 import settings
 
@@ -14,7 +15,8 @@ class Game():
         self.pitch = pitch # Page - To the pitch
         self.gameId = gameId
         self.events = []
-
+        
+        self.weather = None
         self.hometeam = None
         self.awayteam = None
         self.spectators = None
@@ -26,6 +28,7 @@ class Game():
     
     def analyse(self):
         if self._is_played():
+            self.weather = Weather(self)
             result = self.result.get_team_sheet(self)
             self.events = self.result.analyse()
             if result:

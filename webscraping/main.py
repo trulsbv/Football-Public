@@ -6,15 +6,12 @@ from classes.Mainpage import Mainpage as Mainpage
 import tools.file_tools as ft
 import tools.prints as prints
 import tools.web_tools as wt
-import tools.weather_tools as wet
 from classes.Page import Page
 import settings
 
 def main():
-    wet.get_weather_data("Lystlunden Stadion KG", "Ørn-Horten", "nå")
-    return
-    #search = "Eliteserien"
-    search = "Post Nord-ligaen avd. 1"
+    search = "Eliteserien"
+    #search = "Post Nord-ligaen avd. 1"
     #search = "Post Nord-ligaen avd. 2"
     #search = "Toppserien"
     #search = "Norsk Tipping-Ligaen avd. 2"
