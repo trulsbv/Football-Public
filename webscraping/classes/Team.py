@@ -89,7 +89,7 @@ class Team():
 
         in_t = "'"+str(in_t)
         out_t = "'"+str(out_t)
-        print(f" {in_t:>3}-{out_t:>3} | {home_pre:>2} - {away_pre:<2} -> {home_post:>2} - {away_post:<2} {personal_res:<4} | {loc} | Result {end[0]:>2} - {end[1]:<2} {actual_res:<4} | for: {goals_for:>2}, agst: {goals_against:>2}, tot: {total_goals:>3} | {game.result.page.url}")
+        print(f" {in_t:>3}-{out_t:>3} | {home_pre:>2} - {away_pre:<2} -> {home_post:>2} - {away_post:<2} {personal_res:<4} | {loc} | Result {end[0]:>2} - {end[1]:<2} {actual_res:<4} | for: {goals_for:>2}, agst: {goals_against:>2}, tot: {total_goals:>3} | {game.opponent(self)}, {game.result.page.url}")
 
     def print_team_influence(self):
         influence = self.get_player_influence()
@@ -156,6 +156,7 @@ class Team():
 
     def __eq__(self, other) -> bool:
         if type(other) == str:
-            return self.name.title().replace("Menn Senior ", "") == other
+            if self.name:
+                return self.name.title().replace("Menn Senior ", "") == other
         if type(other) == Team:
             return self.name == other.name

@@ -30,9 +30,9 @@ class Game():
         if self._is_played():
             self.weather = Weather(self)
             result = self.result.get_team_sheet(self)
-            self.events = self.result.analyse()
             if result:
                 self.hometeam, self.awayteam = result
+            self.events = self.result.analyse()
             self.score = self.result.get_result()
             if self.score[0] > self.score[1]:
                 self.winner = self.home
@@ -40,6 +40,13 @@ class Game():
                 self.winner = self.away
         else:
             prints.warning(f"{self.home} - {self.away} has not been played yet!")
+    
+    def opponent(self, team):
+        if team == self.home:
+            return self.away
+        if team == self.away:
+            return self.home
+        return False
     
     def __repr__(self) -> str:
         s = f"{self.round} ({self.day} {self.date} at {self.time}) {self.home} "

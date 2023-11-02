@@ -31,8 +31,7 @@ class Player():
 
     def results_while_playing(self):
         results_while_playing = [] # <-- (game, (before, after, end), (in, out))
-        games = self.matches["started"]
-        for game in games:
+        for game in self.matches["started"]:
             cur = (0, 0)
             in_time = 0
             if game in self.matches["sub out"]:
@@ -43,6 +42,7 @@ class Player():
                 out_time = 90
             end = game.result.get_result()
             results_while_playing.append((game, (cur, fin, end), (in_time, out_time)))
+
         for game in self.matches["sub in"]:
             cur = self.matches["sub in"][game].current_score
             in_time = self.matches["sub in"][game].time
@@ -98,6 +98,15 @@ class Player():
     
     def __repr__(self) -> str:
         return self.name
+    
+    def __hash__(self) -> int:
+        return hash(self.url)
+    
+    def __eq__(self, other):
+        if type(other) == Player:
+            return self.url == other.url
+        if type(other) == str:
+            return self.name == other
 
     def print_row(self) -> str:
         s = ""

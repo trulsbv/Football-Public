@@ -7,6 +7,10 @@ class Weather():
         self.date = game.date
         self.pitch = game.pitch
         self.data = wet.get_weather_data(self.pitch, self.date, self.time) # should be a map or something
+        print(self.data)
+
+        print(type(self.data))
+        print(type({}))
 
 # Future data: https://api.met.no/weatherapi/locationforecast/2.0/documentation
 
