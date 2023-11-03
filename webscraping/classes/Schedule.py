@@ -35,11 +35,8 @@ class Schedule():
             if self._is_played(date):
                 events = Events(Page(urls[2], expires_after_days=False))
                 pitch = Pitch(Page(urls[4], expires_after_days=False))
-            else:
-                events = Events(Page(urls[2]))
-                pitch = Pitch(Page(urls[4]))
-            game = Game(round, date, day, time, home, events, away, pitch, gameId)
-            self.games.append(game)
+                game = Game(round, date, day, time, home, events, away, pitch, gameId)
+                self.games.append(game)
 
     def _is_played(self, d):
         return datetime.strptime(d, "%d.%m.%Y").date() < date.today()
