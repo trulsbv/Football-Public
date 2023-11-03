@@ -47,7 +47,8 @@ def main():
 
     print("Antall team:", len(league.team))
     print(f"Antall sider hentet: {wt.fetches}")
-
+    league.team["Lyn 1896 FK"].print_top_perfomers()
+    return
     inp = ""
     while inp.upper() != "E" and inp.upper() != "Q":
         print("Get data for club: type club name, to see clubs: type 'clubs'")

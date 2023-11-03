@@ -1,6 +1,12 @@
+from dotenv import load_dotenv
+import os
 import requests
 import tools.prints as prints
 
+
+load_dotenv()
+
+visualcrossing_key = os.getenv("VISUALCROSSING_KEY")
 fetches = 0
 
 def utfify(s):
@@ -46,3 +52,11 @@ def get_html(url: str, params: dict | None = None, output: str | None = None):
         f.close()
 
     return html_str
+
+def get_historic_data(coordinates, time):
+    x_coord, y_coord = coordinates
+    
+    prints.download(coordinates)
+    endpoint = f"https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{x_coord},{y_coord}/{time}?key={visualcrossing_key}&include=current"
+
+    return requests.get(endpoint).json()

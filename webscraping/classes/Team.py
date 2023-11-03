@@ -63,6 +63,34 @@ class Team():
                     output[player].append([game, loc, sub_time, pre, post, end, goals_for, goals_against])
         return output
     
+    def get_top_performers(self, category="ppg"):
+        output = []
+        influence = self.get_player_influence()
+        for player in influence:
+            p_tot = player.influence['goals_for'] - player.influence['goals_against']    
+            ppg = 0 if player.influence['num_games'] == 0 else round(p_tot/player.influence['num_games'], 2)
+            mpg = round(player.influence['num_minutes']/player.influence['num_games'], 0)
+            if p_tot != 0:
+                ppm = round(p_tot/player.influence['num_minutes'], 5)
+            else: ppm = 0
+            li = [p_tot, ppg, mpg, ppm]
+            if category == "p_tot": output.append([p_tot, li, player])
+            if category == "ppg": output.append([ppg, li, player])
+            if category == "mpg": output.append([mpg, li, player])
+            if category == "ppm": output.append([ppm, li, player])
+        return output
+
+
+    def print_top_perfomers(self):
+        inp = self.get_top_performers()
+        inp = sorted(inp, key=lambda x: x[0], reverse=True)
+        for i in inp:
+            s = f"{i[2]}, personal total: {i[1][0]}"
+            s += f" | avg. {prints.get_fore_color_int(i[1][1])} per game"
+            s += f" | avg. {i[1][2]} minutes per game"
+            s += f" | avg. {prints.get_fore_color_int(i[1][3])} points per minute"
+            print(s)
+    
     def print_player_influence(self, influence):
         game, loc, sub_time, pre, post, end, goals_for, goals_against = influence
         in_t, out_t = sub_time
@@ -91,9 +119,13 @@ class Team():
         out_t = "'"+str(out_t)
         print(f" {in_t:>3}-{out_t:>3} | {home_pre:>2} - {away_pre:<2} -> {home_post:>2} - {away_post:<2} {personal_res:<4} | {loc} | Result {end[0]:>2} - {end[1]:<2} {actual_res:<4} | for: {goals_for:>2}, agst: {goals_against:>2}, tot: {total_goals:>3} | {game.opponent(self)}, {game.result.page.url}")
 
-    def print_team_influence(self):
+    def print_team_influence(self, individual = True):
         influence = self.get_player_influence()
+        first = True
         for player in influence:
+            if not first:
+                print("\n")
+            first = False
             p_tot = player.influence['goals_for'] - player.influence['goals_against']    
             ppg = 0 if player.influence['num_games'] == 0 else round(p_tot/player.influence['num_games'], 2)
             mpg = round(player.influence['num_minutes']/player.influence['num_games'], 0)
@@ -106,8 +138,9 @@ class Team():
             except:
                 ...
             print(s)
-            for i in range(len(influence[player])):
-                self.print_player_influence(influence[player][i])
+            if individual:
+                for i in range(len(influence[player])):
+                    self.print_player_influence(influence[player][i])
 
     def get_player(self, name, url=False, warning=False):
         if not url:

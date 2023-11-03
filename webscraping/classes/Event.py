@@ -68,7 +68,7 @@ class Substitute(Event):
             assert (not player_a in sheet[1]) and (player_a in sheet[0])
             assert (not player_b in sheet[0]) and (player_b in sheet[1])
         else:
-            prints.error("SUBSTITUTION", f"Tries to sub player thats not on pitch, {player_a} => {player_b}, {game.home}")
+            prints.error("SUBSTITUTION", f"Tries to sub off player thats not on the pitch. {team}, {player_a} => {player_b} ({self.game.date})")
             return
         
         if self.player_in.matches["sub out"]:
@@ -86,7 +86,7 @@ class Substitute(Event):
         assert not self in self.player_in.matches["benched"], f"{self.player_in} subbed in, but still in benched"
 
     def __repr__(self) -> str:
-        return f"{self.game.home} {self.player_in} => {self.player_out} ({self.game.date})"
+        return f"{self.team}, {self.player_in} => {self.player_out} ({self.game.date})"
 
 
 class Goal(Event):

@@ -7,10 +7,19 @@ class Weather():
         self.date = game.date
         self.pitch = game.pitch
         self.data = wet.get_weather_data(self.pitch, self.date, self.time) # should be a map or something
-        print(self.data)
+        self.handle_data()
 
-        print(type(self.data))
-        print(type({}))
+    def handle_data(self):
+        self.temp = round((int(self.data["currentConditions"]["temp"]) - 32) * 5/9, 1)
+        self.humidity = self.data["currentConditions"]["humidity"] # % air saturation
+        self.precip = self.data["currentConditions"]["precip"] # how much rain/hail/snow
+        self.preciptype = self.data["currentConditions"]["preciptype"] # type of precip
+        self.windgust = self.data["currentConditions"]["windgust"]
+        self.windspeed = self.data["currentConditions"]["windspeed"]
+        self.cloudcover = self.data["currentConditions"]["cloudcover"]
+        self.conditions = self.data["currentConditions"]["conditions"] # String
+        self.sunrise = self.data["currentConditions"]["sunrise"] # time
+        self.sunset = self.data["currentConditions"]["sunset"] # time
 
 # Future data: https://api.met.no/weatherapi/locationforecast/2.0/documentation
 
