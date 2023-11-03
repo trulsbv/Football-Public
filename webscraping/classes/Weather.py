@@ -7,7 +7,8 @@ class Weather():
         self.date = game.date
         self.pitch = game.pitch
         self.data = wet.get_weather_data(self.pitch, self.date, self.time) # should be a map or something
-        self.handle_data()
+        if self.data:
+            self.handle_data()
 
     def handle_data(self):
         self.temp = round((int(self.data["currentConditions"]["temp"]) - 32) * 5/9, 1)

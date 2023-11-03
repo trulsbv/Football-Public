@@ -24,7 +24,10 @@ def get_weather_data(pitch, date, time):
     if data:
         return parse_map_string(data)
     cords = get_coords(pitch)
-    data = wt.get_historic_data(cords, time)
+    try:
+        data = wt.get_historic_data(cords, time)
+    except:
+        return False
     ft.save_html(file_name, str(data))
     return data
 
