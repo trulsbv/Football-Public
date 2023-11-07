@@ -20,7 +20,7 @@ def get_weather_data(pitch, date, time):
     file_name = file_name.replace("Å", "Aa")
     file_name = file_name.replace("å", "aa")
     file_name = file_name.replace(":", "_")
-    data = ft.find_html(file_name)
+    data = ft.find_html(file_name, extension=".txt")
     if data:
         return parse_map_string(data)
     cords = get_coords(pitch)
@@ -28,7 +28,7 @@ def get_weather_data(pitch, date, time):
         data = wt.get_historic_data(cords, time)
     except:
         return False
-    ft.save_html(file_name, str(data))
+    ft.save_html(file_name, str(data), ".txt")
     return data
 
 def get_coords(pitch):

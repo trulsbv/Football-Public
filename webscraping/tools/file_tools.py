@@ -6,7 +6,7 @@ import re
 import tools.prints as prints
 import tools.web_tools as wt
 
-def id_to_folder_name(id, extension=".txt"):
+def id_to_folder_name(id, extension=".html"):
     splitted = id.split("/")
     name = (splitted[-1]+extension).replace("?", "")
     folder = create_folder(["pages"] + splitted[:-1])
@@ -30,7 +30,7 @@ def find_file(folder, name):
         return file
     return False
 
-def find_html(id, extension=".txt"):
+def find_html(id, extension=".html"):
     """
     Takes an id and searches through the pages folder for a [id].txt file
     to see if we already have the html from a previous fetch
@@ -61,7 +61,7 @@ def find_html(id, extension=".txt"):
         s+=line
     return s
 
-def save_html(id, html):
+def save_html(id, html, extension):
     """
     Takes a id and a string and saves it in [id].txt with todays date
 
@@ -76,9 +76,9 @@ def save_html(id, html):
     filename = splitted[-1].replace("?", "")
     folder = create_folder(["pages"] + splitted[:-1])
 
-    file = find_file(folder, str(filename)+".txt")
+    file = find_file(folder, str(filename)+extension)
     if not file:
-        file = folder / (str(filename)+".txt")
+        file = folder / (str(filename)+extension)
     file = open(file, 'w', encoding="UTF-8")
     file.write(str(d.today())+"\n")
     file.write(html)
@@ -93,11 +93,11 @@ def create_folder(folders):
             os.mkdir(f)
     return Path(place)
 
-def is_not_valid(id, valid_from):
+def is_not_valid(id, valid_from, ext):
     # Når er den valid?
     # - Filen finnes
     # - Datoen filen er hentet er etter valid_from
-    folder, name = id_to_folder_name(id)
+    folder, name = id_to_folder_name(id, ext)
     if not find_file(folder, name):
         return True
     if valid_from == False:
