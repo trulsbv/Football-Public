@@ -142,11 +142,9 @@ class Team():
                 for i in range(len(influence[player])):
                     self.print_player_influence(influence[player][i])
 
-    def get_player(self, name, url=False, warning=False):
-        if not url:
-            prints.error(self, "Player url not provided")
-            exit()
-    
+    def get_player(self, name="UnreportedPlayer", url=False, warning=False):
+        if name == False:
+            name = "UnreportedPlayer"
         # Only suggest unless we have the correct url.
         for player in self.players:
             if url == player.url:

@@ -93,16 +93,19 @@ def create_folder(folders):
             os.mkdir(f)
     return Path(place)
 
-def is_expired(id, expires_after_days):
+def is_not_valid(id, valid_from):
+    # Når er den valid?
+    # - Filen finnes
+    # - Datoen filen er hentet er etter valid_from
     folder, name = id_to_folder_name(id)
     if not find_file(folder, name):
         return True
-    if expires_after_days == False:
+    if valid_from == False:
         return False
-    date_str = find_html(id).split("\n")[:1][0]
-    date = datetime.strptime(date_str, '%Y-%m-%d').date()
-    delta = date - date.today() # datetime.strptime("11.10.2023", "%d.%m.%Y").date()
-    return delta.days > expires_after_days
+    
+    str_date = find_html(id).split("\n")[:1][0]
+    date_date = datetime.strptime(str_date, "%Y-%m-%d").date()
+    return date_date < valid_from
 
 def get_baneinfo(html):
     document = BeautifulSoup(html, "html.parser")
