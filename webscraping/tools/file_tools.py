@@ -9,7 +9,7 @@ import tools.web_tools as wt
 def id_to_folder_name(id, extension=".html"):
     splitted = id.split("/")
     name = (splitted[-1]+extension).replace("?", "")
-    folder = create_folder(["pages"] + splitted[:-1])
+    folder = create_folder(["files"] + splitted[:-1])
     return (folder, name)
 
 def find_file(folder, name):
@@ -32,7 +32,7 @@ def find_file(folder, name):
 
 def find_html(id, extension=".html"):
     """
-    Takes an id and searches through the pages folder for a [id].txt file
+    Takes an id and searches through the files folder for a [id].txt file
     to see if we already have the html from a previous fetch
     This is to reduce requests.
 
@@ -50,7 +50,7 @@ def find_html(id, extension=".html"):
     """
     splitted = id.split("/")
     filename = (splitted[-1]+extension).replace("?", "")
-    folder = create_folder(["pages"] + splitted[:-1])
+    folder = create_folder(["files"] + splitted[:-1])
     file = find_file(folder, filename)
     if not file:
         return 0
@@ -74,7 +74,7 @@ def save_html(id, html, extension):
     """
     splitted = id.split("/")
     filename = splitted[-1].replace("?", "")
-    folder = create_folder(["pages"] + splitted[:-1])
+    folder = create_folder(["files"] + splitted[:-1])
 
     file = find_file(folder, str(filename)+extension)
     if not file:
