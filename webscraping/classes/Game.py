@@ -38,8 +38,12 @@ class Game():
                 self.winner = self.home
             elif self.score[0] < self.score[1]:
                 self.winner = self.away
+                
+            self.home.add_game(self)
+            self.away.add_game(self)
         else:
             prints.warning(f"{self.home} - {self.away} has not been played yet!")
+        
     
     def opponent(self, team):
         if team == self.home:

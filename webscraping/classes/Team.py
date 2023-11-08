@@ -12,7 +12,15 @@ class Team():
         self.name = None
         self.number = None
         self.position = None
+        self.games = []
         self._init_players()
+
+    def analyse_game(self, game):
+        ...
+
+    def add_game(self, game):
+        self.analyse_game(game)
+        self.games.append(game)
 
     def print_team(self):
         self.players.sort()

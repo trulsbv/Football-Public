@@ -68,7 +68,7 @@ class Substitute(Event):
             assert (not player_a in sheet[1]) and (player_a in sheet[0])
             assert (not player_b in sheet[0]) and (player_b in sheet[1])
         else:
-            prints.error("SUBSTITUTION", f"Tries to sub off player thats not on the pitch. {team}, {player_a} => {player_b} ({self.game.date})")
+            prints.warning("SUBSTITUTION", f"Tries to sub off player thats not on the pitch. {team}, {player_a} => {player_b} ({self.game.date})")
             return
         
         if self.player_in.matches["sub out"]:
