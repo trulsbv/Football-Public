@@ -16,6 +16,7 @@ def utfify(s):
     s = s.replace("&#197;", "Å")
     s = s.replace("&#230;", "æ")
     s = s.replace("&#198;", "Æ")
+    s = s.replace("&#39;", "'")
     return s
 
 def get_html(url: str, params: dict | None = None, output: str | None = None):
