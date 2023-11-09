@@ -4,90 +4,15 @@ from bs4 import BeautifulSoup
 from classes.Page import Page
 from classes.Player import Player
 
-class Report():
-    def __init__(self, team):
-        self.team = team
-        self.analysis = {}
-
-    def has_analysis(self, gameid):
-        return gameid in self.analysis
-
-    def add_analysis(self, analysis, gameid):
-        self.analysis[gameid] = analysis
-
-    def get_analysis(self, gameid):
-        # Add code for searching to find a analysis
-        ...
-    
-    def save_analysis(self, gameid):
-        # Add code for saving a analysis
-        # Should be saved in analysis/gameid
-        ...
-    
-
-
-class Analysis():
-    """
-    Should have a print-friendly str
-
-    classes needs to implement the same format
-    """
-    
-    def __init__(self):
-
-        self.date
-        self.day # string
-        self.time # time
-        self.points # 0 / 1 / 3
-        self.result # x - y
-        self.home #bool
-        self.viewers # int
-        self.pitch # class
-        self.weather # class weather
-        self.home_start # list of class players
-        self.home_bench # list of class players
-        self.away_start # list of class players
-        self.away_bench # list of class players
-        self.happendings # list of the stuff happening in the game
-
-# print should look like this:
-"""
-12-03-2023,monday,14:00,3,3-1,true,1233,Bislett stadion
-17, rain, ...
-Starting XI home:,...,..., ...
-Home bench:,...,..., ...
-Starting XI away:,...,..., ...
-Away bench:,...,..., ...
-Goal,15,id
-Yellow card,25,id
-Substitution,55,id,id
-...
-
-
-"""
-
 class Team():
     def __init__(self, page):
         self.players = []
-        self.report = Report(self)
         self.page = page
         self.name = None
         self.number = None
         self.position = None
         self.games = []
         self._init_players()
-
-    def analyse_results(self, game):
-        if game.winner == self:
-            self.report.points += 3
-        elif self.winner == None:
-            self.report.points += 1
-
-        ...
-
-    def add_game(self, game):
-        self.analyse_results(game)
-        self.games.append(game)
 
     def print_team(self):
         self.players.sort()

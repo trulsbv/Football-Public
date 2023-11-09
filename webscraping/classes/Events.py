@@ -137,6 +137,12 @@ class Events():
                 else:
                     home_goals += 1
         return (home_goals, away_goals)
+    
+    def get_analysis_str(self):
+        s = ""
+        for item in self.events:
+            s += item.get_analysis_str() + "\n"
+        return s
         
 
     def __repr__(self) -> str:

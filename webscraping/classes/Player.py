@@ -107,6 +107,9 @@ class Player():
             return self.url == other.url
         if type(other) == str:
             return self.name == other
+        
+    def get_analysis_str(self):
+        return self.url
 
     def print_row(self) -> str:
         s = ""

@@ -22,5 +22,22 @@ class Weather():
         self.sunrise = self.data["currentConditions"]["sunrise"] # time
         self.sunset = self.data["currentConditions"]["sunset"] # time
 
+    def get_analysis_str(self):
+        items = [self.temp, self.humidity, self.precip, self.preciptype,
+                 self.windgust, self.windspeed, self.cloudcover, self.conditions,
+                 self.sunrise, self.sunset]
+        s = ""
+
+        f = True
+        for item in items:
+            if not item:
+                continue
+            if not f:
+                s += ","
+            f = False
+            s += str(item)
+
+        return s
+
 # Future data: https://api.met.no/weatherapi/locationforecast/2.0/documentation
 

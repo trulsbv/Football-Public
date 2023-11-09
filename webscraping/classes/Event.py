@@ -24,6 +24,9 @@ class YellowCard(Booking):
     
     def __repr__(self) -> str:
         return super().__repr__()+" gult kort"
+    
+    def get_analysis_str(self):
+        return f"Yellow card,{self.time},{self.team},{self.player.url}"
 
 class RedCard(Booking):
     def __init__(self, game, time, team, player):
@@ -31,6 +34,9 @@ class RedCard(Booking):
     
     def __repr__(self) -> str:
         return super().__repr__()+" rødt kort"
+    
+    def get_analysis_str(self):
+        return f"Red card,{self.time},{self.team},{self.player.url}"
 
 class Substitute(Event):
     def __init__(self, game, time, team, player):
@@ -87,7 +93,9 @@ class Substitute(Event):
 
     def __repr__(self) -> str:
         return f"{self.team}, {self.player_in} => {self.player_out} ({self.game.date})"
-
+    
+    def get_analysis_str(self):
+        return f"Substitution,{self.time},{self.team},{self.player_in.url},{self.player_out.url}"
 
 class Goal(Event):
     def __init__(self, game, time, team, player):
@@ -104,6 +112,9 @@ class PlayGoal(Goal):
     
     def __repr__(self) -> str:
         return super().__repr__()+" spillemål"
+    
+    def get_analysis_str(self):
+        return f"Playgoal,{self.time},{self.team},{self.player.url}"
 
 class PenaltyGoal(Goal):
     def __init__(self, game, time, team, player):
@@ -111,6 +122,9 @@ class PenaltyGoal(Goal):
     
     def __repr__(self) -> str:
         return super().__repr__()+" straffemål"
+    
+    def get_analysis_str(self):
+        return f"PenaltyGoal,{self.time},{self.team},{self.player.url}"
 
 class OwnGoal(Goal):
     def __init__(self, game, time, team, player):
@@ -118,3 +132,6 @@ class OwnGoal(Goal):
     
     def __repr__(self) -> str:
         return super().__repr__()+" selvmål"
+    
+    def get_analysis_str(self):
+        return f"OwnGoal,{self.time},{self.team},{self.player.url}"

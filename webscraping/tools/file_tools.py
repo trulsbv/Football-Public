@@ -3,10 +3,33 @@ from datetime import date as d, datetime
 from pathlib import Path
 import os
 import re
-import tools.prints as prints
-import tools.web_tools as wt
+        
+def write_analysis(data, id, extension):
+    folder = create_folder(["files"] + ["analysis"])
+    file = find_file(folder, str(id)+extension)
+    if not file:
+        file = folder / (str(id)+extension)
+    file = open(file, 'w', encoding="UTF-8")
+    file.write(str(d.today())+"\n")
+    file.write(data)
+    file.close()
 
-def id_to_folder_name(id, extension=".html"):
+def get_analysis(id, extension):
+    folder = create_folder(["files"] + ["analysis"])
+    file = find_file(folder, id+extension)
+    file = open(file, encoding="UTF-8")
+    lines = file.readlines()
+    s = ""
+    for line in lines:
+        s+=line
+    return s
+
+
+def is_analysed(id, extension):
+    folder = Path("files")/"analysis"
+    return find_file(folder, id+extension)
+
+def url_to_folder_name(id, extension=".html"):
     splitted = id.split("/")
     name = (splitted[-1]+extension).replace("?", "")
     folder = create_folder(["files"] + splitted[:-1])
@@ -97,7 +120,7 @@ def is_not_valid(id, valid_from, ext):
     # Når er den valid?
     # - Filen finnes
     # - Datoen filen er hentet er etter valid_from
-    folder, name = id_to_folder_name(id, ext)
+    folder, name = url_to_folder_name(id, ext)
     if not find_file(folder, name):
         return True
     if valid_from == False:
@@ -118,8 +141,8 @@ def get_baneinfo(html):
             if len(item.split(":")) > 2:
                 continue
             n, v = item.split(":")
-            if n in dict:
-                dict[n] = v
+            if n.lower() in dict:
+                dict[n.lower()] = v
 
     out = []
     for key in dict:

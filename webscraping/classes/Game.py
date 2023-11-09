@@ -1,6 +1,7 @@
 from datetime import datetime
 from classes.Weather import Weather
 import tools.prints as prints
+import tools.file_tools as ft
 import settings
 
 class Game():
@@ -26,7 +27,45 @@ class Game():
     def _is_played(self):
         return datetime.strptime(self.date, "%d.%m.%Y") < settings.current_date
     
+    def write_analysis(self):
+        direct_items = [self.date, self.day, self.time, self.home.name, f"{self.score[0]} - {self.score[1]}", self.away.name, str(self.spectators)]
+        callable_items = [self.pitch, self.weather]
+        s = ""
+
+        f = True
+        for item in direct_items:
+            if item is None:
+                continue
+            if not f:
+                s += ","
+            s += item
+            f = False
+        s += "\n"
+
+        for team in [self.hometeam, self.awayteam]:
+            for group in team: # [Starting, bench]
+                f = True
+                for player in group:
+                    if not f:
+                        s += ","
+                    s += player.get_analysis_str()
+                    f = False
+                s += "\n"
+        for item in callable_items:
+            if item is None:
+                continue
+            s += item.get_analysis_str() + "\n"
+
+        s += self.result.get_analysis_str()
+
+        ft.write_analysis(s, self.gameId, ".csv")
+
     def analyse(self):
+        """
+        if ft.is_analysed(self.gameId, ".csv"):
+            # Need to read the content of the file and set values
+            return ft.get_analysis(self.gameId, ".csv")
+        """
         if self._is_played():
             self.weather = Weather(self)
             result = self.result.get_team_sheet(self)
@@ -39,8 +78,9 @@ class Game():
             elif self.score[0] < self.score[1]:
                 self.winner = self.away
                 
-            self.home.add_game(self)
-            self.away.add_game(self)
+            self.home.games.append(self.gameId)
+            self.away.games.append(self.gameId)
+            self.write_analysis()
         else:
             prints.warning(f"{self.home} - {self.away} has not been played yet!")
         
