@@ -30,11 +30,11 @@ class Weather():
 
         f = True
         for item in items:
-            if not item:
-                continue
             if not f:
                 s += ","
             f = False
+            if not item:
+                continue
             s += str(item)
 
         return s
