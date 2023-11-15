@@ -16,10 +16,15 @@ def _prints(s, newline, meta=0):
     global prev_len
     s = fill_blanks(s, meta)
     if newline:
-        print(s)
-        prev_len = 0
+        if prev_str != "":
+            print("  " + s)
+        else:
+            print(s)
     else:
-        print(s, end='\r')
+        if prev_str != "":
+            print("  " + s, end='\r')
+        else:
+            print(s, end='\r')
         prev_len = len(s)-meta
 
 def success(where=None):
@@ -32,6 +37,7 @@ def success(where=None):
     else:
         s += f"{Fore.GREEN}{pos}{Fore.RESET} {prev_str} ({t} s)"
     meta = len(f"{Fore.RESET}{Fore.RESET}")
+    prev_str = ""
 
     _prints(s, True, meta)
 

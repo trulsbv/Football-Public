@@ -61,5 +61,4 @@ def get_historic_data(coordinates, time):
     
     prints.download(coordinates)
     endpoint = f"https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{x_coord},{y_coord}/{time}?key={visualcrossing_key}&include=current"
-
     return requests.get(endpoint).json()

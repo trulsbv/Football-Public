@@ -11,8 +11,8 @@ def parse_map_string(map_string):
 def get_weather_data(pitch, date, time):
     ds = str(date).split("-")
     ts = str(time).split(".")
-    time = f"{ds[2]}-{ds[1]}-{ds[0]}T{ts[0]}:{ts[1]}:00"
-    file_name = f"weather/{pitch.name}/{time}"
+    t = f"{ds[0]}-{ds[1]}-{ds[2]}T{ts[0]}:{ts[1]}:00"
+    file_name = f"weather/{pitch.name}/{t}"
     file_name = file_name.replace("Æ", "Ae")
     file_name = file_name.replace("æ", "ae")
     file_name = file_name.replace("Ø", "O")
@@ -25,9 +25,10 @@ def get_weather_data(pitch, date, time):
         return parse_map_string(data)
     cords = get_coords(pitch)
     try:
-        data = wt.get_historic_data(cords, time)
+        data = wt.get_historic_data(cords, t)
     except:
-        return False
+        print("\nERROR FETCHING FROM weather_tools.py!")
+        exit()
     ft.save_html(file_name, str(data), ".txt")
     return data
 

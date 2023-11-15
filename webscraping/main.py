@@ -15,8 +15,9 @@ def main():
     #search = "Eliteserien"
     leagues = [
         "Eliteserien",
-        "Post Nord-ligaen avd. 1",
-        "Post Nord-ligaen avd. 2",
+        #"Post Nord-ligaen avd. 1",
+        #"Post Nord-ligaen avd. 2",
+        #"Norsk Tipping-Ligaen avd. 2",
         ]
     #search = "Toppserien"
     #search = "Norsk Tipping-Ligaen avd. 2"
@@ -34,7 +35,7 @@ def main():
     saved = []
 
     for leg in leagues:
-        prints.start(leg)
+        prints.start(f"Reading league: {leg}")
         tournament = main.get_tournament(leg)
         prints.success()
 
@@ -98,25 +99,15 @@ def main():
         return clubs
         
 
-    def top_performers():
-        inp = ""
-        while inp.upper() != "E" and inp.upper() != "Q":
-            print("Get top perfomers for club: type club name, to see clubs: type 'clubs'")
-            inp = input(" => ")
-
-            if inp.upper() == "CLUBS":
-                for club in club_list(saved):
-                    print(club)
-            if inp.upper() == "CLS":
-                os.system('cls' if os.name == 'nt' else 'clear')
-            for league in saved:
-                if inp in league.team:
-                    league.team[inp].print_top_performers()
-                    print()
-
     def _print_top_performers(team):
         team.print_top_performers()
         print()
+
+    def _print_team_overview(team):
+        team.print_team()
+    
+    def _print_team_influence(team):
+        team.print_team_influence()
 
     def menu_page(func, header):
         inp = ""
@@ -154,14 +145,17 @@ def main():
     
     inp = ""
     while inp.upper() != "Q":
+        print(f"[0] Team overview")
         print(f"[1] Team stats")
         print(f"[2] Top performers for team")
         print(f"[3] Top performers league")
         print(f"[Q] Quit")
         inp = input(" => ")
         if inp.isnumeric():
+            if int(inp) == 0:
+                menu_page(_print_team_overview, "Team overview")
             if int(inp) == 1:
-                team_stats()
+                menu_page(_print_team_influence, "Team stats")
             if int(inp) == 2:
                 menu_page(_print_top_performers, "Top performers for team")
             if int(inp) == 3:
