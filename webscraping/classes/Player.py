@@ -1,5 +1,6 @@
 from classes.Event import (OwnGoal, PenaltyGoal, PlayGoal, RedCard,
                    YellowCard, Goal, Booking)
+from datetime import datetime
 class Player():
     def __init__(self, team, name, url):
         self.team = team
@@ -55,7 +56,7 @@ class Player():
                 out_time = 90
             end = game.result.get_result()
             results_while_playing.append((game, (cur, fin, end), (in_time, out_time)))
-
+        results_while_playing.sort(key=lambda x: x[0].date) #(x[0].date.year, x[0].date.month, x[0].date.day)
         return results_while_playing
     
     def get_goals(self):
@@ -109,7 +110,7 @@ class Player():
             return self.name == other
         
     def get_analysis_str(self):
-        return self.url
+        return f"{self.url};{self.name};{self.number};{self.position}"
 
     def print_row(self) -> str:
         s = ""
@@ -136,3 +137,37 @@ class Player():
             loss_percent = round((loss/sum)*100, 2)
             s+= f" ({win} {win_percent}%, {draw} {draw_percent}%, {loss} {loss_percent}%)"
         return s
+
+    def get_influence(self):
+        output = []
+        result = self.results_while_playing()
+        for res in result:
+            if res:
+                game, results, sub_time = res
+                pre, post, end = results
+                home_pre, away_pre = pre
+                home_post, away_post = post
+                goals_for = 0
+                goals_against = 0
+                loc = "Home"
+
+                if game.home == self.team:
+                    goals_for = home_post - home_pre
+                    goals_against = away_post - away_pre
+                elif game.away == self.team:
+                    goals_for = away_post - away_pre
+                    goals_against = home_post - home_pre
+                    loc = "Away"
+
+                if not "goals_for" in self.influence:
+                    self.influence["goals_for"] = goals_for
+                    self.influence["goals_against"] = goals_against
+                    self.influence["num_games"] = 1
+                    self.influence["num_minutes"] = sub_time[1]-sub_time[0]
+                else:
+                    self.influence["goals_for"] += goals_for
+                    self.influence["goals_against"] += goals_against
+                    self.influence["num_games"] += 1
+                    self.influence["num_minutes"] += (sub_time[1])-sub_time[0]
+                output.append([game, loc, sub_time, pre, post, end, goals_for, goals_against])
+        return output

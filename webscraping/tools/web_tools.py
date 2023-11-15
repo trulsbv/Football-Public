@@ -34,6 +34,7 @@ def get_html(url: str, params: dict | None = None, output: str | None = None):
             The HTML of the page, as text.
     """
     global fetches
+    fetches += 1
     prints.download(url)
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36',
@@ -41,7 +42,6 @@ def get_html(url: str, params: dict | None = None, output: str | None = None):
     }
     # passing the optional parameters argument to the get function
     response = requests.get(url, params=params, headers=headers)
-    fetches += 1
 
     html_str = utfify(response.text)
     if output:
@@ -55,6 +55,8 @@ def get_html(url: str, params: dict | None = None, output: str | None = None):
     return html_str
 
 def get_historic_data(coordinates, time):
+    global fetches
+    fetches+=1
     x_coord, y_coord = coordinates
     
     prints.download(coordinates)

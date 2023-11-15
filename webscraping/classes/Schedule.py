@@ -29,15 +29,15 @@ class Schedule():
                 round, date, day, time, _, _hometeam, _result, _awayteam, _pitch, gameId = cells_text
             except:
                 round, date, day, time, _, _hometeam, _result, _awayteam, _pitch, gameId, _live = cells_text
-            
+            date = datetime.strptime(date, "%d.%m.%Y").date()
             home = self.turnering.create_team(_hometeam, urls[1])
             away = self.turnering.create_team(_awayteam, urls[3])
             if self._is_played(date):
-                events = Events(Page(urls[2], valid_from=datetime.strptime(date, "%d.%m.%Y").date()))
-                pitch = Pitch(Page(urls[4], valid_from=datetime.strptime(date, "%d.%m.%Y").date()))
+                events = Events(Page(urls[2], valid_from=date))
+                pitch = Pitch(Page(urls[4], valid_from=date))
                 game = Game(round, date, day, time, home, events, away, pitch, gameId)
                 self.games.append(game)
 
     def _is_played(self, d):
-        return datetime.strptime(d, "%d.%m.%Y").date() < date.today()
+        return d < date.today()
     

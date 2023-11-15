@@ -16,6 +16,24 @@ class Events():
         self.uref_hendelser = []
         self.game = None
 
+    def insert_data(self, event, time, team, player1, player2, game):
+        self.game = game
+        if event == "Playgoal":
+            event =  PlayGoal(game, time, team, (None, player1))
+        elif event == "PenaltyGoal":
+            event =  PenaltyGoal(game, time, team, (None, player1))
+        elif event == "OwnGoal":
+            event =  OwnGoal(game, time, team, (None, player1))
+        elif event == "Yellow card":
+            event =  YellowCard(game, time, team, (None, player1))
+        elif event == "Red card":
+            event =  RedCard(game, time, team, (None, player1))
+        elif event == "Substitution":
+            event =  Substitute(game, time, team, ((None, player2), (None , player1)))
+        else: prints.error(self, f"{event} is not handled!"); exit()
+        self.events.append(event)
+        return event
+
     def analyse(self, restart=0):
         self.events = []
         if len(self.uref_hendelser) == 0:
@@ -86,7 +104,7 @@ class Events():
                 awayteam[0].append(player)
             i+=1
 
-        return (hometeam, awayteam)
+        return [hometeam, awayteam]
 
     def _analyse(self, text):
         r = rt.analysis(text)
@@ -141,7 +159,9 @@ class Events():
     def get_analysis_str(self):
         s = ""
         for item in self.events:
-            s += item.get_analysis_str() + "\n"
+            data = item.get_analysis_str()
+            if data:
+                s += data + "\n"
         return s
         
 

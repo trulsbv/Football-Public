@@ -9,8 +9,8 @@ def parse_map_string(map_string):
     return d
 
 def get_weather_data(pitch, date, time):
-    ds = date.split(".")
-    ts = time.split(".")
+    ds = str(date).split("-")
+    ts = str(time).split(".")
     time = f"{ds[2]}-{ds[1]}-{ds[0]}T{ts[0]}:{ts[1]}:00"
     file_name = f"weather/{pitch.name}/{time}"
     file_name = file_name.replace("Æ", "Ae")

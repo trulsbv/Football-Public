@@ -27,46 +27,16 @@ class Team():
     def get_player_influence(self):
         output = {}
         for player in self.players:
-            result = player.results_while_playing()
-            for res in result:
-                if res:
-                    game, results, sub_time = res
-                    pre, post, end = results
-                    home_pre, away_pre = pre
-                    home_post, away_post = post
-                    goals_for = 0
-                    goals_against = 0
-                    loc = "Home"
-
-                    if game.home == self:
-                        goals_for = home_post - home_pre
-                        goals_against = away_post - away_pre
-                    elif game.away == self:
-                        goals_for = away_post - away_pre
-                        goals_against = home_post - home_pre
-                        loc = "Away"
-
-                    if not player in output:
-                        output[player] = []
-
-                    if not "goals_for" in player.influence:
-                        player.influence["goals_for"] = goals_for
-                        player.influence["goals_against"] = goals_against
-                        player.influence["num_games"] = 1
-                        player.influence["num_minutes"] = sub_time[1]-sub_time[0]
-                    else:
-                        player.influence["goals_for"] += goals_for
-                        player.influence["goals_against"] += goals_against
-                        player.influence["num_games"] += 1
-                        player.influence["num_minutes"] += (sub_time[1])-sub_time[0]
-                    
-                    output[player].append([game, loc, sub_time, pre, post, end, goals_for, goals_against])
+            output[player] = player.get_influence()
         return output
     
     def get_top_performers(self, category="ppg"):
         output = []
         influence = self.get_player_influence()
-        for player in influence:
+        for player in self.players:
+            if "goals_for" not in player.influence:
+                # Skipping players that hasn't played any minutes
+                continue
             p_tot = player.influence['goals_for'] - player.influence['goals_against']    
             ppg = 0 if player.influence['num_games'] == 0 else round(p_tot/player.influence['num_games'], 2)
             mpg = round(player.influence['num_minutes']/player.influence['num_games'], 0)
@@ -81,14 +51,15 @@ class Team():
         return output
 
 
-    def print_top_perfomers(self):
+    def print_top_performers(self):
         inp = self.get_top_performers()
         inp = sorted(inp, key=lambda x: x[0], reverse=True)
         for i in inp:
-            s = f"{i[2]}, personal total: {i[1][0]}"
-            s += f" | avg. {prints.get_fore_color_int(i[1][1])} per game"
-            s += f" | avg. {i[1][2]} minutes per game"
+            s = f"{str(i[2]):>35}, personal total: {str(i[1][0]):>3}"
+            s += f" | avg. {' '*(5-len(str(i[1][1])))}{prints.get_fore_color_int(i[1][1])} per game ({str(len(i[2].results_while_playing())):>2})"
+            s += f" | avg. {str(int(i[1][2])):>2} minutes per game"
             s += f" | avg. {prints.get_fore_color_int(i[1][3])} points per minute"
+            
             print(s)
     
     def print_player_influence(self, influence):
@@ -117,7 +88,7 @@ class Team():
 
         in_t = "'"+str(in_t)
         out_t = "'"+str(out_t)
-        print(f" {in_t:>3}-{out_t:>3} | {home_pre:>2} - {away_pre:<2} -> {home_post:>2} - {away_post:<2} {personal_res:<4} | {loc} | Result {end[0]:>2} - {end[1]:<2} {actual_res:<4} | for: {goals_for:>2}, agst: {goals_against:>2}, tot: {total_goals:>3} | {game.opponent(self)}, {game.result.page.url}")
+        print(f" {in_t:>3}-{out_t:>3} | {home_pre:>2} - {away_pre:<2} -> {home_post:>2} - {away_post:<2} {personal_res:<4} | {loc} | Result {end[0]:>2} - {end[1]:<2} {actual_res:<4} | for: {goals_for:>2}, agst: {goals_against:>2}, tot: {total_goals:>3} | {game.date}, {game.opponent(self)}")
 
     def print_team_influence(self, individual = True):
         influence = self.get_player_influence()
@@ -125,6 +96,10 @@ class Team():
         for player in influence:
             if not first:
                 print("\n")
+            if "goals_for" not in player.influence:
+                # Skipping players that hasn't played any minutes
+                print(player, "- No minutes registerd")
+                continue
             first = False
             p_tot = player.influence['goals_for'] - player.influence['goals_against']    
             ppg = 0 if player.influence['num_games'] == 0 else round(p_tot/player.influence['num_games'], 2)
@@ -142,17 +117,15 @@ class Team():
                 for i in range(len(influence[player])):
                     self.print_player_influence(influence[player][i])
 
-    def get_player(self, name="UnreportedPlayer", url=False, warning=False):
+    def get_player(self, name="UnreportedPlayer", url=False, warning=False, number=False, position=False):
         if name == False:
             name = "UnreportedPlayer"
         # Only suggest unless we have the correct url.
         for player in self.players:
             if url == player.url:
                 return player
-            if name == player.name:
-                input(f"HÆÆÆÆ: {url} !=??? {player.url}")
         if warning:
-            prints.warning(self, f"Created a new player: {name}, lacking number and position")
+            prints.warning(self, f"Created a new player: {name} ({url}), lacking number and position")
 
         player = Player(self, name, url)
         self.players.append(player)

@@ -20,15 +20,17 @@ class Game():
         self.weather = None
         self.hometeam = None
         self.awayteam = None
+        self._save_home = [[], []]
+        self._save_away = [[], []]
         self.spectators = None
         self.winner = None
         self.score = None
 
     def _is_played(self):
-        return datetime.strptime(self.date, "%d.%m.%Y") < settings.current_date
+        return self.date < settings.current_date
     
     def write_analysis(self):
-        direct_items = [self.date, self.day, self.time, self.home.name, f"{self.score[0]} - {self.score[1]}", self.away.name, str(self.spectators)]
+        direct_items = [self.date, self.day, self.time, self.home.page.url, f"{self.score[0]} - {self.score[1]}", self.away.name, str(self.spectators)]
         callable_items = [self.pitch, self.weather]
         s = ""
 
@@ -38,11 +40,11 @@ class Game():
                 continue
             if not f:
                 s += ","
-            s += item
+            s += str(item)
             f = False
         s += "\n"
 
-        for team in [self.hometeam, self.awayteam]:
+        for team in [self._save_home, self._save_away]:
             for group in team: # [Starting, bench]
                 f = True
                 for player in group:
@@ -60,16 +62,49 @@ class Game():
 
         ft.write_analysis(s, self.gameId, ".csv")
 
-    def extract_players(self, start, bench):
-        print(start)
-
-        print(bench)
+    def extract_players(self, team, start, bench):
+        out = ([], [])
+        for data in start.split(","):
+            url, name, number, position = data.split(";")
+            player = team.get_player(name=name, url=url, number=number, position=position)
+            player.matches["started"].append(self)
+            out[0].append(player)
+        for data in bench.split(","):
+            url, name, number, position = data.split(";")
+            player = team.get_player(name=name, url=url, number=number, position=position)
+            player.matches["benched"].append(self)
+            out[1].append(player)
+        return out
+    
+    def extract_weather(self, data):
+        weather = Weather(self, False)
+        weather.insert_data(data.split(","))
+        return weather
+    
+    def extract_events(self, data):
+        out = []
+        for item in data:
+            if not item:
+                continue
+            try:
+                event, time, team_url, player1 = item.split(",")
+                player2 = None
+            except:
+                event, time, team_url, player1, player2= item.split(",")
+                
+            team = self.home if self.home.page.url == team_url else self.away
+            out.append(self.result.insert_data(event, time, team, player1, player2, self))
+            
+    def extract_score(self, data):
+        data = data.split(" - ")
+        return (int(data[0]), int(data[1]))
 
     def read_analysis(self, data):
         data = data.split("\n")[1:]
-        self.date, self.day, self.time, _hometeam, score, _awayteam, self.spectators = data[0].split(",")
-        self.hometeam = self.extract_players(data[1], data[2])
-        self.awayteam = self.extract_players(data[3], data[4])
+        date, self.day, self.time, _hometeam, score, _awayteam, self.spectators = data[0].split(",")
+        self.date = datetime.strptime(date, "%Y-%m-%d").date()
+        self.hometeam = self.extract_players(self.home, data[1], data[2])
+        self.awayteam = self.extract_players(self.away, data[3], data[4])
         self.weather = self.extract_weather(data[6])
         self.events = self.extract_events(data[7:])
         self.score = self.extract_score(score)
@@ -77,20 +112,20 @@ class Game():
             self.winner = self.home
         elif self.score[0] < self.score[1]:
             self.winner = self.away
-        for item in data:
-            print()
-            print(item)
-        exit()
-
 
     def analyse(self):
         if ft.is_analysed(self.gameId, ".csv"):
             self.read_analysis(ft.get_analysis(self.gameId, ".csv"))
+            return
         if self._is_played():
             self.weather = Weather(self)
             result = self.result.get_team_sheet(self)
             if result:
                 self.hometeam, self.awayteam = result
+                self._save_home[0] = self.hometeam[0].copy()
+                self._save_home[1] = self.hometeam[1].copy()
+                self._save_away[0] = self.awayteam[0].copy()
+                self._save_away[1] = self.awayteam[1].copy()
             self.events = self.result.analyse()
             self.score = self.result.get_result()
             if self.score[0] > self.score[1]:
@@ -114,10 +149,10 @@ class Game():
     
     def __repr__(self) -> str:
         s = f"{self.round} ({self.day} {self.date} at {self.time}) {self.home} "
-        if datetime.strptime(self.date, "%d.%m.%Y") < settings.current_date:
+        if self.date < settings.current_date:
             s += f"{self.result} "
         else:
-            s += " -  "
+            s += " - "
         s += f"{self.away}, {self.pitch} ({self.gameId})"
         if self.spectators:
             s += f" - {self.spectators} attended"

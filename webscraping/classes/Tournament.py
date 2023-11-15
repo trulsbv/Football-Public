@@ -28,3 +28,6 @@ class Tournament():
     
     def create_schedule(self):
         self.schedule = Schedule(self, Page(self._get_schedule_url()))
+    
+    def __lt__(self, other):
+        self.page.html.title < other.page.html.title

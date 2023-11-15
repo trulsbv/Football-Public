@@ -1,5 +1,7 @@
 from colorama import Fore, Back
+import time
 
+time_start = 0.0
 prev_len = 0
 pos = "✓"
 neg = "✘"
@@ -23,18 +25,23 @@ def _prints(s, newline, meta=0):
 def success(where=None):
     global prev_str
     s = ""
+    t = round((time.perf_counter() - time_start), 3)
+
     if where:
-        s += f"{Fore.GREEN}{pos}{Fore.RESET} {where}"
+        s += f"{Fore.GREEN}{pos}{Fore.RESET} {where} ({t} s)"
     else:
-        s += f"{Fore.GREEN}{pos}{Fore.RESET} {prev_str}"
+        s += f"{Fore.GREEN}{pos}{Fore.RESET} {prev_str} ({t} s)"
     meta = len(f"{Fore.RESET}{Fore.RESET}")
+
     _prints(s, True, meta)
 
 def start(where):
     global prev_str
+    global time_start
     s = f"{Fore.CYAN}→{Fore.RESET} {where}"
     meta = len(f"{Fore.CYAN}{Fore.RESET}")
     prev_str = where
+    time_start = time.perf_counter()
     _prints(s, False, meta)
 
 def error(where, message="No reason given, sorry."):
@@ -95,3 +102,12 @@ def get_fore_color_int(int):
     if int > 0: return get_green_fore(int)
     if int < 0: return get_red_fore(int)
     return get_yellow_fore(int)
+
+def START():
+    global START_TIME
+    START_TIME = time.perf_counter()
+
+def FINISH():
+    t = round((time.perf_counter() - START_TIME), 3)
+    message = f" => {t} s"
+    _prints(message, newline=True)

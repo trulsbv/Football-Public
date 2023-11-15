@@ -26,7 +26,7 @@ class YellowCard(Booking):
         return super().__repr__()+" gult kort"
     
     def get_analysis_str(self):
-        return f"Yellow card,{self.time},{self.team},{self.player.url}"
+        return f"Yellow card,{self.time},{self.team.page.url},{self.player.url}"
 
 class RedCard(Booking):
     def __init__(self, game, time, team, player):
@@ -36,7 +36,7 @@ class RedCard(Booking):
         return super().__repr__()+" rødt kort"
     
     def get_analysis_str(self):
-        return f"Red card,{self.time},{self.team},{self.player.url}"
+        return f"Red card,{self.time},{self.team.page.url},{self.player.url}"
 
 class Substitute(Event):
     def __init__(self, game, time, team, player):
@@ -45,14 +45,18 @@ class Substitute(Event):
         player_a = team.get_player(_in[0], _in[1], warning=True)
         player_b = team.get_player(_out[0], _out[1], warning=True)
 
+
+
         if team == game.home:
             sheet = game.hometeam
         elif team == game.away:
             sheet = game.awayteam
 
-        if player_a in sheet[0]:    # Player_a is on pitch, player b is on 
+        if player_a in sheet[0]: # Player_a is on pitch, player b is on 
             self.player_in = player_b
-            assert player_b in sheet[1]
+            if player_b not in sheet[1]:
+                prints.warning("SUBSTITUTION", f"{game} -> {player_b} not on {sheet[1]} bench, perheps on field: {sheet[0]}")
+                return
             self.player_out = player_a
 
             sheet[0].append(player_b)
@@ -61,11 +65,11 @@ class Substitute(Event):
             sheet[1].remove(player_b)
             assert (not player_a in sheet[0]) and (player_a in sheet[1])
             assert (not player_b in sheet[1]) and (player_b in sheet[0])
-        elif player_b in sheet[0]:                       # Player_b is on pitch, player a is on bench
-            #print("\nb on pitch")
-            #print(player_b)
+        elif player_b in sheet[0]: # Player_b is on pitch, player a is on bench
             self.player_in = player_a
-            assert player_a in sheet[1]
+            if player_a not in sheet[1]:
+                prints.warning("SUBSTITUTION", f"{game} -> {player_a} not on {sheet[1]} bench, perheps on field: {sheet[0]}")
+                return
             self.player_out = player_b
             sheet[0].append(player_a)
             sheet[0].remove(player_b)
@@ -95,7 +99,10 @@ class Substitute(Event):
         return f"{self.team}, {self.player_in} => {self.player_out} ({self.game.date})"
     
     def get_analysis_str(self):
-        return f"Substitution,{self.time},{self.team},{self.player_in.url},{self.player_out.url}"
+        try:
+            return f"Substitution,{self.time},{self.team.page.url},{self.player_in.url},{self.player_out.url}"
+        except:
+            return None
 
 class Goal(Event):
     def __init__(self, game, time, team, player):
@@ -114,7 +121,7 @@ class PlayGoal(Goal):
         return super().__repr__()+" spillemål"
     
     def get_analysis_str(self):
-        return f"Playgoal,{self.time},{self.team},{self.player.url}"
+        return f"Playgoal,{self.time},{self.team.page.url},{self.player.url}"
 
 class PenaltyGoal(Goal):
     def __init__(self, game, time, team, player):
@@ -124,7 +131,7 @@ class PenaltyGoal(Goal):
         return super().__repr__()+" straffemål"
     
     def get_analysis_str(self):
-        return f"PenaltyGoal,{self.time},{self.team},{self.player.url}"
+        return f"PenaltyGoal,{self.time},{self.team.page.url},{self.player.url}"
 
 class OwnGoal(Goal):
     def __init__(self, game, time, team, player):
@@ -134,4 +141,4 @@ class OwnGoal(Goal):
         return super().__repr__()+" selvmål"
     
     def get_analysis_str(self):
-        return f"OwnGoal,{self.time},{self.team},{self.player.url}"
+        return f"OwnGoal,{self.time},{self.team.page.url},{self.player.url}"
