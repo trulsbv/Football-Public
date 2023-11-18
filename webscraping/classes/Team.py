@@ -66,7 +66,6 @@ class Team():
                 return player
         if warning:
             prints.warning(self, f"Created a new player: {name} ({url}), lacking number and position")
-
         player = Player(self, name, url)
         self.players.append(player)
         return player

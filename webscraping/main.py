@@ -14,8 +14,8 @@ import os
 def main():
     #search = "Eliteserien"
     leagues = [
-        "Eliteserien - Norges Fotballforbund",
-        #"Post Nord-ligaen avd. 1",
+        #"Eliteserien - Norges Fotballforbund",
+        "Post Nord-ligaen avd. 1",
         #"Post Nord-ligaen avd. 2",
         #"Norsk Tipping-Ligaen avd. 2",
         ]

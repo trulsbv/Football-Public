@@ -187,6 +187,8 @@ def get_player_info(text):
 
 def get_spectators(text):
     specs = standard_reg(str(text), r'<span>([\d]* ?[\d]*)<\/span>')
+    if not specs:
+        return None
     o = "0"
     for c in specs:
         if c.isnumeric():

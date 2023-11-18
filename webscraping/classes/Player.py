@@ -98,6 +98,8 @@ class Player():
         return ((self.name) < (obj.name)) 
     
     def __repr__(self) -> str:
+        if not self.name:
+            return "None"
         if len(self.name) > 30:
             split = self.name.split(" ")
             return f"{split[0]} ... {split[-1]}"
@@ -183,9 +185,9 @@ class Player():
         p_tot = self.influence['goals_for'] - self.influence['goals_against']    
         ppg = 0 if self.influence['num_games'] == 0 else round(p_tot/self.influence['num_games'], 2)
         mpg = round(self.influence['num_minutes']/self.influence['num_games'], 0)
-        if p_tot != 0:
+        try:
             ppm = round(p_tot/self.influence['num_minutes'], 5)
-        else: ppm = 0
+        except: ppm = 0
         li = [p_tot, ppg, mpg, ppm]
         if category == "p_tot": return [p_tot, li, self, self.team]
         if category == "ppg": return [ppg, li, self, self.team]
