@@ -14,7 +14,7 @@ import os
 def main():
     #search = "Eliteserien"
     leagues = [
-        #"Eliteserien - Norges Fotballforbund",
+        "Eliteserien - Norges Fotballforbund",
         "Post Nord-ligaen avd. 1",
         #"Post Nord-ligaen avd. 2",
         #"Norsk Tipping-Ligaen avd. 2",
@@ -63,12 +63,24 @@ def main():
     print(f"Number of teams: {num_teams}")
     print(f"Pages fetched: {wt.fetches}")
 
-    def select_tournament():
+    def select_tournament(team=None):
         if len(saved) == 1:
             return saved[0]
-        else:
-            prints.error("select_tournament", "trenger at man velger mellom hentede turneringer")
-            exit()
+        if not team:
+            i = 0
+            prints.info("Choose a league:", newline=True)
+            for league in saved:
+                print(f"[{i}] {league}")
+                i+=1
+            inp = i+1
+            while not str(inp).isnumeric() or int(inp) > i:
+                inp = input(" => ")
+            return saved[int(inp)]
+
+        for league in saved:
+            if team in league.team:
+                return league
+            
 
     def league_top_performers():
         inp = ""
@@ -86,7 +98,7 @@ def main():
                 select_tournament().print_top_performers()
             for league in saved:
                 if inp in league.team:
-                    select_tournament().print_top_performers(inp)
+                    select_tournament(inp).print_top_performers(inp)
 
     def club_list(list_of_leagues):
         clubs = []
