@@ -25,7 +25,7 @@ def _prints(s, newline, meta=0):
             print("  " + s, end='\r')
         else:
             print(s, end='\r')
-        prev_len = len(s)-meta
+        prev_len = 2+len(s)-meta
 
 def success(where=None):
     global prev_str
