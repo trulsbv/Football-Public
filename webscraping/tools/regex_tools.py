@@ -186,9 +186,13 @@ def get_player_info(text):
     return (number, link,name, position)
 
 def get_spectators(text):
-    specs = standard_reg(str(text), r'<span>(\d+)<\/span>')
+    specs = standard_reg(str(text), r'<span>([\d]* ?[\d]*)<\/span>')
+    o = "0"
+    for c in specs:
+        if c.isnumeric():
+            o += c
     if specs:
-        return int(specs)
+        return int(o)
 
 def get_pitch_coords(text):
     link = standard_reg(str(text), r'(<a href="http:\/\/www\.google\.com\/maps\?q=\d+\.\d+,\d+\.\d+" target="_blank">)')

@@ -1,6 +1,6 @@
 from classes.Event import (OwnGoal, PenaltyGoal, PlayGoal, RedCard,
                    YellowCard, Goal, Booking)
-from datetime import datetime
+import tools.prints as prints
 class Player():
     def __init__(self, team, name, url):
         self.team = team
@@ -171,3 +171,70 @@ class Player():
                     self.influence["num_minutes"] += (sub_time[1])-sub_time[0]
                 output.append([game, loc, sub_time, pre, post, end, goals_for, goals_against])
         return output
+    
+    def get_performance(self, category):
+        if "goals_for" not in self.influence:
+            if not self.get_influence():
+                print("No registered data for", self)
+                return
+        p_tot = self.influence['goals_for'] - self.influence['goals_against']    
+        ppg = 0 if self.influence['num_games'] == 0 else round(p_tot/self.influence['num_games'], 2)
+        mpg = round(self.influence['num_minutes']/self.influence['num_games'], 0)
+        if p_tot != 0:
+            ppm = round(p_tot/self.influence['num_minutes'], 5)
+        else: ppm = 0
+        li = [p_tot, ppg, mpg, ppm]
+        if category == "p_tot": return [p_tot, li, self]
+        if category == "ppg": return [ppg, li, self]
+        if category == "mpg": return [mpg, li, self]
+        if category == "ppm": return [ppm, li, self]
+    
+    def print_influence(self, individual):
+        influence = self.get_influence()
+        if "goals_for" not in self.influence:
+            if not self.get_influence():
+                print("No registered data for", self)
+                return
+        p_tot = self.influence['goals_for'] - self.influence['goals_against']    
+        ppg = 0 if self.influence['num_games'] == 0 else round(p_tot/self.influence['num_games'], 2)
+        mpg = round(self.influence['num_minutes']/self.influence['num_games'], 0)
+        s = f"{self}, personal total: {p_tot}"
+        s += f" | avg. {prints.get_fore_color_int(ppg)} per game"
+        s += f" | avg. {mpg} minutes per game"
+        try:
+            ppm = round(p_tot/self.influence['num_minutes'], 5)
+            s += f" | avg. {prints.get_fore_color_int(ppm)} points per minute"
+        except:
+            ...
+        print(s)
+        if individual:
+            for inf in influence:
+                self._print_influence(inf)
+    
+    def _print_influence(self, influence):
+        game, loc, sub_time, pre, post, end, goals_for, goals_against = influence
+        in_t, out_t = sub_time
+        home_pre, away_pre = pre
+        home_post, away_post = post
+        total_goals = goals_for-goals_against
+        actual_res = prints.get_yellow_fore("(draw)")
+        if end[0] > end[1]:
+            if game.home == self:
+                actual_res = prints.get_green_fore("(win) ")
+            else:
+                actual_res = prints.get_red_fore("(loss)")
+        if end[0] < end[1]:
+            if game.home == self:
+                actual_res = prints.get_red_fore("(loss)")
+            else:
+                actual_res = prints.get_green_fore("(win) ")
+
+        personal_res = prints.get_yellow_fore("(draw)")
+        if goals_for > goals_against:
+            personal_res = prints.get_green_fore("(win) ")
+        elif goals_for < goals_against:
+            personal_res = prints.get_red_fore("(loss)")
+
+        in_t = "'"+str(in_t)
+        out_t = "'"+str(out_t)
+        print(f" {in_t:>3}-{out_t:>3} | {home_pre:>2} - {away_pre:<2} -> {home_post:>2} - {away_post:<2} {personal_res:<4} | {loc} | Result {end[0]:>2} - {end[1]:<2} {actual_res:<4} | for: {goals_for:>2}, agst: {goals_against:>2}, tot: {total_goals:>3} | {game.date}, {game.opponent(self.team)}")
