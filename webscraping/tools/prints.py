@@ -25,7 +25,7 @@ def _prints(s, newline, meta=0):
             print("  " + s, end='\r')
         else:
             print(s, end='\r')
-        prev_len = 2+len(s)-meta
+        prev_len = len(s)-meta
 
 def success(where=None):
     global prev_str
@@ -101,8 +101,12 @@ def get_green_fore(message):
 def get_yellow_fore(message):
     return f"{Fore.YELLOW}{message}{Fore.RESET}" 
 
+
 def get_red_fore(message):
     return f"{Fore.RED}{message}{Fore.RESET}" 
+
+def get_blue_back(message):
+    return f"{Back.BLUE}{message}{Back.RESET}"
 
 def get_fore_color_int(int):
     if int > 0: return get_green_fore(int)

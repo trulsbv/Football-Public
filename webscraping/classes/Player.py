@@ -98,6 +98,9 @@ class Player():
         return ((self.name) < (obj.name)) 
     
     def __repr__(self) -> str:
+        if len(self.name) > 30:
+            split = self.name.split(" ")
+            return f"{split[0]} ... {split[-1]}"
         return self.name
     
     def __hash__(self) -> int:
@@ -184,10 +187,10 @@ class Player():
             ppm = round(p_tot/self.influence['num_minutes'], 5)
         else: ppm = 0
         li = [p_tot, ppg, mpg, ppm]
-        if category == "p_tot": return [p_tot, li, self]
-        if category == "ppg": return [ppg, li, self]
-        if category == "mpg": return [mpg, li, self]
-        if category == "ppm": return [ppm, li, self]
+        if category == "p_tot": return [p_tot, li, self, self.team]
+        if category == "ppg": return [ppg, li, self, self.team]
+        if category == "mpg": return [mpg, li, self, self.team]
+        if category == "ppm": return [ppm, li, self, self.team]
     
     def print_influence(self, individual):
         influence = self.get_influence()
