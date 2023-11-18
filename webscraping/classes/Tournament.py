@@ -22,8 +22,7 @@ class Tournament():
     def create_team(self, name, url):
         if not name in self.team:
             self.team[name] = Team(Page(url))
-            # Dette er dust, må ha en egen funksjon for dette din dritt
-            self.team[name].name = self.team[name]._set_navn()
+            self.team[name].name = name
         return self.team[name]
     
     def create_schedule(self):

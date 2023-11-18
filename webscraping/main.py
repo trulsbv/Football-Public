@@ -109,11 +109,16 @@ def main():
     def _print_team_influence(team):
         team.print_team_influence()
 
+    def _print_team_games(team):
+        for game in team.games:
+            print(game)
+
     def menu_page(func, header):
         inp = ""
         while inp.upper() != "E" and inp.upper() != "Q":
+            print()
             print(header.upper())
-            print("Type club name, to see clubs: type 'clubs'")
+            print("Type club name (case sensitive), to see clubs: type 'clubs'")
             inp = input(" => ")
             if inp.upper() == "CLS":
                 os.system('cls' if os.name == 'nt' else 'clear')
@@ -125,41 +130,31 @@ def main():
             for league in saved:
                 if inp in league.team:
                     func(league.team[inp])
-    
-    def team_stats():
-        inp = ""
-        while inp.upper() != "E" and inp.upper() != "Q":
-            print("Get data for club: type club name, to see clubs: type 'clubs'")
-            inp = input(" => ")
 
-            if inp.upper() == "CLUBS":
-                for club in club_list(saved):
-                    print(club)
-            if inp.upper() == "CLS":
-                os.system('cls' if os.name == 'nt' else 'clear')
-            for league in saved:
-                if inp in league.team:
-                    league.team[inp].print_team()
-                    league.team[inp].print_team_influence()
-                    prints.whiteline()
-    
     inp = ""
     while inp.upper() != "Q":
-        print(f"[0] Team overview")
-        print(f"[1] Team stats")
-        print(f"[2] Top performers for team")
-        print(f"[3] Top performers league")
-        print(f"[Q] Quit")
+        print()
+        print(f"[1] Team overview")
+        print(f"[2] Team stats")
+        print(f"[3] Top performers for team")
+        print(f"[4] List team games")
+        print(f"[-] Top performers league")
+        print(f"[-] League tables")
+        print()
+        print(f"[Q] Quit, [CLS] Clear")
         inp = input(" => ")
         if inp.isnumeric():
-            if int(inp) == 0:
-                menu_page(_print_team_overview, "Team overview")
             if int(inp) == 1:
-                menu_page(_print_team_influence, "Team stats")
+                menu_page(_print_team_overview, "Team overview")
             if int(inp) == 2:
-                menu_page(_print_top_performers, "Top performers for team")
+                menu_page(_print_team_influence, "Team stats")
             if int(inp) == 3:
-                league_top_performers()
+                menu_page(_print_top_performers, "Top performers for team")
+            if int(inp) == 4:
+                menu_page(_print_team_games, "See team games")
+            continue
+        if inp.upper() == "CLS":
+            os.system('cls' if os.name == 'nt' else 'clear')
 
 
 

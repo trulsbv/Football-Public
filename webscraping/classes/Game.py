@@ -30,7 +30,7 @@ class Game():
         return self.date < settings.current_date
     
     def write_analysis(self):
-        direct_items = [self.date, self.day, self.time, self.home.page.url, f"{self.score[0]} - {self.score[1]}", self.away.name, str(self.spectators)]
+        direct_items = [self.date, self.day, self.time, self.home.page.url, f"{self.score[0]} - {self.score[1]}", self.away.page.url, str(self.spectators)]
         callable_items = [self.pitch, self.weather]
         s = ""
 
@@ -112,6 +112,8 @@ class Game():
             self.winner = self.home
         elif self.score[0] < self.score[1]:
             self.winner = self.away
+        self.home.games.append(self)
+        self.away.games.append(self)
 
     def analyse(self):
         if ft.is_analysed(self.gameId, ".csv"):
@@ -133,8 +135,8 @@ class Game():
             elif self.score[0] < self.score[1]:
                 self.winner = self.away
                 
-            self.home.games.append(self.gameId)
-            self.away.games.append(self.gameId)
+            self.home.games.append(self)
+            self.away.games.append(self)
             self.write_analysis()
         else:
             prints.warning(f"{self.home} - {self.away} has not been played yet!")
@@ -148,12 +150,12 @@ class Game():
         return False
     
     def __repr__(self) -> str:
-        s = f"{self.round} ({self.day} {self.date} at {self.time}) {self.home} "
+        s = f"{str(self.round):>2} {('(' + str(self.day)):>8} {self.date} at {self.time}) {str(self.home):>18} "
         if self.date < settings.current_date:
             s += f"{self.result} "
         else:
             s += " - "
-        s += f"{self.away}, {self.pitch} ({self.gameId})"
-        if self.spectators:
-            s += f" - {self.spectators} attended"
+        s += f"{str(self.away):<18} {str(self.pitch):>25} ({self.gameId})"
+        if self.spectators and self.spectators != "None":
+            s += f" - {str(self.spectators):>5} attended"
         return s
