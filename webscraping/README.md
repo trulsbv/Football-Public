@@ -1,0 +1,1 @@
+Had to change 8189858 and 25656 to 26577 in all files as Sandnes Ulf's home arena had a 404 error.

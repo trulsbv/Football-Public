@@ -10,6 +10,8 @@ prev_str = ""
 def fill_blanks(string, meta):
     while len(string)-meta < prev_len:
         string += " "
+    if prev_str == "":
+        string += "  "
     return string
 
 def _prints(s, newline, meta=0):

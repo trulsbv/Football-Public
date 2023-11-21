@@ -13,6 +13,24 @@ class Tournament():
         self.team = {}
         self.analyser = None
         self.page = None
+        self.weather = set()
+
+    def print_weather_types(self):
+        # Do the same with ranges of temperatures aswell
+        print("\nTypes of weather:\n")
+        s = "["
+        for w in self.weather:
+            if len(s) != 1:
+                s+=", "
+            s+= f"{w}"
+        s+="]"
+        print(s)
+
+    def get_weather_results(self, weather):
+        for game in self.schedule.games():
+            if weather == game.weather.conditions:
+                print(game)
+        ...
 
     def _get_schedule_url(self):
         document = BeautifulSoup(self.page.html.text, "html.parser")
@@ -22,7 +40,7 @@ class Tournament():
     
     def create_team(self, name, url):
         if not name in self.team:
-            self.team[name] = Team(Page(url))
+            self.team[name] = Team(Page(url), self)
             self.team[name].name = name
         return self.team[name]
     

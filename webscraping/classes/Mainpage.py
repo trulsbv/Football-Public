@@ -22,6 +22,7 @@ class Mainpage():
         i = 0
         for p in possible:
             print(f"[{i}] {p.page.html.title}")
+            i+=1
         inp = i+1
         while not str(inp).isnumeric() or int(inp) > i:
             inp = input(" => ")

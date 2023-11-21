@@ -5,12 +5,17 @@ from classes.Page import Page
 from classes.Player import Player
 
 class Team():
-    def __init__(self, page):
+    def __init__(self, page, tournament):
+        self.tournament = tournament
         self.players = []
         self.page = page
         self.name = None
         self.games = []
         self._init_players()
+
+    def add_game(self, game):
+        self.games.append(game)
+        self.tournament.weather.add(game.weather.conditions)
 
     def print_team(self):
         self.players.sort()

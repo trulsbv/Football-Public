@@ -13,6 +13,7 @@ class Schedule():
         self.page = page
 
     def fetch_games(self):
+        self.games = []
         document = BeautifulSoup(self.page.html.text, "html.parser")
         table = document.find("table")
 

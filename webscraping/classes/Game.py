@@ -101,19 +101,21 @@ class Game():
 
     def read_analysis(self, data):
         data = data.split("\n")[1:]
+        self.weather = self.extract_weather(data[6])
+        if settings.display_weather and self.weather.conditions not in settings.display_weather:
+            return
         date, self.day, self.time, _hometeam, score, _awayteam, self.spectators = data[0].split(",")
         self.date = datetime.strptime(date, "%Y-%m-%d").date()
         self.hometeam = self.extract_players(self.home, data[1], data[2])
         self.awayteam = self.extract_players(self.away, data[3], data[4])
-        self.weather = self.extract_weather(data[6])
         self.events = self.extract_events(data[7:])
         self.score = self.extract_score(score)
         if self.score[0] > self.score[1]:
             self.winner = self.home
         elif self.score[0] < self.score[1]:
             self.winner = self.away
-        self.home.games.append(self)
-        self.away.games.append(self)
+        self.home.add_game(self)
+        self.away.add_game(self)
 
     def analyse(self):
         if ft.is_analysed(self.gameId, ".csv"):
@@ -121,6 +123,8 @@ class Game():
             return
         if self._is_played():
             self.weather = Weather(self)
+            if settings.display_weather and self.weather.conditions not in settings.display_weather:
+                return
             result = self.result.get_team_sheet(self)
             if result:
                 self.hometeam, self.awayteam = result
@@ -135,8 +139,8 @@ class Game():
             elif self.score[0] < self.score[1]:
                 self.winner = self.away
                 
-            self.home.games.append(self)
-            self.away.games.append(self)
+            self.home.add_game(self)
+            self.away.add_game(self)
             self.write_analysis()
         else:
             prints.warning(f"{self.home} - {self.away} has not been played yet!")
@@ -150,12 +154,15 @@ class Game():
         return False
     
     def __repr__(self) -> str:
-        s = f"{str(self.round):>2} {('(' + str(self.day)):>8} {self.date} at {self.time}) {str(self.home):>18} "
-        if self.date < settings.current_date:
-            s += f"{self.result} "
-        else:
-            s += " - "
-        s += f"{str(self.away):<18} {str(self.pitch):>25} ({self.gameId})"
-        if self.spectators and self.spectators != "None":
-            s += f" - {str(self.spectators):>5} attended"
-        return s
+        try:
+            s = f"{str(self.round):>2} {('(' + str(self.day)):>8} {self.date} at {self.time}) {str(self.home):>18} "
+            if self.date < settings.current_date:
+                s += f"{self.result} "
+            else:
+                s += " - "
+            s += f"{str(self.away):<18} {str(self.pitch):>25} ({self.gameId})"
+            if self.spectators and self.spectators != "None":
+                s += f" - {str(self.spectators):>5} attended"
+            return s
+        except:
+            return ""
