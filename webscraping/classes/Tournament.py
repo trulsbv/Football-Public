@@ -15,6 +15,28 @@ class Tournament():
         self.page = None
         self.weather = set()
 
+    def _get_league_table(self):
+        out = []
+        for team in self.team:
+            out.append(self.team[team])
+        out = sorted(out, key=lambda x: x.goals_scored_home, reverse=True)
+        out = sorted(out, key=lambda x: x.goals_scored_total, reverse=True)
+        out = sorted(out, key=lambda x: x.goal_diff, reverse=True)
+        out = sorted(out, key=lambda x: x.points, reverse=True)
+        
+        return out
+
+    def print_league_table(self):
+        i = 1
+        print(f"POS | {'TEAM':>20} | GP | GS ( H/A ) | GC ( H/A ) | +/- | P ")
+        for team in self._get_league_table():
+            s =  f"{i:>3} | {team.name:>20} | {str(len(team.games)):>2} | "
+            s += f"{str(team.goals_scored_total):>2} ({str(team.goals_scored_home):>2}/{str(team.goals_scored_away):>2}) | "
+            s += f"{str(team.goals_conceded_total):>2} ({str(team.goals_conceded_home):>2}/{str(team.goals_conceded_away):>2}) | "
+            s += f"{str(team.goal_diff):>3} | "
+            s += f"{team.points}"
+            print(s)
+            i+=1
     def print_weather_types(self):
         # Do the same with ranges of temperatures aswell
         print("\nTypes of weather:\n")

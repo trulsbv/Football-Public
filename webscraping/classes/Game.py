@@ -143,8 +143,7 @@ class Game():
             self.away.add_game(self)
             self.write_analysis()
         else:
-            prints.warning(f"{self.home} - {self.away} has not been played yet!")
-        
+            prints.warning(f"{self.home} - {self.away} has not been played yet!")       
     
     def opponent(self, team):
         if team == self.home:

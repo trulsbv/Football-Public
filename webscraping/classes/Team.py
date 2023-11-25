@@ -5,6 +5,7 @@ from classes.Page import Page
 from classes.Player import Player
 
 class Team():
+    s = 0
     def __init__(self, page, tournament):
         self.tournament = tournament
         self.players = []
@@ -12,10 +13,42 @@ class Team():
         self.name = None
         self.games = []
         self._init_players()
+        self.points = 0
+        self.goal_diff = 0
+        self.goals_scored_home = 0
+        self.goals_conceded_home= 0
+        self.goals_scored_away = 0
+        self.goals_conceded_away = 0
+        self.goals_scored_total = 0
+        self.goals_conceded_total = 0
 
     def add_game(self, game):
         self.games.append(game)
         self.tournament.weather.add(game.weather.conditions)
+        home, away = game.score
+        if game.home == self:
+            self.goal_diff += home-away
+            self.goals_scored_home += home
+            self.goals_conceded_home += away
+            self.goals_scored_total += home
+            self.goals_conceded_total += away
+            if home > away:
+                self.points += 3
+            elif home == away:
+                self.points += 1
+        elif game.away == self:
+            self.goal_diff += away-home
+            self.goals_scored_away += away
+            self.goals_conceded_away += home
+            self.goals_scored_total += away
+            self.goals_conceded_total += home
+            if home < away:
+                self.points += 3
+            elif home == away:
+                self.points += 1
+        else:
+            prints.error(self, f"Was not {game.home} or {game.away}")
+            exit()
 
     def print_team(self):
         self.players.sort()

@@ -14,19 +14,15 @@ import os
 saved = []
 types_of_weather = ["Overcast", "Clear", "Partially cloudy", "Rain; Overcast",
                     "Rain; Partially cloudy", "Rain", "Snow"]
-def main():
-    #search = "Eliteserien"
-    leagues = [
+def init():
+        leagues = [
         #"Eliteserien - Norges Fotballforbund",
         "OBOS-ligaen - Norges Fotballforbund",
         "Post Nord-ligaen avd. 1",
         #"Post Nord-ligaen avd. 2",
         #"Norsk Tipping-Ligaen avd. 2",
         ]
-    #search = "Toppserien"
-    #search = "Norsk Tipping-Ligaen avd. 2"
-
-    def init():
+        
         prints.START()
         prints.start("Mainpage")
         main = Mainpage()
@@ -37,7 +33,7 @@ def main():
         prints.start("Tournaments")
         main.fetch_tournament()
         prints.success()
-
+        global saved
         saved = []
 
         for leg in leagues:
@@ -68,9 +64,9 @@ def main():
 
         print(f"Number of teams: {num_teams}")
         print(f"Pages fetched: {wt.fetches}")
-        return saved
-    global saved
-    saved = init()
+
+def main():  
+    init()
 
     def print_weather_types():
         for tournament in saved:
@@ -170,9 +166,8 @@ def main():
                 settings.display_weather = []
                 changed = True
         if changed:
-            global saved
             print()
-            saved = init()
+            init()
 
     def menu_page(func, header):
         inp = ""
@@ -191,8 +186,9 @@ def main():
             for league in saved:
                 if inp in league.team:
                     func(league.team[inp])
-
-    inp = ""
+    def league_table():
+        for league in saved:
+            league.print_league_table()
 
     def display_info():
         s = "\nINFO"
@@ -204,6 +200,7 @@ def main():
             s += line
         print(s)
 
+    inp = ""
     while inp.upper() != "Q":
         display_info()
         print(f"[1] Team overview")
@@ -211,7 +208,7 @@ def main():
         print(f"[3] Top performers for team")
         print(f"[4] List team games")
         print(f"[5] Top performers league")
-        print(f"[-] League tables")
+        print(f"[6] League tables")
         print()
         print(f"[Q] Quit, [CLS] Clear, [S] Set weather")
         inp = input(" => ")
@@ -226,6 +223,8 @@ def main():
                 menu_page(_print_team_games, "See team games")
             if int(inp) == 5:
                 league_top_performers()
+            if int(inp) == 6:
+                league_table()
             continue
         if inp.upper() == "S":
             edit_weather()
