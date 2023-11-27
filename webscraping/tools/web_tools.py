@@ -9,7 +9,16 @@ load_dotenv()
 visualcrossing_key = os.getenv("VISUALCROSSING_KEY")
 fetches = 0
 
-def utfify(s):
+def utfify(s: str) -> str:
+    """
+    Takes a string and converts misshaped symbols to their original
+
+    Arguments:
+        * String original
+
+    Returns:
+        * String converted    
+    """
     s = s.replace("&#248;", "ø")
     s = s.replace("&#216;", "Ø")
     s = s.replace("&#229;", "å")
@@ -19,7 +28,11 @@ def utfify(s):
     s = s.replace("&#39;", "'")
     return s
 
-def get_html(url: str, params: dict | None = None, output: str | None = None):
+def get_html(
+        url: str, 
+        params: dict | None = None, 
+        output: str | None = None
+        ) -> str:
     """Get an HTML page and return its contents.
 
     Args:
@@ -54,7 +67,18 @@ def get_html(url: str, params: dict | None = None, output: str | None = None):
 
     return html_str
 
-def get_historic_data(coordinates, time):
+def get_historic_data(coordinates: tuple[str, str], time: str) -> dict[str: str]:
+    """
+    Takes coordinates as a tuple with x and y coordinates as well as
+    a string time in YYYY-MM-DDTHH:MM:SS format
+
+    Arguments:
+        * tuple (str, str) coordinates
+        * time str YYYY-MM-DDTHH:MM:SS
+
+    Returns:
+        * Dictionary containing weatherdata
+    """
     global fetches
     fetches+=1
     x_coord, y_coord = coordinates
