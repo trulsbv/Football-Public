@@ -1,3 +1,13 @@
+# To run:
+Flags:
+    * -test
+    * -log (NOT IMPLEMENTED)
+
+# Possible improvements
+- Use Panda instead of objects ?
+- 
+
+# Known Fotball.no errors
 Had to change 8189858 and 25656 to 26577 in all files as Sandnes Ulf's home arena had a 404 error.
 
 Sandnes-ulf - KFUM endte 1-2, men fotball.no har ikke registrert det ene målet
