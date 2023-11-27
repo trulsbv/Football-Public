@@ -3,14 +3,14 @@ Flags:
     * -test
     * -log (NOT IMPLEMENTED)
 
-# Possible improvements
+# Possible improvements:
 - Use Panda instead of objects ?
 - Make tests
     1. Read from analysis AND from html
     2. Make sure that some data is poorly formatted (as fotball.no sometimes is)
 - Add docstrings
 
-# Known Fotball.no errors
+# Known Fotball.no errors:
 Had to change 8189858 and 25656 to 26577 in all files as Sandnes Ulf's home arena had a 404 error.
 
 Sandnes-ulf - KFUM endte 1-2, men fotball.no har ikke registrert det ene målet
