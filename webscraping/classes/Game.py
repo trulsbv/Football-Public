@@ -26,6 +26,17 @@ class Game():
         self.winner = None
         self.score = None
 
+    def break_rules(self):
+        rules = [
+            settings.display_weather and self.weather.conditions not in settings.display_weather,
+            settings.display_surface and self.pitch.surface not in settings.display_surface
+        ]
+        for rule in rules:
+            if rule:
+                return True
+        return False
+
+
     def _is_played(self):
         return self.date < settings.current_date
     
@@ -102,10 +113,13 @@ class Game():
     def read_analysis(self, data):
         data = data.split("\n")[1:]
         self.weather = self.extract_weather(data[6])
-        if settings.display_weather and self.weather.conditions not in settings.display_weather:
+        if self.break_rules():
             return
         date, self.day, self.time, _hometeam, score, _awayteam, self.spectators = data[0].split(",")
         self.date = datetime.strptime(date, "%Y-%m-%d").date()
+        if not self._is_played():
+            prints.warning("Read analysis", f"{self.home} - {self.away} has not been played yet!")
+            return 
         self.hometeam = self.extract_players(self.home, data[1], data[2])
         self.awayteam = self.extract_players(self.away, data[3], data[4])
         self.events = self.extract_events(data[7:])
@@ -121,29 +135,30 @@ class Game():
         if ft.is_analysed(self.gameId, ".csv"):
             self.read_analysis(ft.get_analysis(self.gameId, ".csv"))
             return
-        if self._is_played():
-            self.weather = Weather(self)
-            if settings.display_weather and self.weather.conditions not in settings.display_weather:
-                return
-            result = self.result.get_team_sheet(self)
-            if result:
-                self.hometeam, self.awayteam = result
-                self._save_home[0] = self.hometeam[0].copy()
-                self._save_home[1] = self.hometeam[1].copy()
-                self._save_away[0] = self.awayteam[0].copy()
-                self._save_away[1] = self.awayteam[1].copy()
-            self.events = self.result.analyse()
-            self.score = self.result.get_result()
-            if self.score[0] > self.score[1]:
-                self.winner = self.home
-            elif self.score[0] < self.score[1]:
-                self.winner = self.away
-                
-            self.home.add_game(self)
-            self.away.add_game(self)
-            self.write_analysis()
-        else:
-            prints.warning(f"{self.home} - {self.away} has not been played yet!")       
+        if not self._is_played():
+            prints.warning("Analyse", f"{self.home} - {self.away} has not been played yet!")
+            return
+             
+        self.weather = Weather(self)
+        if self.break_rules():
+            return
+        result = self.result.get_team_sheet(self)
+        if result:
+            self.hometeam, self.awayteam = result
+            self._save_home[0] = self.hometeam[0].copy()
+            self._save_home[1] = self.hometeam[1].copy()
+            self._save_away[0] = self.awayteam[0].copy()
+            self._save_away[1] = self.awayteam[1].copy()
+        self.events = self.result.analyse()
+        self.score = self.result.get_result()
+        if self.score[0] > self.score[1]:
+            self.winner = self.home
+        elif self.score[0] < self.score[1]:
+            self.winner = self.away
+            
+        self.home.add_game(self)
+        self.away.add_game(self)
+        self.write_analysis()
     
     def opponent(self, team):
         if team == self.home:

@@ -9,11 +9,13 @@ import tools.prints as prints
 class Tournament():
     def __init__(self, parent):
         self.mainpage = parent
+        self.name = None
         self.schedule = None
         self.team = {}
         self.analyser = None
         self.page = None
         self.weather = set()
+        self.pitches = {"surfaces": set()}
 
     def _get_league_table(self):
         out = []
@@ -28,25 +30,38 @@ class Tournament():
 
     def print_league_table(self):
         i = 1
-        print(f"POS | {'TEAM':>20} | GP | GS ( H/A ) | GC ( H/A ) | +/- | P ")
+        print(f"POS | {'TEAM':>20} | GP ( H/A ) | GS ( H/A ) | GC ( H/A ) | +/- | P ")
+        print("-"*76)
         for team in self._get_league_table():
-            s =  f"{i:>3} | {team.name:>20} | {str(len(team.games)):>2} | "
+            s =  f"{i:>3} | {team.name:>20} | "
+            s += f"{str(len(team.games['home']) + len(team.games['away'])):>2} ({str(len(team.games['home'])):>2}/{str(len(team.games['away'])):>2}) | "
             s += f"{str(team.goals_scored_total):>2} ({str(team.goals_scored_home):>2}/{str(team.goals_scored_away):>2}) | "
             s += f"{str(team.goals_conceded_total):>2} ({str(team.goals_conceded_home):>2}/{str(team.goals_conceded_away):>2}) | "
             s += f"{str(team.goal_diff):>3} | "
             s += f"{team.points}"
             print(s)
             i+=1
+
+    def print_surface_types(self):
+        s = "["
+        for p in self.pitches["surfaces"]:
+            if len(s) != 1:
+                s+=", "
+            s+=f"\"{p}\""
+        s+="]"
+        #print("\nTypes of surface:")
+        #print(s)
+            
     def print_weather_types(self):
         # Do the same with ranges of temperatures aswell
-        print("\nTypes of weather:\n")
         s = "["
         for w in self.weather:
             if len(s) != 1:
                 s+=", "
-            s+= f"{w}"
+            s+= f"\"{w}\""
         s+="]"
-        print(s)
+        #print("\nTypes of weather:")
+        #print(s)
 
     def get_weather_results(self, weather):
         for game in self.schedule.games():
@@ -82,11 +97,13 @@ class Tournament():
             s += f" | {str(i[2]):>30}, personal total: {str(i[1][0]):>3}"
             s += f" | avg. {' '*(5-len(str(i[1][1])))}{prints.get_fore_color_int(i[1][1])} per game ({str(len(i[2].results_while_playing())):>2})"
             s += f" | avg. {str(int(i[1][2])):>2} minutes per game"
-            s += f" | avg. {prints.get_fore_color_int(i[1][3])} points per minute"
-            
+            s += f" | avg. {' '*(8-len(str(i[1][3])))}{prints.get_fore_color_int(i[1][3])} points per minute"
             if hightlight and str(i[2].team).upper() == hightlight.upper():
                 print(prints.get_blue_back(s))
             else:
                 print(s)
     def __lt__(self, other):
         self.page.html.title < other.page.html.title
+    
+    def __repr__(self) -> str:
+        return self.name

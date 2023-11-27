@@ -8,10 +8,10 @@ class Pitch():
         self.fetch_info()
 
     def fetch_info(self):
-        self.name, self.underlag, self.banetype, self.belysning, self.lengde, self.bredde, self.driftsform, self.krets = ft.get_baneinfo(self.page.html.text)
+        self.name, self.surface, self.size, self.lighting, self.length, self.width, self.owner, self.municipality = ft.get_baneinfo(self.page.html.text)
 
     def get_analysis_str(self):
-        items = [self.name, self.underlag, self.banetype, self.belysning, self.lengde, self.bredde, self.driftsform, self.krets]
+        items = [self.name, self.surface, self.size, self.lighting, self.length, self.width, self.owner, self.municipality]
         s = ""
 
         f = True

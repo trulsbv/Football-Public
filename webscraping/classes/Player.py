@@ -210,7 +210,7 @@ class Player():
             ppm = round(p_tot/self.influence['num_minutes'], 5)
             s += f" | avg. {prints.get_fore_color_int(ppm)} points per minute"
         except:
-            ...
+            s += "_"
         print(s)
         if individual:
             for inf in influence:

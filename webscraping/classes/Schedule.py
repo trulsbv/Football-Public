@@ -31,9 +31,9 @@ class Schedule():
             except:
                 round, date, day, time, _, _hometeam, _result, _awayteam, _pitch, gameId, _live = cells_text
             date = datetime.strptime(date, "%d.%m.%Y").date()
-            home = self.turnering.create_team(_hometeam, urls[1])
-            away = self.turnering.create_team(_awayteam, urls[3])
             if self._is_played(date):
+                home = self.turnering.create_team(_hometeam, urls[1])
+                away = self.turnering.create_team(_awayteam, urls[3])
                 events = Events(Page(urls[2], valid_from=date))
                 pitch = Pitch(Page(urls[4], valid_from=date))
                 game = Game(round, date, day, time, home, events, away, pitch, gameId)

@@ -11,7 +11,7 @@ class Team():
         self.players = []
         self.page = page
         self.name = None
-        self.games = []
+        self.games = {"home": [], "away": []}
         self._init_players()
         self.points = 0
         self.goal_diff = 0
@@ -22,10 +22,18 @@ class Team():
         self.goals_scored_total = 0
         self.goals_conceded_total = 0
 
+    def get_all_games(self):
+        out = []
+        out.extend(self.games['home'])
+        out.extend(self.games['away'])
+        out = sorted(out, key=lambda x: x.date)
+        return out
+
     def add_game(self, game):
-        self.games.append(game)
         self.tournament.weather.add(game.weather.conditions)
+        self.tournament.pitches["surfaces"].add(game.pitch.surface)
         home, away = game.score
+        self.games["home"].append(game) if game.home == self else self.games["away"].append(game)
         if game.home == self:
             self.goal_diff += home-away
             self.goals_scored_home += home
@@ -83,7 +91,7 @@ class Team():
             s = f"{str(i[2]):>35}, personal total: {str(i[1][0]):>3}"
             s += f" | avg. {' '*(5-len(str(i[1][1])))}{prints.get_fore_color_int(i[1][1])} per game ({str(len(i[2].results_while_playing())):>2})"
             s += f" | avg. {str(int(i[1][2])):>2} minutes per game"
-            s += f" | avg. {prints.get_fore_color_int(i[1][3])} points per minute"
+            s += f" | avg. {' '*(8-len(str(i[1][3])))}{prints.get_fore_color_int(i[1][3])} points per minute"
             
             print(s)
     
