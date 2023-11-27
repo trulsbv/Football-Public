@@ -15,7 +15,12 @@ saved = []
 types_of_weather = ["Overcast", "Clear", "Partially cloudy", "Rain; Overcast",
                     "Rain; Partially cloudy", "Rain", "Snow"]
 types_of_surfaces = ["Naturgress", "Kunstgress m/Sand", "Kunstgress m/gummispon", "Kunstgress u/Sand"]
+
 def update():
+    """
+    Reads data and creates all the objects. Sets global saved to a list of
+    league-objects
+    """
     leagues = [
     "Eliteserien - Norges Fotballforbund",
     "OBOS-ligaen - Norges Fotballforbund",
@@ -68,9 +73,27 @@ def update():
     print(f"Pages fetched: {wt.fetches}")
 
 def main(): 
-    update()
+    if len(sys.argv) > 1 and sys.argv[1] == "-log":
+        ft.clear_log()
+        settings.log_bool = True
+        
+    if len(sys.argv) > 1 and sys.argv[1] == "-test":
+        settings.current_date = datetime.strptime("20.04.2023", "%d.%m.%Y").date()
+    else:
+        settings.current_date = datetime.today().date()
+    settings.display_weather = []
+    settings.display_surface = []
 
+    print("Suggested minimum terminal width:")
+    print("-"*145)
+    input("[Enter]")
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+    update()
     def print_weather_types():
+        """
+        Displays all types of weather to the user
+        """
         for tournament in saved:
             tournament.print_weather_types()
 
@@ -93,6 +116,9 @@ def main():
             print(f" * {w}")
 
     def print_surface_types():
+        """
+        Displays all types of pitch surfaces to the user
+        """
         for tournament in saved:
             tournament.print_surface_types()
 
@@ -131,7 +157,6 @@ def main():
         for league in saved:
             if team in league.team:
                 return league
-            
 
     def league_top_performers():
         inp = ""
@@ -189,9 +214,7 @@ def main():
             if inp.upper() == "ALL":
                 settings.display_surface = []
                 changed = True
-        if changed:
-            print()
-            update()
+        return changed
 
     def edit_weather():
         inp = ""
@@ -209,9 +232,7 @@ def main():
             if inp.upper() == "ALL":
                 settings.display_weather = []
                 changed = True
-        if changed:
-            print()
-            update()
+        return changed
 
     def edit_date():
         inp = ""
@@ -221,10 +242,10 @@ def main():
             
             try:
                 settings.current_date = datetime.strptime(inp, "%d.%m.%Y").date()
-                print()
-                update()
+                return True
             except:
                 print("Invalid input.")
+                return False
 
     def menu_page(func, header):
         inp = ""
@@ -271,11 +292,13 @@ def main():
             print("\n[Q] Quit")
             inp = input(" => ")
             if inp.upper() == "D":
-                edit_date()
+                edited = edit_date()
             if inp.upper() == "S":
-                edit_surface()
+                edited = edit_surface()
             if inp.upper() == "W":
-                edit_weather()
+                edited = edit_weather()
+        if edited:
+            update()
 
     inp = ""
     while inp.upper() != "Q":
@@ -311,15 +334,5 @@ def main():
 
 
 if __name__=="__main__":
-    if len(sys.argv) > 1 and sys.argv[1] == "-log":
-        ft.clear_log()
-        log_bool = True
-        
-    if len(sys.argv) > 1 and sys.argv[1] == "-test":
-        settings.current_date = datetime.strptime("20.04.2023", "%d.%m.%Y").date()
-    else:
-        settings.current_date = datetime.today().date()
-    settings.display_weather = []
-    settings.display_surface = []
     # PROBLEM: Dersom man ikke leser en kamp, er den en bitch 
     main()

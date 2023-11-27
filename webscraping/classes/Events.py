@@ -44,8 +44,8 @@ class Events():
                 self.events.append(h)
             elif h == False:
                 if restart == 2:
-                    prints.RESTART()
-                    os.execv(sys.executable, ['python'] + sys.argv)
+                    prints.STOP()
+                    exit()
                 prints.warning(self, f"Failed to read data, retrying {2-restart} times")
                 return self.analyse(restart=restart+1)
 

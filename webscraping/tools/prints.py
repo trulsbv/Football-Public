@@ -81,10 +81,10 @@ def info(message, sender="?", newline=False):
     s = f"{sender} {message}"
     _prints(s, newline)
 
-def RESTART():
+def STOP():
     global prev 
     prev = False
-    s = f"{Back.RED}{Fore.BLACK}RESTARTING THE SCRIPT{Fore.RESET}{Back.RESET}"
+    s = f"{Back.RED}{Fore.BLACK}STOPPING THE SCRIPT{Fore.RESET}{Back.RESET}"
     meta = len(f"{Back.RED}{Fore.BLACK}{Fore.RESET}{Back.RESET}")
     _prints(s, newline=True, meta=meta)
 
