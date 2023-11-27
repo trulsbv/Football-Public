@@ -1,14 +1,36 @@
 import tools.regex_tools as rt
 import tools.file_tools as ft
 import tools.web_tools as wt
+from datetime import date
+from classes.Pitch import Pitch
 
 
-def parse_map_string(map_string):
+def parse_map_string(map_string: str) -> dict:
+    """
+    Takes a string formatted as a dict and converts it to a dict-object
+
+    Arguments:
+        * String dict
+    
+    Returns:
+        * Dict dict
+    """
     d = eval(map_string.split("\n")[1])
     assert type(d) == dict
     return d
 
-def get_weather_data(pitch, date, time):
+def get_weather_data(pitch: Pitch, date: date, time: str) -> dict:
+    """
+    Takes a pitch and returns the weather for the given date/time
+
+    Arguments:
+        * Pitch
+        * date
+        * time
+    
+    Returns:
+        * Dict with weatherdata
+    """
     ds = str(date).split("-")
     ts = str(time).split(".")
     t = f"{ds[0]}-{ds[1]}-{ds[2]}T{ts[0]}:{ts[1]}:00"
@@ -32,6 +54,16 @@ def get_weather_data(pitch, date, time):
     ft.save_html(file_name, str(data), ".txt")
     return data
 
-def get_coords(pitch):
+def get_coords(pitch: Pitch) -> tuple:
+    """
+    Takes a pitch and searches throug it's webpage to find the Google-Maps search
+    containing coordinates
+
+    Arguments:
+        * Pitch
+    
+    Returns:
+        * Tuple coordinates
+    """
     res = rt.get_pitch_coords(pitch.page.html.text)
     return res

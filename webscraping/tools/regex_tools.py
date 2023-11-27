@@ -68,7 +68,7 @@ def find_urls(
             f.write(item+"\n")
     return urls
 
-def find_league_from_url(url):
+def find_league_from_url(url: str) -> bool | str:
     id_pat = re.compile(r'https:\/\/www\.fotball\.no(.*\/turneringe?r?\/.*)')
     match = id_pat.search(url)
     if match:

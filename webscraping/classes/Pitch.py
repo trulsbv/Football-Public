@@ -1,7 +1,8 @@
 import tools.file_tools as ft
+from classes.Page import Page
 
 class Pitch():
-    def __init__(self, page):
+    def __init__(self, page: Page) -> None:
         self.page = page
         self.name = None
         self.games = [] # not used yet? But the pitch could keep the games played at it
