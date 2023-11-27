@@ -2,7 +2,9 @@
 import sys
 from datetime import datetime
 
-from classes.Mainpage import Mainpage as Mainpage
+from classes.Mainpage import Mainpage
+from classes.Tournament import Tournament
+from classes.Team import Team
 import tools.file_tools as ft
 import tools.prints as prints
 import tools.web_tools as wt
@@ -11,12 +13,12 @@ from classes.Page import Page
 import settings
 import os
 
-saved = []
+saved: list[Tournament] = []
 types_of_weather = ["Overcast", "Clear", "Partially cloudy", "Rain; Overcast",
                     "Rain; Partially cloudy", "Rain", "Snow"]
 types_of_surfaces = ["Naturgress", "Kunstgress m/Sand", "Kunstgress m/gummispon", "Kunstgress u/Sand"]
 
-def update():
+def update() -> None:
     """
     Reads data and creates all the objects. Sets global saved to a list of
     league-objects
@@ -72,7 +74,7 @@ def update():
     print(f"Number of teams: {num_teams}")
     print(f"Pages fetched: {wt.fetches}")
 
-def main(): 
+def main() -> None: 
     if len(sys.argv) > 1 and sys.argv[1] == "-log":
         ft.clear_log()
         settings.log_bool = True
@@ -90,7 +92,7 @@ def main():
     os.system('cls' if os.name == 'nt' else 'clear')
 
     update()
-    def print_weather_types():
+    def print_weather_types() -> None:
         """
         Displays all types of weather to the user
         """
@@ -115,7 +117,7 @@ def main():
         for w in enabled:
             print(f" * {w}")
 
-    def print_surface_types():
+    def print_surface_types() -> None:
         """
         Displays all types of pitch surfaces to the user
         """
@@ -140,9 +142,17 @@ def main():
         for w in enabled:
             print(f" * {w}")
 
-    def select_tournament(team=None):
+    def select_tournament(team: Team = None) -> Tournament:
+        """
+        Displays loaded leagues to the user and
+        asks the user to choose one.
+
+        Returns:
+            * Tournament
+        """
         if len(saved) == 1:
             return saved[0]
+        
         if not team:
             i = None
             while not str(inp).isnumeric() or int(inp) > i:
@@ -154,11 +164,14 @@ def main():
                 inp = input(" => ")
             return saved[int(inp)]
 
-        for league in saved:
-            if team in league.team:
-                return league
+        for tournament in saved:
+            if team in tournament.team:
+                return tournament
 
-    def league_top_performers():
+    def league_top_performers() -> None:
+        """
+        Prints a list of players from a user-chosen tournament
+        """
         inp = ""
         while inp.upper() != "E" and inp.upper() != "Q":
             print("Type club name to hightlight (case sensitive), to see clubs: type 'clubs'")
@@ -176,7 +189,17 @@ def main():
                 if inp in league.team:
                     select_tournament(inp).print_top_performers(inp)
 
-    def club_list(list_of_leagues):
+    def club_list(list_of_leagues: list[Tournament]) -> list[Team]:
+        """
+        Gets all the teams from the list of tournaments and returns
+        a sorted list of them.
+
+        Arguments:
+            * List of tournaments
+
+        Returns:
+            * Sorted list of Teams
+        """
         clubs = []
         for league in list_of_leagues:
             for team in league.team:
@@ -184,21 +207,53 @@ def main():
         clubs.sort()
         return clubs
         
-    def _print_top_performers(team):
+    def _print_top_performers(team: Team) -> None:
+        """
+        Prints players performances for a team
+
+        Arguments:
+            * Team
+        """
         team.print_top_performers()
         print()
 
-    def _print_team_overview(team):
+    def _print_team_overview(team: Team) -> None:
+        """
+        Prints data about a given team
+
+        Arguments:
+            * Team
+        """
         team.print_team()
     
-    def _print_team_influence(team):
+    def _print_team_influence(team: Team) -> None:
+        """
+        Prints the games played for each player in a team
+
+        Arguments:
+            * Team
+        """
         team.print_team_influence()
 
-    def _print_team_games(team):
+    def _print_team_games(team: Team) -> None:
+        """
+        Prints all the games a team has played
+
+        Arguments:
+            * Team
+        """
         for game in team.get_all_games():
             print(game)
 
-    def edit_surface():
+    def edit_surface() -> bool:
+        """
+        Displays the different surfaces to the user
+        and lets the user choose what surfaces to view. Returns
+        a boolean where True will trigger update()
+
+        Returns:
+            * bool
+        """
         inp = ""
         changed = False
         while inp.upper() != "E" and inp.upper() != "Q":
@@ -216,7 +271,15 @@ def main():
                 changed = True
         return changed
 
-    def edit_weather():
+    def edit_weather() -> bool:
+        """
+        Displays the different weather conditions to the user
+        and lets the user choose what conditions to view. Returns
+        a boolean where True will trigger update()
+
+        Returns:
+            * bool
+        """
         inp = ""
         changed = False
         while inp.upper() != "E" and inp.upper() != "Q":
@@ -234,12 +297,18 @@ def main():
                 changed = True
         return changed
 
-    def edit_date():
+    def edit_date() -> bool:
+        """
+        Lets the user change the internal current_date to select what matches to
+        be played. Returns a boolean where True will trigger update()
+
+        Returns:
+            * bool
+        """
         inp = ""
         while inp.upper() != "E" and inp.upper() != "Q":
             print("\nSet date DD.MM.YYYY")
             inp = input(" => ")
-            
             try:
                 settings.current_date = datetime.strptime(inp, "%d.%m.%Y").date()
                 return True
@@ -247,7 +316,15 @@ def main():
                 print("Invalid input.")
                 return False
 
-    def menu_page(func, header):
+    def menu_page(func: callable, header: str) -> None:
+        """
+        A generic menu-page for user interaction. Takes a callable-functionand
+        a header to display to the user. The function must take 1 argument of type Team
+
+        Arguments:
+            * callable function
+            * string header
+        """ 
         inp = ""
         while inp.upper() != "E" and inp.upper() != "Q":
             print()
@@ -264,12 +341,19 @@ def main():
             for league in saved:
                 if inp in league.team:
                     func(league.team[inp])
-    def league_table():
+
+    def league_table() -> None:
+        """
+        Prints all the loaded leagues and their league table
+        """
         for league in saved:
             print(f"\nLEAGUE: {league}")
             league.print_league_table()
 
-    def display_info():
+    def display_info() -> None:
+        """
+        Prints info about the current settings
+        """
         s = "\nINFO"
         year, month, day = str(settings.current_date).split("-")
         date = f"Date: {day}.{month}.{year}"
@@ -282,7 +366,11 @@ def main():
             s += line
         print(s)
 
-    def setting():
+    def setting() -> None:
+        """
+        A menu where the user can edit the current settings.
+        Reloads the page if sub-pages has been edited
+        """
         inp = ""
         while inp.upper() != "E" and inp.upper() != "Q":
             print("\nSETTINGS:")
