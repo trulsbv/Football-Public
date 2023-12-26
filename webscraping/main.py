@@ -75,21 +75,7 @@ def update() -> None:
     print(f"Number of teams: {num_teams}")
     print(f"Pages fetched: {wt.fetches}")
 
-def main() -> None: 
-    if len(sys.argv) > 1 and sys.argv[1] == "-log":
-        ft.clear_log()
-        settings.log_bool = True
-        
-    if len(sys.argv) > 1 and sys.argv[1] == "-test":
-        global leagues
-        settings.current_date = datetime.strptime("20.04.2023", "%d.%m.%Y").date()
-        leagues = ["Eliteserien - Norges Fotballforbund"]
-    else:
-        settings.current_date = datetime.today().date()
-    settings.display_weather = []
-    settings.display_surface = []
-
-    def _list_items(items: list, per_page: int = 10, page = 0) -> str:
+def _list_items(items: list, per_page: int = 10, page = 0) -> str:
         """
         Takes a list and items per page. Lets the user
         Choose one of the items in the list
@@ -135,13 +121,20 @@ def main() -> None:
         
         prints.error("Select item", "Invalid input")
         return _list_items(items, per_page, page)
+
+def main() -> None: 
+    if len(sys.argv) > 1 and sys.argv[1] == "-log":
+        ft.clear_log()
+        settings.log_bool = True
         
-
-
-    print(_list_items(["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"], 5, 0))
-
-
-    exit()
+    if len(sys.argv) > 1 and sys.argv[1] == "-test":
+        global leagues
+        settings.current_date = datetime.strptime("20.04.2023", "%d.%m.%Y").date()
+        leagues = ["Eliteserien - Norges Fotballforbund"]
+    else:
+        settings.current_date = datetime.today().date()
+    settings.display_weather = []
+    settings.display_surface = []
 
     print("Suggested minimum terminal width:")
     print("-"*145)
@@ -303,10 +296,6 @@ def main() -> None:
         for game in team.get_all_games():
             print(game)
         
-    
-    
-
-
     def edit_surface() -> bool:
         """
         Displays the different surfaces to the user
@@ -380,9 +369,10 @@ def main() -> None:
             
     def choose_player_stats() -> None:
         """
-        Prints players in the league (pages?) and asks user to choose one (by number?)
+        Ask user to choose league, then prints players in the league (pages?) and asks user to choose one (by number?)
         Then
         """
+        _list_items(list_all_players, )
         ...
 
     def menu_page(func: callable, header: str) -> None:
