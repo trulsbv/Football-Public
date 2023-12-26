@@ -4,6 +4,8 @@ import tools.prints as prints
 import tools.file_tools as ft
 import settings
 
+unplayed_games = 0
+
 class Game():
     def __init__(self, round, date, day, time, home, result, away, pitch, gameId):
         self.round = round
@@ -118,8 +120,10 @@ class Game():
         date, self.day, self.time, _hometeam, score, _awayteam, self.spectators = data[0].split(",")
         self.date = datetime.strptime(date, "%Y-%m-%d").date()
         if not self._is_played():
-            prints.warning("Read analysis", f"{self.home} - {self.away} has not been played yet!")
-            return 
+            global unplayed_games
+            unplayed_games += 1
+            prints.warning("Read analysis", f"{self.home} - {self.away} has not been played yet! (Unplayed games: {unplayed_games})", False)
+            return
         self.hometeam = self.extract_players(self.home, data[1], data[2])
         self.awayteam = self.extract_players(self.away, data[3], data[4])
         self.events = self.extract_events(data[7:])
@@ -136,7 +140,9 @@ class Game():
             self.read_analysis(ft.get_analysis(self.gameId, ".csv"))
             return
         if not self._is_played():
-            prints.warning("Analyse", f"{self.home} - {self.away} has not been played yet!")
+            global unplayed_games
+            unplayed_games += 1
+            prints.warning("Analyse", f"{self.home} - {self.away} has not been played yet! (Unplayed games: {unplayed_games})")
             return
              
         self.weather = Weather(self)
