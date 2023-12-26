@@ -4,6 +4,7 @@ from datetime import datetime
 
 from classes.Mainpage import Mainpage
 from classes.Tournament import Tournament
+from classes.Player import Player
 from classes.Team import Team
 import tools.file_tools as ft
 import tools.prints as prints
@@ -75,7 +76,7 @@ def update() -> None:
     print(f"Number of teams: {num_teams}")
     print(f"Pages fetched: {wt.fetches}")
 
-def _list_items(items: list, per_page: int = 10, page = 0) -> str:
+def _list_items(items: list, per_page: int = 10, page = 0) -> any:
         """
         Takes a list and items per page. Lets the user
         Choose one of the items in the list
@@ -127,10 +128,14 @@ def main() -> None:
         ft.clear_log()
         settings.log_bool = True
         
+    global leagues
     if len(sys.argv) > 1 and sys.argv[1] == "-test":
-        global leagues
         settings.current_date = datetime.strptime("20.04.2023", "%d.%m.%Y").date()
         leagues = ["Eliteserien - Norges Fotballforbund"]
+    elif len(sys.argv) > 1 and sys.argv[1] == "-test2":
+        settings.current_date = datetime.strptime("20.04.2023", "%d.%m.%Y").date()
+        leagues = ["Eliteserien - Norges Fotballforbund",
+                   "OBOS-ligaen - Norges Fotballforbund"]
     else:
         settings.current_date = datetime.today().date()
     settings.display_weather = []
@@ -367,13 +372,29 @@ def main() -> None:
                 print("Invalid input.")
                 return False
             
+    def _display_player_stats(player: Player) -> None:
+        """
+        Prints stats about a spesific player
+
+        Arguments:
+            * Player object
+
+        Returns:
+            * None
+        """
+        prints.error("_display_player_stats", "Not implemented yet!")
+            
     def choose_player_stats() -> None:
         """
-        Ask user to choose league, then prints players in the league (pages?) and asks user to choose one (by number?)
-        Then
+        Ask user to choose league, then prints players in the 
+        league and asks user to choose one. Then displays stats about that player.
         """
-        _list_items(list_all_players, )
-        ...
+        team_name = _list_items(list(select_tournament().team), 10)
+        if not team_name:
+            return
+        team = select_tournament().team[team_name]
+        player = _list_items(list(team.players), 10)
+        _display_player_stats(player)
 
     def menu_page(func: callable, header: str) -> None:
         """
