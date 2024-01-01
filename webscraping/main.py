@@ -132,6 +132,9 @@ def main() -> None:
     if len(sys.argv) > 1 and sys.argv[1] == "-test":
         settings.current_date = datetime.strptime("20.04.2023", "%d.%m.%Y").date()
         leagues = ["Eliteserien - Norges Fotballforbund"]
+    elif len(sys.argv) > 1 and sys.argv[1] == "-testES":
+        settings.current_date = datetime.today().date()
+        leagues = ["Eliteserien - Norges Fotballforbund"]
     elif len(sys.argv) > 1 and sys.argv[1] == "-test2":
         settings.current_date = datetime.strptime("20.04.2023", "%d.%m.%Y").date()
         leagues = ["Eliteserien - Norges Fotballforbund",
@@ -383,6 +386,7 @@ def main() -> None:
             * None
         """
         prints.error("_display_player_stats", "Not implemented yet!")
+        player.get_stats()
             
     def choose_player_stats() -> None:
         """

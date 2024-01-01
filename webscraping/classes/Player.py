@@ -1,5 +1,5 @@
 from classes.Event import (OwnGoal, PenaltyGoal, PlayGoal, RedCard,
-                   YellowCard, Goal, Booking)
+                   YellowCard, Goal, Booking, Event)
 import tools.prints as prints
 class Player():
     def __init__(self, team, name, url):
@@ -11,6 +11,47 @@ class Player():
         self.matches = {"started": [], "sub in": {}, "sub out": {}, "benched": []}
         self.events = []
         self.influence = {}
+    
+
+    def categorize_item(self, item, group_boundaries):
+        for i, upper_bound in enumerate(group_boundaries):
+            if item < upper_bound:
+                return i  # Groups are 1-indexed
+    
+    def times_x_fits_in_y(self, x, y):
+        if x <= 0 or y <= 0:
+            return []
+
+        result = [i for i in range(x, y + 1) if i % x == 0]
+        return result
+
+    def _iterate_events(self, event: Event, frequency: int = 5) -> list:
+        """
+        Returns a list of when a chosen event has happened, places it in boxes
+        of the given frequency: 5 gives 1-5, 6-10, 11-15 ...
+
+        Input:
+            * Type of event e.g. Goal, Card ...
+        
+        Output:
+            * list of lists with the events
+        """
+        output = [[] for _ in range(len(self.times_x_fits_in_y(frequency, 90)))]
+        for item in self.events:
+            if item == event:
+                indx = self.categorize_item(item, self.times_x_fits_in_y(5, 90))
+                output[indx].append(item)
+        return output
+
+    
+    def get_stats(self) -> None:
+        """
+        NOT IMPLEMENTED
+
+        Prints info about the player to the terminal
+        """
+        prints.error("get_stats", "Not implemented yet!")
+        print(self._iterate_events(Goal))
     
     def iterate_events(self, event_type):
         types = []
