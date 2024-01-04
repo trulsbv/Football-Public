@@ -128,6 +128,13 @@ def main() -> None:
         ft.clear_log()
         settings.log_bool = True
         
+    if len(sys.argv) > 1 and sys.argv[1] == "-help":
+        args = ["-test", "-testES", "-test2"]
+        print("Current valid arguments:")
+        for arg in args:
+            print(f" * {arg}")
+        exit()
+        
     global leagues
     if len(sys.argv) > 1 and sys.argv[1] == "-test":
         settings.current_date = datetime.strptime("20.04.2023", "%d.%m.%Y").date()
