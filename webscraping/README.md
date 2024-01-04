@@ -1,7 +1,13 @@
 # To run:
 Flags:
     * -test
+    * -test2
+    * -testES
     * -log (NOT IMPLEMENTED)
+    * -help
+
+Create a file .env inside the webscraping folder and insert:
+VISUALCROSSING_KEY = "[your_key_no_brackets]"
 
 # Possible improvements:
 - Use Panda instead of objects ?
