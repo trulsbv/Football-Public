@@ -97,7 +97,7 @@ class Tournament():
             s += f" | {str(i[2]):>30}, personal total: {str(i[1][0]):>3}"
             s += f" | avg. {' '*(5-len(str(i[1][1])))}{prints.get_fore_color_int(i[1][1])} per game ({str(len(i[2].results_while_playing())):>2})"
             s += f" | avg. {str(int(i[1][2])):>2} minutes per game"
-            s += f" | avg. {' '*(8-len(str(i[1][3])))}{prints.get_fore_color_int(i[1][3])} points per minute"
+            s += f" | avg. {'' if i[1][3]<0 else ' '}{prints.get_fore_color_int(i[1][3])}{' '*(8-len(str(i[1][3])))} points per minute"
             if hightlight and str(i[2].team).upper() == hightlight.upper():
                 print(prints.get_blue_back(s))
             else:

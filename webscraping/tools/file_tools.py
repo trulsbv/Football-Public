@@ -3,9 +3,10 @@ from datetime import date as d, datetime
 from pathlib import Path
 import os
 import re
+import settings
         
 def write_analysis(data, id, extension):
-    folder = create_folder(["files"] + ["analysis"])
+    folder = create_folder(["analysis"])
     file = find_file(folder, str(id)+extension)
     if not file:
         file = folder / (str(id)+extension)
@@ -15,7 +16,7 @@ def write_analysis(data, id, extension):
     file.close()
 
 def get_analysis(id, extension):
-    folder = create_folder(["files"] + ["analysis"])
+    folder = create_folder(["analysis"])
     file = find_file(folder, id+extension)
     file = open(file, encoding="UTF-8")
     lines = file.readlines()
@@ -32,7 +33,7 @@ def is_analysed(id, extension):
 def url_to_folder_name(id, extension=".html"):
     splitted = id.split("/")
     name = (splitted[-1]+extension).replace("?", "")
-    folder = create_folder(["files"] + splitted[:-1])
+    folder = create_folder(splitted[:-1])
     return (folder, name)
 
 def find_file(folder, name):
@@ -73,7 +74,7 @@ def find_html(id, extension=".html"):
     """
     splitted = id.split("/")
     filename = (splitted[-1]+extension).replace("?", "")
-    folder = create_folder(["files"] + splitted[:-1])
+    folder = create_folder(splitted[:-1])
     file = find_file(folder, filename)
     if not file:
         return 0
@@ -97,7 +98,7 @@ def save_html(id, html, extension):
     """
     splitted = id.split("/")
     filename = splitted[-1].replace("?", "")
-    folder = create_folder(["files"] + splitted[:-1])
+    folder = create_folder(splitted[:-1])
 
     file = find_file(folder, str(filename)+extension)
     if not file:
@@ -107,7 +108,8 @@ def save_html(id, html, extension):
     file.write(html)
     file.close()
 
-def create_folder(folders):
+def create_folder(inp):
+    folders = ["files"] + [str(settings.current_date.year)] + inp
     place = str(os.curdir)
     for folder in folders:
         place += "/"+folder

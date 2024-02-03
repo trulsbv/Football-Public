@@ -142,7 +142,7 @@ class Game():
         if not self._is_played():
             global unplayed_games
             unplayed_games += 1
-            prints.warning("Analyse", f"{self.home} - {self.away} has not been played yet! (Unplayed games: {unplayed_games})")
+            prints.warning("Analyse", f"{self.home} - {self.away} has not been played yet! (Unplayed games: {unplayed_games})", False)
             return
              
         self.weather = Weather(self)
