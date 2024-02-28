@@ -1,5 +1,7 @@
 from bs4 import BeautifulSoup
 import tools.regex_tools as rt
+import tools.file_tools as ft
+import settings
 from classes.Events import Events
 from classes.Game import Game
 from classes.Page import Page
@@ -9,8 +11,13 @@ from datetime import date, datetime
 class Schedule():
     def __init__(self, parent, page):
         self.turnering = parent
-        self.games = []
+        self.games: list[Game] = []
         self.page = page
+
+    def add_betting_data(self):
+        ft.clear_betting_data(str(self.turnering.name)+"_"+settings.current_date.year)
+        for game in self.games:
+            ft.add_betting_data(game, str(self.turnering.name)+"_"+settings.current_date.year)
 
     def fetch_games(self):
         self.games = []

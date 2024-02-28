@@ -1,10 +1,56 @@
 from bs4 import BeautifulSoup
 from datetime import date as d, datetime
 from pathlib import Path
+from classes.Game import Game
 import os
 import re
 import settings
-        
+
+def clear_betting_data(id: str, extension: str = ".csv") -> None:
+    """
+    Deletes the file containing the betting data
+    """
+    folder = create_folder(["betting_analysis"])
+    file = find_file(folder, str(id)+extension)
+    if file:
+        os.remove(file)
+
+def add_betting_data(data: Game, id: str, extension: str = ".csv") -> None:
+    """
+    Adds a new line to the data
+    Expects data to be:
+        {
+            hometeam: str,
+            awayteam: str,
+            score: set,
+            odds: set
+         }
+    """
+    folder = create_folder(["betting_analysis"])
+    file = find_file(folder, str(id)+extension)
+    if not file:
+        file = folder / (str(id)+extension)
+    file = open(file, 'a', encoding="UTF-8")
+    file.write(str(d.today())+"\n")
+
+    ht = data.home
+    at = data.away
+    res = data["score"]
+    odds = data["odds"]
+
+    if not odds:
+        confirm = "F"
+        while confirm.upper() != "T":
+            odds = input(f"Odds for {ht} {res} {at} ('1.4,4.53,3.5')")
+            confirm = input(f"Review: {odds}\n  [Y/N]:")
+        odds = set(odds.split(","))
+    
+    # TODO: Stopped this to convert the datafiles into json
+    #       which should make it easier to add new stuff
+
+    file.write(f"{ht},{res},{at},{odds}")
+    file.close()
+
 def write_analysis(data, id, extension):
     folder = create_folder(["analysis"])
     file = find_file(folder, str(id)+extension)

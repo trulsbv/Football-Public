@@ -27,6 +27,7 @@ class Game():
         self.spectators = None
         self.winner = None
         self.score = None
+        self.odds = None # Not yet implemented a way to get the odds
 
     def break_rules(self):
         rules = [
