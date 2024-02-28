@@ -57,7 +57,7 @@ class Weather():
                 s += ","
             f = False
             if not item:
-                s+="None"
+                s+="None,"
             s += str(item)
 
         return s

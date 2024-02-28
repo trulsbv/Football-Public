@@ -1,7 +1,6 @@
 from bs4 import BeautifulSoup
 from datetime import date as d, datetime
 from pathlib import Path
-from classes.Game import Game
 import os
 import re
 import settings
@@ -15,7 +14,7 @@ def clear_betting_data(id: str, extension: str = ".csv") -> None:
     if file:
         os.remove(file)
 
-def add_betting_data(data: Game, id: str, extension: str = ".csv") -> None:
+def add_betting_data(data, id: str, extension: str = ".csv") -> None:
     """
     Adds a new line to the data
     Expects data to be:
