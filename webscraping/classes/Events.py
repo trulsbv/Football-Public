@@ -47,7 +47,7 @@ class Events:
             h = self._analyse(text)
             if h:
                 self.events.append(h)
-            elif h is not False:
+            elif h is False:
                 if restart == 2:
                     prints.STOP()
                     exit()
@@ -56,21 +56,19 @@ class Events:
                 )
                 return self.analyse(restart=restart + 1)
         document = BeautifulSoup(self.page.html.text, "html.parser")
-        string = "grid__item grid__item match__arenainfo"
-        string += " one-third margin-top--two right-bordered mobile--one-whole"
-        gi = document.find(
-            class_=string
-        )
+        class_str = "grid__item grid__item match__arenainfo one-third margin-top--two"
+        class_str += " right-bordered mobile--one-whole"
+        gi = document.find(class_=class_str)
         if gi:
             self.game.spectators = rt.get_spectators(gi)
         return self.events
 
     def _get_events(self):
-
         document = BeautifulSoup(self.page.html.text, "html.parser")
-        f = document.find(
-            class_="section-heading no-margin--bottom ", string=re.compile("^Hendelser")
-        )
+        f = document.find(class_="section-heading no-margin--bottom",
+                          string=re.compile("^Hendelser"))
+        print("\n\n\n")
+        print(f)
         if not f:
             return
         table = f.find_next("ul")
