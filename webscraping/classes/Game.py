@@ -7,7 +7,8 @@ import classes.Team as Team
 
 
 class Game:
-    def __init__(self, round, date, day, time, home, result, away, pitch, gameId):
+    def __init__(self, round, date, day, time,
+                 home, result, away, pitch, gameId):
         self.round = round
         self.date = date
         self.day = day
@@ -114,20 +115,21 @@ class Game:
 
     def extract_events(self, data):
         out = []
-        for d in data:
-            event = d["type"]
-            time = d["time"]
-            team_url = d["team_url"]
+        for dt in data:
+            event = dt["type"]
+            time = dt["time"]
+            team_url = dt["team_url"]
             if event == "Substitution":
-                player1 = d["in_url"]
-                player2 = d["out_url"]
+                player1 = dt["in_url"]
+                player2 = dt["out_url"]
             else:
-                player1 = d["player_url"]
+                player1 = dt["player_url"]
                 player2 = None
 
             team = self.home if self.home.page.url == team_url else self.away
             out.append(
-                self.result.insert_data(event, time, team, player1, player2, self)
+                self.result.insert_data(event, time, team,
+                                        player1, player2, self)
             )
 
     def extract_score(self, data):
@@ -169,13 +171,16 @@ class Game:
         self.away.add_game(self)
 
     def analyse(self):
-        # TODO: Her er det unødvendig å finne filen, si true, og så finne og lese filen igjen
+        # TODO: Her er det unødvendig å finne filen, si true, og så finne
+        # og lese filen igjen
         if ft.is_analysed(self.gameId, ".json"):
             self.read_analysis(ft.get_analysis(self.gameId, ".json"))
             return
         if not self._is_played():
             prints.warning(
-                "Analyse", f"{self.home} - {self.away} has not been played yet!", False
+                "Analyse",
+                f"{self.home} - {self.away} has not been played yet!",
+                False
             )
             return
 
@@ -208,8 +213,10 @@ class Game:
         return False
 
     def __repr__(self) -> str:
+        s = ""
         try:
-            s = f"{str(self.round):>2} {('(' + str(self.day)):>8} {self.date} at {self.time}) {str(self.home):>18} "
+            s += f"{str(self.round):>2} {('(' + str(self.day)):>8} "
+            s += f"{self.date} at {self.time}) {str(self.home):>18} "
             if self.date < settings.current_date:
                 s += f"{self.result} "
             else:
@@ -217,6 +224,5 @@ class Game:
             s += f"{str(self.away):<18} {str(self.pitch):>25} ({self.gameId})"
             if self.spectators and self.spectators != "None":
                 s += f" - {str(self.spectators):>5} attended"
+        finally:
             return s
-        except:
-            return ""

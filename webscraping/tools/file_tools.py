@@ -178,7 +178,7 @@ def is_not_valid(id, valid_from, ext):
     folder, name = url_to_folder_name(id, ext)
     if not find_file(folder, name):
         return True
-    if valid_from == False:
+    if valid_from is False:
         return False
 
     str_date = find_html(id).split("\n")[:1][0]
@@ -189,7 +189,8 @@ def is_not_valid(id, valid_from, ext):
 def get_baneinfo(html):
     document = BeautifulSoup(html, "html.parser")
     title = document.select("h1")[0].text.strip()
-    info = document.find(class_="section-heading", string=re.compile("^Baneinfo"))
+    info = document.find(class_="section-heading",
+                         string=re.compile("^Baneinfo"))
     info = info.find_next("ul")
     dict = {
         "navn": title,

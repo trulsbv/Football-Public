@@ -8,7 +8,6 @@ from classes.Team import Team
 import tools.file_tools as ft
 import tools.prints as prints
 import tools.web_tools as wt
-import tools.weather_tools as wet
 from classes.Page import Page
 import settings
 import os
@@ -112,7 +111,8 @@ def _list_items(items: list, per_page: int = 10, page=0) -> any:
         print(f"[{i}] {items[ctr]}")
         ctr += 1
         i += 1
-    print(f"[1 - {per_page}] Select, [Q] Quit, [P] Previous page, [N] Next page")
+    print(f"[1 - {per_page}] Select, " +
+          "[Q] Quit, [P] Previous page, [N] Next page")
     inp = input(" => ")
 
     if inp.isnumeric():
@@ -150,13 +150,15 @@ def main() -> None:
 
     global leagues
     if len(sys.argv) > 1 and sys.argv[1] == "-test":
-        settings.current_date = datetime.strptime("11.12.2023", "%d.%m.%Y").date()
+        settings.current_date = datetime.strptime("11.12.2023",
+                                                  "%d.%m.%Y").date()
         leagues = ["Eliteserien - Norges Fotballforbund"]
     elif len(sys.argv) > 1 and sys.argv[1] == "-testES":
         settings.current_date = datetime.today().date()
         leagues = ["Eliteserien - Norges Fotballforbund"]
     elif len(sys.argv) > 1 and sys.argv[1] == "-test2":
-        settings.current_date = datetime.strptime("20.04.2023", "%d.%m.%Y").date()
+        settings.current_date = datetime.strptime("20.04.2023",
+                                                  "%d.%m.%Y").date()
         leagues = [
             "Eliteserien - Norges Fotballforbund",
             "OBOS-ligaen - Norges Fotballforbund",
@@ -188,7 +190,8 @@ def main() -> None:
         for item in types_of_weather:
             if item not in settings.display_weather:
                 not_enabled.append(item)
-        enabled = list(set(settings.display_weather).intersection(types_of_weather))
+        enabled = list(
+            set(settings.display_weather).intersection(types_of_weather))
         print("NOT ENABLED:")
         for w in not_enabled:
             print(f" * {w}")
@@ -213,7 +216,8 @@ def main() -> None:
         for item in types_of_surfaces:
             if item not in settings.display_surface:
                 not_enabled.append(item)
-        enabled = list(set(settings.display_surface).intersection(types_of_surfaces))
+        enabled = list(
+            set(settings.display_surface).intersection(types_of_surfaces))
         print("NOT ENABLED:")
         for w in not_enabled:
             print(f" * {w}")
@@ -235,8 +239,11 @@ def main() -> None:
 
         if not team:
             inp = ""
-            while not (str(inp).isnumeric() and int(inp) < i and int(inp) >= 0):
-                i = 0
+            # i was inside the while loop?!
+            i = 0
+            while not (str(inp).isnumeric() and
+                       int(inp) < i and
+                       int(inp) >= 0):
                 prints.info("Choose a league:", newline=True)
                 for league in saved:
                     print(f"[{i}] {league}")
@@ -256,8 +263,8 @@ def main() -> None:
         inp = ""
         while inp.upper() != "E" and inp.upper() != "Q":
             print(
-                "Type club name to hightlight (case sensitive), to see clubs: type 'clubs'"
-            )
+                "Type club name to hightlight (case sensitive), " +
+                "to see clubs: type 'clubs'")
             inp = input(" => ")
             if inp == "":
                 select_tournament().print_top_performers()
@@ -382,8 +389,8 @@ def main() -> None:
 
     def edit_date() -> bool:
         """
-        Lets the user change the internal current_date to select what matches to
-        be played. Returns a boolean where True will trigger update()
+        Lets the user change the internal current_date to select what matches
+        to be played. Returns a boolean where True will trigger update()
 
         Returns:
             * bool
@@ -392,12 +399,15 @@ def main() -> None:
         while inp.upper() != "E" and inp.upper() != "Q":
             print("\nSet date DD.MM.YYYY")
             inp = input(" => ")
+            bool = False
             try:
-                settings.current_date = datetime.strptime(inp, "%d.%m.%Y").date()
-                return True
-            except:
-                print("Invalid input.")
-                return False
+                settings.current_date = datetime.strptime(inp,
+                                                          "%d.%m.%Y").date()
+                bool = True
+            finally:
+                if not bool:
+                    print("Invalid input.")
+                return bool
 
     def _display_player_stats(player: Player) -> None:
         """
@@ -414,8 +424,8 @@ def main() -> None:
 
     def choose_player_stats() -> None:
         """
-        Ask user to choose league, then prints players in the
-        league and asks user to choose one. Then displays stats about that player.
+        Ask user to choose league, then prints players in the league
+        and asks user to choose one. Then displays stats about that player.
         """
         team_name = _list_items(list(select_tournament().team), 10)
         if not team_name:
@@ -426,8 +436,9 @@ def main() -> None:
 
     def menu_page(func: callable, header: str) -> None:
         """
-        A generic menu-page for user interaction. Takes a callable-functionand
-        a header to display to the user. The function must take 1 argument of type Team
+        A generic menu-page for user interaction. Takes a callable-function
+        and a header to display to the user. The function must
+        take 1 argument of type Team
 
         Arguments:
             * callable function
@@ -465,8 +476,10 @@ def main() -> None:
         s = "\nINFO"
         year, month, day = str(settings.current_date).split("-")
         date = f"Date: {day}.{month}.{year}"
-        weather = f"Weather: {'All' if not settings.display_weather else ', '.join(map(str, settings.display_weather))}"
-        surfaces = f"Surfaces: {'All' if not settings.display_surface else ', '.join(map(str, settings.display_surface))}"
+        weather = "Weather:",
+        f"{'All' if not settings.display_weather else ', '.join(map(str, settings.display_weather))}"
+        surfaces = "Surfaces:",
+        f"{'All' if not settings.display_surface else ', '.join(map(str, settings.display_surface))}"
 
         lines = [date, weather, surfaces]
         for line in lines:
@@ -499,15 +512,15 @@ def main() -> None:
     inp = ""
     while inp.upper() != "Q":
         display_info()
-        print(f"[1] Team overview")
-        print(f"[2] Team stats")
-        print(f"[3] Top performers for team")
-        print(f"[4] List team games")
-        print(f"[5] Top performers league")
-        print(f"[6] League tables")
-        print(f"[7] Player stats")
+        print("[1] Team overview")
+        print("[2] Team stats")
+        print("[3] Top performers for team")
+        print("[4] List team games")
+        print("[5] Top performers league")
+        print("[6] League tables")
+        print("[7] Player stats")
         print()
-        print(f"[Q] Quit, [CLS] Clear, [S] Settings")
+        print("[Q] Quit, [CLS] Clear, [S] Settings")
         inp = input(" => ")
         if inp.isnumeric():
             if int(inp) == 1:

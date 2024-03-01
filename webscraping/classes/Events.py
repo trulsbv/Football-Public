@@ -1,7 +1,4 @@
-import os
 import re
-import sys
-
 import tools.prints as prints
 import tools.regex_tools as rt
 from bs4 import BeautifulSoup
@@ -35,7 +32,8 @@ class Events:
         elif event == "Red card":
             event = RedCard(game, time, team, (None, player1))
         elif event == "Substitution":
-            event = Substitute(game, time, team, ((None, player2), (None, player1)))
+            event = Substitute(game, time, team,
+                               ((None, player2), (None, player1)))
         else:
             prints.error(self, f"{event} is not handled!")
             exit()
@@ -50,16 +48,18 @@ class Events:
             h = self._analyse(text)
             if h:
                 self.events.append(h)
-            elif h == False:
+            elif h is not False:
                 if restart == 2:
                     prints.STOP()
                     exit()
-                prints.warning(self, f"Failed to read data, retrying {2-restart} times")
+                prints.warning(self, "Failed to read data, retrying " +
+                               f"{2-restart} times")
                 return self.analyse(restart=restart + 1)
 
         document = BeautifulSoup(self.page.html.text, "html.parser")
         gi = document.find(
-            class_="grid__item grid__item match__arenainfo one-third margin-top--two right-bordered mobile--one-whole"
+            class_="grid__item grid__item match__arenainfo" +
+            "one-third margin-top--two right-bordered mobile--one-whole"
         )
         if gi:
             self.game.spectators = rt.get_spectators(gi)
@@ -69,7 +69,8 @@ class Events:
 
         document = BeautifulSoup(self.page.html.text, "html.parser")
         f = document.find(
-            class_="section-heading no-margin--bottom", string=re.compile("^Hendelser")
+            class_="section-heading no-margin--bottom ",
+            string=re.compile("^Hendelser")
         )
         if not f:
             return
@@ -84,9 +85,11 @@ class Events:
         hometeam = [[], []]
         awayteam = [[], []]
         document = BeautifulSoup(self.page.html.text, "html.parser")
-        f = document.find(class_="section-heading", string=re.compile("^Kamptroppen"))
+        f = document.find(class_="section-heading",
+                          string=re.compile("^Kamptroppen"))
         if not f:
-            prints.error(self, f"Failed to find 'Kamptroppen' in {self.page.url}")
+            prints.error(self,
+                         f"Failed to find 'Kamptroppen' in {self.page.url}")
             return False
         table = f.find_next("ul")
         i = 1
@@ -164,16 +167,17 @@ class Events:
         home_goals = 0
         away_goals = 0
 
-        if self.game == None:
+        if self.game is None:
             return
 
         for item in self.events:
-            if type(item) == PlayGoal or type(item) == PenaltyGoal:
+            # changed from type(item)
+            if isinstance(item) == PlayGoal or isinstance(item) == PenaltyGoal:
                 if item.team == self.game.home:
                     home_goals += 1
                 else:
                     away_goals += 1
-            if type(item) == OwnGoal:
+            if isinstance(item) == OwnGoal:
                 if item.team == self.game.home:
                     away_goals += 1
                 else:
