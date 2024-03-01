@@ -44,6 +44,19 @@ class Game:
     def _is_played(self):
         return self.date < settings.current_date
 
+    def ask_user_for_odds(self) -> set:
+        """
+        Prompts the user to insert odds for the game
+        """
+        inp = input("Insert odds for the game\n" "Format: 1.23,4.56,7.89")
+        out = None
+        try:
+            h, u, b = inp.split(",")
+            float(h), float(u), float(b)
+            out = (h, u, b)
+        finally:
+            return out
+
     def write_analysis(self):
         """
         Takes the game-data and formats it to json v1.1
@@ -62,7 +75,7 @@ class Game:
                 "score_home": self.score[0],
                 "score_away": self.score[1],
                 "spectators": self.spectators,
-                "odds": self.odds,
+                "odds": self.odds if self.odds else self.ask_user_for_odds(),
                 "stadium": self.pitch.get_analysis(),
                 "weather": self.weather.get_analysis(),
                 "home_team": {"starting": [], "bench": []},
@@ -167,6 +180,8 @@ class Game:
             self.winner = self.away
         self.home.add_game(self)
         self.away.add_game(self)
+        if not self.odds:
+            self.write_analysis()
 
     def analyse(self):
         # TODO: Her er det unødvendig å finne filen, si true, og så finne
