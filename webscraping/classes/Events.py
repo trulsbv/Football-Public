@@ -32,8 +32,7 @@ class Events:
         elif event == "Red card":
             event = RedCard(game, time, team, (None, player1))
         elif event == "Substitution":
-            event = Substitute(game, time, team,
-                               ((None, player2), (None, player1)))
+            event = Substitute(game, time, team, ((None, player2), (None, player1)))
         else:
             prints.error(self, f"{event} is not handled!")
             exit()
@@ -52,14 +51,15 @@ class Events:
                 if restart == 2:
                     prints.STOP()
                     exit()
-                prints.warning(self, "Failed to read data, retrying " +
-                               f"{2-restart} times")
+                prints.warning(
+                    self, "Failed to read data, retrying " + f"{2-restart} times"
+                )
                 return self.analyse(restart=restart + 1)
 
         document = BeautifulSoup(self.page.html.text, "html.parser")
         gi = document.find(
-            class_="grid__item grid__item match__arenainfo" +
-            "one-third margin-top--two right-bordered mobile--one-whole"
+            class_="grid__item grid__item match__arenainfo"
+            + "one-third margin-top--two right-bordered mobile--one-whole"
         )
         if gi:
             self.game.spectators = rt.get_spectators(gi)
@@ -69,8 +69,7 @@ class Events:
 
         document = BeautifulSoup(self.page.html.text, "html.parser")
         f = document.find(
-            class_="section-heading no-margin--bottom ",
-            string=re.compile("^Hendelser")
+            class_="section-heading no-margin--bottom ", string=re.compile("^Hendelser")
         )
         if not f:
             return
@@ -85,11 +84,9 @@ class Events:
         hometeam = [[], []]
         awayteam = [[], []]
         document = BeautifulSoup(self.page.html.text, "html.parser")
-        f = document.find(class_="section-heading",
-                          string=re.compile("^Kamptroppen"))
+        f = document.find(class_="section-heading", string=re.compile("^Kamptroppen"))
         if not f:
-            prints.error(self,
-                         f"Failed to find 'Kamptroppen' in {self.page.url}")
+            prints.error(self, f"Failed to find 'Kamptroppen' in {self.page.url}")
             return False
         table = f.find_next("ul")
         i = 1

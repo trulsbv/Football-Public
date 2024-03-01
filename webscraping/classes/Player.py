@@ -192,7 +192,7 @@ class Player:
             s += f", {self.number:>2} - "
         else:
             s += "       "
-        s += f"({len(self.matches['started']):>2}, {len(self.matches['sub in']):>2},",
+        s += (f"({len(self.matches['started']):>2}, {len(self.matches['sub in']):>2},",)
         f"{len(self.matches['sub out']):>2}, {len(self.matches['benched']):>2})"
         s += f" - {self.get_goals():>2} goals"
         res = self.get_num_games_result()
@@ -324,4 +324,5 @@ class Player:
             f"{home_post:>2} - {away_post:<2} {personal_res:<4} | {loc}",
             f"| Result {end[0]:>2} - {end[1]:<2} {actual_res:<4} | for:",
             f"{goals_for:>2}, agst: {goals_against:>2}, tot: {total_goals:>3}",
-            f"| {game.date}, {game.opponent(self.team)}")
+            f"| {game.date}, {game.opponent(self.team)}",
+        )

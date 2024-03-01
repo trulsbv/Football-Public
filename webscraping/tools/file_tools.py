@@ -189,8 +189,7 @@ def is_not_valid(id, valid_from, ext):
 def get_baneinfo(html):
     document = BeautifulSoup(html, "html.parser")
     title = document.select("h1")[0].text.strip()
-    info = document.find(class_="section-heading",
-                         string=re.compile("^Baneinfo"))
+    info = document.find(class_="section-heading", string=re.compile("^Baneinfo"))
     info = info.find_next("ul")
     dict = {
         "navn": title,

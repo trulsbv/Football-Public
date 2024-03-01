@@ -101,7 +101,8 @@ class Substitute(Event):
             prints.warning(
                 "SUBSTITUTION",
                 "Tries to sub off player thats not on the pitch.",
-                "{team}, {player_a} => {player_b} ({self.game.date})")
+                "{team}, {player_a} => {player_b} ({self.game.date})",
+            )
             return
 
         if self.player_in.matches["sub out"]:

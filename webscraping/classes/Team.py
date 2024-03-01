@@ -159,6 +159,7 @@ class Team:
     def __repr__(self) -> str:
         if self.name is None:
             self.set_navn()
+
         return (
             self.name.title()
             .replace("Menn Senior ", "")

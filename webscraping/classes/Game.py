@@ -7,8 +7,7 @@ import classes.Team as Team
 
 
 class Game:
-    def __init__(self, round, date, day, time,
-                 home, result, away, pitch, gameId):
+    def __init__(self, round, date, day, time, home, result, away, pitch, gameId):
         self.round = round
         self.date = date
         self.day = day
@@ -128,8 +127,7 @@ class Game:
 
             team = self.home if self.home.page.url == team_url else self.away
             out.append(
-                self.result.insert_data(event, time, team,
-                                        player1, player2, self)
+                self.result.insert_data(event, time, team, player1, player2, self)
             )
 
     def extract_score(self, data):
@@ -178,9 +176,7 @@ class Game:
             return
         if not self._is_played():
             prints.warning(
-                "Analyse",
-                f"{self.home} - {self.away} has not been played yet!",
-                False
+                "Analyse", f"{self.home} - {self.away} has not been played yet!", False
             )
             return
 

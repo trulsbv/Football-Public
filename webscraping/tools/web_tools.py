@@ -48,8 +48,8 @@ def get_html(url: str, params: dict | None = None, output: str | None = None) ->
     fetches += 1
     prints.download(url)
     headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
-        "(KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+        + "(KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36",
         "Accept-Charset": "utf-8",
     }
     # passing the optional parameters argument to the get function
