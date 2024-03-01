@@ -69,7 +69,7 @@ class Events:
 
         document = BeautifulSoup(self.page.html.text, "html.parser")
         f = document.find(
-            class_="section-heading no-margin--bottom", string=re.compile("^Hendelser")
+            class_="section-heading no-margin--bottom ", string=re.compile("^Hendelser")
         )
         if not f:
             return
