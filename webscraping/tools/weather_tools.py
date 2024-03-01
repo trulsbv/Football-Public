@@ -17,7 +17,7 @@ def parse_map_string(map_string: str) -> dict:
         * Dict dict
     """
     d = eval(map_string.split("\n")[1])
-    assert isinstance(d) == dict
+    assert isinstance(d, dict)
     return d
 
 

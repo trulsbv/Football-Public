@@ -168,8 +168,8 @@ class Team:
         )
 
     def __eq__(self, other) -> bool:
-        if isinstance(other) == str:
+        if isinstance(other, str):
             if self.name:
                 return self.name.title().replace("Menn Senior ", "") == other
-        if isinstance(other) == Team:
+        if isinstance(other, Team):
             return self.name == other.name

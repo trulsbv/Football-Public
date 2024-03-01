@@ -44,16 +44,18 @@ class Game:
     def _is_played(self):
         return self.date < settings.current_date
 
-    def ask_user_for_odds(self) -> set:
+    def ask_user_for_odds(self) -> list:
         """
         Prompts the user to insert odds for the game
         """
-        inp = input("Insert odds for the game\n" "Format: 1.23,4.56,7.89")
+        return None
+        inp = input(f"\n\nInsert odds for {self.home} - {self.away} ({self.gameId})\n"
+                    "Format: 1.23,4.56,7.89\n"
+                    " => ")
         out = None
         try:
             h, u, b = inp.split(",")
-            float(h), float(u), float(b)
-            out = (h, u, b)
+            out = [h, u, b]
         finally:
             return out
 
@@ -180,8 +182,6 @@ class Game:
             self.winner = self.away
         self.home.add_game(self)
         self.away.add_game(self)
-        if not self.odds:
-            self.write_analysis()
 
     def analyse(self):
         # TODO: Her er det unødvendig å finne filen, si true, og så finne
