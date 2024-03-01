@@ -55,11 +55,11 @@ class Events:
                     self, "Failed to read data, retrying " + f"{2-restart} times"
                 )
                 return self.analyse(restart=restart + 1)
-
         document = BeautifulSoup(self.page.html.text, "html.parser")
+        string = "grid__item grid__item match__arenainfo"
+        string += " one-third margin-top--two right-bordered mobile--one-whole"
         gi = document.find(
-            class_="grid__item grid__item match__arenainfo"
-            + "one-third margin-top--two right-bordered mobile--one-whole"
+            class_=string
         )
         if gi:
             self.game.spectators = rt.get_spectators(gi)
@@ -169,12 +169,12 @@ class Events:
 
         for item in self.events:
             # changed from type(item)
-            if isinstance(item) == PlayGoal or isinstance(item) == PenaltyGoal:
+            if isinstance(item, PlayGoal) or isinstance(item, PenaltyGoal):
                 if item.team == self.game.home:
                     home_goals += 1
                 else:
                     away_goals += 1
-            if isinstance(item) == OwnGoal:
+            if isinstance(item, OwnGoal):
                 if item.team == self.game.home:
                     away_goals += 1
                 else:

@@ -115,7 +115,7 @@ class Player:
         goals = self.iterate_events(Goal)
         goal_counter = 0
         for g in goals:
-            if isinstance(g) == OwnGoal:
+            if isinstance(g, OwnGoal):
                 goal_counter -= 1
             else:
                 goal_counter += 1
@@ -161,9 +161,9 @@ class Player:
         return hash(self.url)
 
     def __eq__(self, other):
-        if isinstance(other) == Player:
+        if isinstance(other, Player):
             return self.url == other.url
-        if isinstance(other) == str:
+        if isinstance(other, str):
             return self.name == other
 
     def get_analysis(self):

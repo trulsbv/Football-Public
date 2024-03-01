@@ -116,6 +116,8 @@ class Substitute(Event):
         self.player_in.matches["sub in"][game] = self
         self.player_out.matches["sub out"][game] = self
         self.current_score = game.result.get_result()
+        print("\n\n\n\n\\n\n\n")
+        print(self.player_in.matches["benched"])
 
         self.player_in.matches["benched"].remove(game)
         assert (

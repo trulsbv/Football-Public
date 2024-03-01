@@ -17,8 +17,11 @@ def clear_betting_data(id: str, extension: str = ".csv") -> None:
         os.remove(file)
 
 
-def add_betting_data(data, id: str, extension: str = ".csv") -> None:
+def add_betting_data(data: map, id: str, extension: str = ".csv") -> None:
     """
+    TODO: This is a temporary location for this fucntion - it should not
+          be in this file!
+
     Adds a new line to the data
     Expects data to be:
         {
