@@ -1,4 +1,5 @@
 import re
+from errors import DontCare
 
 
 def find_urls(
@@ -19,7 +20,7 @@ def find_urls(
     # create and compile regular expression(s)
     urls = []
 
-    if type(html) != str:
+    if isinstance(html) != str:
         return urls
 
     # 1. find all the anchor tags, then
@@ -141,7 +142,7 @@ def analysis(text):
         out["name"] = standard_reg(text, r'<a href="[^"]*">(.*)<\/a>')
         try:
             out["url"] = out["url"][0]
-        except:
+        except DontCare:
             # TODO: Ye
             ...
     return out

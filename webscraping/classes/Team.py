@@ -94,9 +94,12 @@ class Team:
         inp = sorted(inp, key=lambda x: x[0], reverse=True)
         for i in inp:
             s = f"{str(i[2]):>35}, personal total: {str(i[1][0]):>3}"
-            s += f" | avg. {' '*(5-len(str(i[1][1])))}{prints.get_fore_color_int(i[1][1])} per game ({str(len(i[2].results_while_playing())):>2})"
+            s += f" | avg. {' '*(5-len(str(i[1][1])))}"
+            s += f"{prints.get_fore_color_int(i[1][1])} per game "
+            s += f"({str(len(i[2].results_while_playing())):>2})"
             s += f" | avg. {str(int(i[1][2])):>2} minutes per game"
-            s += f" | avg. {' '*(8-len(str(i[1][3])))}{prints.get_fore_color_int(i[1][3])} points per minute"
+            s += f" | avg. {' '*(8-len(str(i[1][3])))}"
+            s += f"{prints.get_fore_color_int(i[1][3])} points per minute"
 
             print(s)
 
@@ -116,7 +119,7 @@ class Team:
         number=False,
         position=False,
     ):
-        if name == False:
+        if name is False:
             name = "UnreportedPlayer"
         # Only suggest unless we have the correct url.
         for player in self.players:
@@ -154,7 +157,7 @@ class Team:
         return len(self.name.title().replace("Menn Senior ", ""))
 
     def __repr__(self) -> str:
-        if self.name == None:
+        if self.name is None:
             self.set_navn()
         return (
             self.name.title()
@@ -164,8 +167,8 @@ class Team:
         )
 
     def __eq__(self, other) -> bool:
-        if type(other) == str:
+        if isinstance(other) == str:
             if self.name:
                 return self.name.title().replace("Menn Senior ", "") == other
-        if type(other) == Team:
+        if isinstance(other) == Team:
             return self.name == other.name

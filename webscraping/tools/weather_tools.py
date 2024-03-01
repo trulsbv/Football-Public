@@ -3,6 +3,7 @@ import tools.file_tools as ft
 import tools.web_tools as wt
 from datetime import date
 from classes.Pitch import Pitch
+from errors import DontCare
 
 
 def parse_map_string(map_string: str) -> dict:
@@ -16,7 +17,7 @@ def parse_map_string(map_string: str) -> dict:
         * Dict dict
     """
     d = eval(map_string.split("\n")[1])
-    assert type(d) == dict
+    assert isinstance(d) == dict
     return d
 
 
@@ -49,7 +50,7 @@ def get_weather_data(pitch: Pitch, date: date, time: str) -> dict:
     cords = get_coords(pitch)
     try:
         data = wt.get_historic_data(cords, t)
-    except:
+    except DontCare:
         print("\nERROR FETCHING FROM weather_tools.py!")
         exit()
     ft.save_html(file_name, str(data), ".txt")

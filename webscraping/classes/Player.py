@@ -9,6 +9,7 @@ from classes.Event import (
     Event,
 )
 import tools.prints as prints
+from errors import DontCare
 
 
 class Player:
@@ -114,7 +115,7 @@ class Player:
         goals = self.iterate_events(Goal)
         goal_counter = 0
         for g in goals:
-            if type(g) == OwnGoal:
+            if isinstance(g) == OwnGoal:
                 goal_counter -= 1
             else:
                 goal_counter += 1
@@ -127,7 +128,7 @@ class Player:
         for game in self.matches["started"]:
             if game.winner == self.team:
                 win += 1
-            elif game.winner == None:
+            elif game.winner is None:
                 draw += 1
             else:
                 loss += 1
@@ -135,7 +136,7 @@ class Player:
         for sub in self.matches["sub in"]:
             if self.matches["sub in"][sub].game.winner == self.team:
                 win += 1
-            elif self.matches["sub in"][sub].game.winner == None:
+            elif self.matches["sub in"][sub].game.winner is None:
                 draw += 1
             else:
                 loss += 1
@@ -160,9 +161,9 @@ class Player:
         return hash(self.url)
 
     def __eq__(self, other):
-        if type(other) == Player:
+        if isinstance(other) == Player:
             return self.url == other.url
-        if type(other) == str:
+        if isinstance(other) == str:
             return self.name == other
 
     def get_analysis(self):
@@ -191,7 +192,8 @@ class Player:
             s += f", {self.number:>2} - "
         else:
             s += "       "
-        s += f"({len(self.matches['started']):>2}, {len(self.matches['sub in']):>2}, {len(self.matches['sub out']):>2}, {len(self.matches['benched']):>2})"
+        s += f"({len(self.matches['started']):>2}, {len(self.matches['sub in']):>2},",
+        f"{len(self.matches['sub out']):>2}, {len(self.matches['benched']):>2})"
         s += f" - {self.get_goals():>2} goals"
         res = self.get_num_games_result()
         if res:
@@ -224,7 +226,7 @@ class Player:
                     goals_against = home_post - home_pre
                     loc = "Away"
 
-                if not "goals_for" in self.influence:
+                if "goals_for" not in self.influence:
                     self.influence["goals_for"] = goals_for
                     self.influence["goals_against"] = goals_against
                     self.influence["num_games"] = 1
@@ -253,7 +255,7 @@ class Player:
         mpg = round(self.influence["num_minutes"] / self.influence["num_games"], 0)
         try:
             ppm = round(p_tot / self.influence["num_minutes"], 5)
-        except:
+        except DontCare:
             ppm = 0
         li = [p_tot, ppg, mpg, ppm]
         if category == "p_tot":
@@ -284,7 +286,7 @@ class Player:
         try:
             ppm = round(p_tot / self.influence["num_minutes"], 5)
             s += f" | avg. {prints.get_fore_color_int(ppm)} points per minute"
-        except:
+        except DontCare:
             s += "_"
         print(s)
         if individual:
@@ -318,5 +320,8 @@ class Player:
         in_t = "'" + str(in_t)
         out_t = "'" + str(out_t)
         print(
-            f" {in_t:>3}-{out_t:>3} | {home_pre:>2} - {away_pre:<2} -> {home_post:>2} - {away_post:<2} {personal_res:<4} | {loc} | Result {end[0]:>2} - {end[1]:<2} {actual_res:<4} | for: {goals_for:>2}, agst: {goals_against:>2}, tot: {total_goals:>3} | {game.date}, {game.opponent(self.team)}"
-        )
+            f" {in_t:>3}-{out_t:>3} | {home_pre:>2} - {away_pre:<2} ->",
+            f"{home_post:>2} - {away_post:<2} {personal_res:<4} | {loc}",
+            f"| Result {end[0]:>2} - {end[1]:<2} {actual_res:<4} | for:",
+            f"{goals_for:>2}, agst: {goals_against:>2}, tot: {total_goals:>3}",
+            f"| {game.date}, {game.opponent(self.team)}")

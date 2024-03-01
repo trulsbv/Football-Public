@@ -1,4 +1,5 @@
 import tools.prints as prints
+from errors import DontCare
 
 
 class Event:
@@ -79,8 +80,8 @@ class Substitute(Event):
             sheet[0].remove(player_a)
             sheet[1].append(player_a)
             sheet[1].remove(player_b)
-            assert (not player_a in sheet[0]) and (player_a in sheet[1])
-            assert (not player_b in sheet[1]) and (player_b in sheet[0])
+            assert (player_a not in sheet[0]) and (player_a in sheet[1])
+            assert (player_b not in sheet[1]) and (player_b in sheet[0])
         elif player_b in sheet[0]:  # Player_b is on pitch, player a is on bench
             self.player_in = player_a
             if player_a not in sheet[1]:
@@ -94,13 +95,13 @@ class Substitute(Event):
             sheet[0].remove(player_b)
             sheet[1].append(player_b)
             sheet[1].remove(player_a)
-            assert (not player_a in sheet[1]) and (player_a in sheet[0])
-            assert (not player_b in sheet[0]) and (player_b in sheet[1])
+            assert (player_a not in sheet[1]) and (player_a in sheet[0])
+            assert (player_b not in sheet[0]) and (player_b in sheet[1])
         else:
             prints.warning(
                 "SUBSTITUTION",
-                f"Tries to sub off player thats not on the pitch. {team}, {player_a} => {player_b} ({self.game.date})",
-            )
+                "Tries to sub off player thats not on the pitch.",
+                "{team}, {player_a} => {player_b} ({self.game.date})")
             return
 
         if self.player_in.matches["sub out"]:
@@ -123,7 +124,7 @@ class Substitute(Event):
             game in self.player_out.matches["sub out"]
         ), f"{self.player_out} subbed out, but not saved"
         assert (
-            not self in self.player_in.matches["benched"]
+            self not in self.player_in.matches["benched"]
         ), f"{self.player_in} subbed in, but still in benched"
 
     def __repr__(self) -> str:
@@ -138,7 +139,7 @@ class Substitute(Event):
                 "in_url": self.player_in.url,
                 "out_url": self.player_out.url,
             }
-        except:
+        except DontCare:
             return None
 
 

@@ -43,7 +43,7 @@ def read_start(filename):
     i = 0
     while i in range(len(text)):
         if ":" in text[i]:
-            game, team = read_game(text[i : i + 18])
+            game, team = read_game(text[i: i + 18])
             games.append(game)
             teams.add(team)
         i += 1
@@ -61,7 +61,7 @@ def bet_on_team(team, bank, bet, games):
         else:
             current_bet = bet
         res = game.play(team, current_bet)
-        if res != None:
+        if res is not None:
             bank = bank - current_bet
             bank += res
             ctr += 1

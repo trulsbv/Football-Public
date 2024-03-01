@@ -30,7 +30,7 @@ class Mainpage:
         return possible[int(inp)]
 
     def fetch_tournament(self):
-        if self.page == None:
+        if self.page is None:
             raise PageNotFoundError("Mainpage", self.page)
         urls = set(rt.find_urls(self.page.html.text))
         for url in urls:

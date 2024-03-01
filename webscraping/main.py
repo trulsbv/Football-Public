@@ -477,9 +477,9 @@ def main() -> None:
         year, month, day = str(settings.current_date).split("-")
         date = f"Date: {day}.{month}.{year}"
         weather = "Weather:",
-        f"{'All' if not settings.display_weather else ', '.join(map(str, settings.display_weather))}"
+        'All' if not settings.display_weather else ', '.join(map(str, settings.display_weather))
         surfaces = "Surfaces:",
-        f"{'All' if not settings.display_surface else ', '.join(map(str, settings.display_surface))}"
+        'All' if not settings.display_surface else ', '.join(map(str, settings.display_surface))
 
         lines = [date, weather, surfaces]
         for line in lines:

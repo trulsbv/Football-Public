@@ -7,6 +7,7 @@ from classes.Game import Game
 from classes.Page import Page
 from classes.Pitch import Pitch
 from datetime import date, datetime
+from errors import DontCare
 
 
 class Schedule:
@@ -51,7 +52,7 @@ class Schedule:
                     _pitch,
                     gameId,
                 ) = cells_text
-            except:
+            except DontCare:
                 (
                     round,
                     date,

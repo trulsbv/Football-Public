@@ -48,7 +48,8 @@ def get_html(url: str, params: dict | None = None, output: str | None = None) ->
     fetches += 1
     prints.download(url)
     headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
+        "(KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36",
         "Accept-Charset": "utf-8",
     }
     # passing the optional parameters argument to the get function
@@ -83,5 +84,7 @@ def get_historic_data(coordinates: tuple[str, str], time: str) -> dict[str:str]:
     x_coord, y_coord = coordinates
 
     prints.download(coordinates)
-    endpoint = f"https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{x_coord},{y_coord}/{time}?key={visualcrossing_key}&include=current"
+    url = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/"
+    url += f"{x_coord},{y_coord}/{time}?key={visualcrossing_key}&include=current"
+    endpoint = url
     return requests.get(endpoint).json()

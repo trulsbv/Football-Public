@@ -34,6 +34,6 @@ class Pitch:
         }
 
     def __repr__(self) -> str:
-        if self.name == None:
+        if self.name is None:
             self.fetch_info()
         return self.name

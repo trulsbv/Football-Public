@@ -38,9 +38,10 @@ class Page:
         return (self.id) < (obj.id)
 
     def __eq__(self, other):
-        if type(other) == str:
+        if isinstance(other) == str:
             return other == self.url
-        if type(other) == Page:
+        # type(other) == Page:
+        if isinstance(other) == Page:
             return other.url == self.url
         return False
 

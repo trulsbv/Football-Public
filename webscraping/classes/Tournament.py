@@ -34,9 +34,12 @@ class Tournament:
         print("-" * 76)
         for team in self._get_league_table():
             s = f"{i:>3} | {team.name:>20} | "
-            s += f"{str(len(team.games['home']) + len(team.games['away'])):>2} ({str(len(team.games['home'])):>2}/{str(len(team.games['away'])):>2}) | "
-            s += f"{str(team.goals_scored_total):>2} ({str(team.goals_scored_home):>2}/{str(team.goals_scored_away):>2}) | "
-            s += f"{str(team.goals_conceded_total):>2} ({str(team.goals_conceded_home):>2}/{str(team.goals_conceded_away):>2}) | "
+            s += f"{str(len(team.games['home']) + len(team.games['away'])):>2} "
+            s += f"({str(len(team.games['home'])):>2}/{str(len(team.games['away'])):>2}) | "
+            s += f"{str(team.goals_scored_total):>2} ({str(team.goals_scored_home):>2}/"
+            s += f"{str(team.goals_scored_away):>2}) | "
+            s += f"{str(team.goals_conceded_total):>2} ({str(team.goals_conceded_home):>2}"
+            s += f"/{str(team.goals_conceded_away):>2}) | "
             s += f"{str(team.goal_diff):>3} | "
             s += f"{team.points}"
             print(s)
@@ -76,7 +79,7 @@ class Tournament:
         return rt.find_urls(str(btn))[0]
 
     def create_team(self, name, url):
-        if not name in self.team:
+        if name not in self.team:
             self.team[name] = Team(Page(url), self)
             self.team[name].name = name
         return self.team[name]
@@ -95,9 +98,11 @@ class Tournament:
         for i in inp:
             s = f"{i[2].team}{' '*(20-len(i[2].team))}"
             s += f" | {str(i[2]):>30}, personal total: {str(i[1][0]):>3}"
-            s += f" | avg. {' '*(5-len(str(i[1][1])))}{prints.get_fore_color_int(i[1][1])} per game ({str(len(i[2].results_while_playing())):>2})"
+            s += f" | avg. {' '*(5-len(str(i[1][1])))}{prints.get_fore_color_int(i[1][1])}"
+            s += f" per game ({str(len(i[2].results_while_playing())):>2})"
             s += f" | avg. {str(int(i[1][2])):>2} minutes per game"
-            s += f" | avg. {'' if i[1][3]<0 else ' '}{prints.get_fore_color_int(i[1][3])}{' '*(8-len(str(i[1][3])))} points per minute"
+            s += f" | avg. {'' if i[1][3]<0 else ' '}{prints.get_fore_color_int(i[1][3])}"
+            s += f"{' '*(8-len(str(i[1][3])))} points per minute"
             if hightlight and str(i[2].team).upper() == hightlight.upper():
                 print(prints.get_blue_back(s))
             else:
