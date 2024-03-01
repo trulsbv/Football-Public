@@ -48,7 +48,6 @@ class Game:
         """
         Prompts the user to insert odds for the game
         """
-        return None
         inp = input(f"\n\nInsert odds for {self.home} - {self.away} ({self.gameId})\n"
                     "Format: 1.23,4.56,7.89\n"
                     " => ")
