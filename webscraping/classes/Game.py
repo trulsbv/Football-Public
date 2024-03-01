@@ -1,10 +1,10 @@
-from datetime import datetime
+from datetime import date as d, datetime
 from classes.Weather import Weather
 import tools.prints as prints
 import tools.file_tools as ft
 import settings
+import classes.Team as Team
 
-unplayed_games = 0
 
 class Game():
     def __init__(self, round, date, day, time, home, result, away, pitch, gameId):
@@ -44,67 +44,86 @@ class Game():
         return self.date < settings.current_date
     
     def write_analysis(self):
-        direct_items = [self.date, self.day, self.time, self.home.page.url, f"{self.score[0]} - {self.score[1]}", self.away.page.url, str(self.spectators)]
-        callable_items = [self.pitch, self.weather]
-        s = ""
+        """
+        Takes the game-data and formats it to json v1.1
+        """
+        data = {
+                "meta": {
+                    "version": 1,
+                    "date": str(d.today()),
+                },
+                "data": {
+                    "date": str(self.date),
+                    "day": self.day,
+                    "time": self.time,
+                    "home_url": self.home.page.url,
+                    "away_url": self.away.page.url,
+                    "score_home": self.score[0],
+                    "score_away": self.score[1],
+                    "spectators": self.spectators,
+                    "odds": self.odds,
+                    "stadium": self.pitch.get_analysis(),
+                    "weather": self.weather.get_analysis(),
+                    "home_team": {
+                        "starting": [],
+                        "bench": []
+                    },
+                    "away_team": {
+                        "starting": [],
+                        "bench": []},
+                    "events": [],
+                }
+            }
 
-        f = True
-        for item in direct_items:
-            if item is None:
-                continue
-            if not f:
-                s += ","
-            s += str(item)
-            f = False
-        s += "\n"
+        for player in self._save_home[0]:
+            data["data"]["home_team"]["starting"].append(player.get_analysis())
+        for player in self._save_home[1]:
+            data["data"]["home_team"]["bench"].append(player.get_analysis())
+        for player in self._save_away[0]:
+            data["data"]["away_team"]["starting"].append(player.get_analysis())
+        for player in self._save_away[1]:
+            data["data"]["away_team"]["bench"].append(player.get_analysis())
+        for event in self.events:
+            data["data"]["events"].append(event.get_analysis())
 
-        for team in [self._save_home, self._save_away]:
-            for group in team: # [Starting, bench]
-                f = True
-                for player in group:
-                    if not f:
-                        s += ","
-                    s += player.get_analysis_str()
-                    f = False
-                s += "\n"
-        for item in callable_items:
-            if item is None:
-                continue
-            s += item.get_analysis_str() + "\n"
+        ft.write_analysis(data, self.gameId, ".json")
 
-        s += self.result.get_analysis_str()
-
-        ft.write_analysis(s, self.gameId, ".csv")
-
-    def extract_players(self, team, start, bench):
+    def extract_players(self, team: Team, data: map) -> set:
         out = ([], [])
-        for data in start.split(","):
-            url, name, number, position = data.split(";")
-            player = team.get_player(name=name, url=url, number=number, position=position)
+        for player in data["starting"]:
+
+            player = team.get_player(name=player["name"], 
+                                     url=player["url"], 
+                                     number=player["number"], 
+                                     position=player["position"])
             player.matches["started"].append(self)
             out[0].append(player)
-        for data in bench.split(","):
-            url, name, number, position = data.split(";")
-            player = team.get_player(name=name, url=url, number=number, position=position)
+        for player in data["bench"]:
+            player = team.get_player(name=player["name"], 
+                                     url=player["url"], 
+                                     number=player["number"], 
+                                     position=player["position"])
             player.matches["benched"].append(self)
             out[1].append(player)
         return out
     
     def extract_weather(self, data):
         weather = Weather(self, False)
-        weather.insert_data(data.split(","))
+        weather.insert_data(data)
         return weather
     
     def extract_events(self, data):
         out = []
-        for item in data:
-            if not item:
-                continue
-            try:
-                event, time, team_url, player1 = item.split(",")
+        for d in data:
+            event = d["type"]
+            time = d["time"]
+            team_url = d["team_url"]
+            if event == "Substitution":
+                player1 = d["in_url"]
+                player2 = d["out_url"]
+            else:
+                player1 = d["player_url"]
                 player2 = None
-            except:
-                event, time, team_url, player1, player2= item.split(",")
                 
             team = self.home if self.home.page.url == team_url else self.away
             out.append(self.result.insert_data(event, time, team, player1, player2, self))
@@ -113,22 +132,29 @@ class Game():
         data = data.split(" - ")
         return (int(data[0]), int(data[1]))
 
-    def read_analysis(self, data):
-        data = data.split("\n")[1:]
-        self.weather = self.extract_weather(data[6])
+    def read_analysis(self, data: map) -> None:
+        """
+        Reads the data map
+        """
+        data = data["data"]
+        self.weather = self.extract_weather(data["weather"])
         if self.break_rules():
             return
-        date, self.day, self.time, _hometeam, score, _awayteam, self.spectators = data[0].split(",")
-        self.date = datetime.strptime(date, "%Y-%m-%d").date()
+        
+        self.date = datetime.strptime(data["date"], "%Y-%m-%d").date()
+        self.day = data["day"]
+        self.time = data["time"]
+
         if not self._is_played():
-            global unplayed_games
-            unplayed_games += 1
-            prints.warning("Read analysis", f"{self.home} - {self.away} has not been played yet! (Unplayed games: {unplayed_games})", False)
+            prints.warning("Read analysis", f"{self.home} - {self.away} has not been played yet!", False)
             return
-        self.hometeam = self.extract_players(self.home, data[1], data[2])
-        self.awayteam = self.extract_players(self.away, data[3], data[4])
-        self.events = self.extract_events(data[7:])
-        self.score = self.extract_score(score)
+        
+        self.spectators = data["spectators"]
+        self.odds = data["odds"]
+        self.hometeam = self.extract_players(self.home, data["home_team"])
+        self.awayteam = self.extract_players(self.away, data["away_team"])
+        self.events = self.extract_events(data["events"])
+        self.score = (data["score_home"], data["score_away"])
         if self.score[0] > self.score[1]:
             self.winner = self.home
         elif self.score[0] < self.score[1]:
@@ -137,13 +163,12 @@ class Game():
         self.away.add_game(self)
 
     def analyse(self):
-        if ft.is_analysed(self.gameId, ".csv"):
-            self.read_analysis(ft.get_analysis(self.gameId, ".csv"))
+        # TODO: Her er det unødvendig å finne filen, si true, og så finne og lese filen igjen
+        if ft.is_analysed(self.gameId, ".json"):
+            self.read_analysis(ft.get_analysis(self.gameId, ".json"))
             return
         if not self._is_played():
-            global unplayed_games
-            unplayed_games += 1
-            prints.warning("Analyse", f"{self.home} - {self.away} has not been played yet! (Unplayed games: {unplayed_games})", False)
+            prints.warning("Analyse", f"{self.home} - {self.away} has not been played yet!", False)
             return
              
         self.weather = Weather(self)

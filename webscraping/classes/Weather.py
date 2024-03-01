@@ -34,33 +34,30 @@ class Weather():
         self.sunset = self.data["currentConditions"]["sunset"] # time
 
     def insert_data(self, data):
-        self.temp =         data[0] if data[0] != "None" else None
-        self.humidity =     data[1] if data[1] != "None" else None
-        self.precip =       data[2] if data[2] != "None" else None
-        self.preciptype =   data[3] if data[3] != "None" else None
-        self.windgust =     data[4] if data[4] != "None" else None
-        self.windspeed =    data[5] if data[5] != "None" else None
-        self.cloudcover =   data[6] if data[6] != "None" else None
-        self.conditions =   data[7] if data[7] != "None" else None
-        self.sunrise =      data[8] if data[8] != "None" else None
-        self.sunset =       data[9] if data[9] != "None" else None
+        self.temp =         data["temp"]
+        self.humidity =     data["humidity"]
+        self.precip =       data["precipitation"]
+        self.preciptype =   data["precipitation_type"]
+        self.windgust =     data["windgust"]
+        self.windspeed =    data["windspeed"]
+        self.cloudcover =   data["cloudcover"]
+        self.conditions =   data["conditions"]
+        self.sunrise =      data["sunrise"]
+        self.sunset =       data["sunset"]
 
-    def get_analysis_str(self):
-        items = [self.temp, self.humidity, self.precip, self.preciptype,
-                 self.windgust, self.windspeed, self.cloudcover, self.conditions,
-                 self.sunrise, self.sunset]
-        s = ""
-
-        f = True
-        for item in items:
-            if not f:
-                s += ","
-            f = False
-            if not item:
-                s+="None,"
-            s += str(item)
-
-        return s
+    def get_analysis(self):
+        return {
+            "temp": self.temp, 
+            "humidity": self.humidity, 
+            "precipitation": self.precip, 
+            "precipitation_type": self.preciptype,
+            "windgust": self.windgust, 
+            "windspeed": self.windspeed, 
+            "cloudcover": self.cloudcover, 
+            "conditions": self.conditions,
+            "sunrise": self.sunrise, 
+            "sunset": self.sunset
+        }
 
 # Future data: https://api.met.no/weatherapi/locationforecast/2.0/documentation
 

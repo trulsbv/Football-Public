@@ -36,11 +36,8 @@ def take_csv_convert_json(filename, folder):
             "events": events
         }
     }
-    newfile = Path(str(filename).replace(".csv", ".json"))
-    with open(newfile, 'w', encoding='utf-8') as f:
-        json_string = json.dumps(data, ensure_ascii=False).encode('utf8')
-        f = open(newfile, "w")
-        f.write(json_string.decode())
+    newfile = open(str(filename).replace(".csv", ".json"), "w")
+    json.dump(data, newfile, indent=4, ensure_ascii=False)
 
 
 

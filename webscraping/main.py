@@ -137,7 +137,7 @@ def main() -> None:
         
     global leagues
     if len(sys.argv) > 1 and sys.argv[1] == "-test":
-        settings.current_date = datetime.strptime("20.12.2023", "%d.%m.%Y").date()
+        settings.current_date = datetime.strptime("11.12.2023", "%d.%m.%Y").date()
         leagues = ["Eliteserien - Norges Fotballforbund"]
     elif len(sys.argv) > 1 and sys.argv[1] == "-testES":
         settings.current_date = datetime.today().date()
@@ -148,13 +148,12 @@ def main() -> None:
                    "OBOS-ligaen - Norges Fotballforbund"]
     else:
         settings.current_date = datetime.today().date()
+        print("Suggested minimum terminal width:")
+        print("-"*145)
+        input("[Enter]")
+        os.system('cls' if os.name == 'nt' else 'clear')
     settings.display_weather = []
     settings.display_surface = []
-
-    print("Suggested minimum terminal width:")
-    print("-"*145)
-    input("[Enter]")
-    os.system('cls' if os.name == 'nt' else 'clear')
 
     update()
     def print_weather_types() -> None:

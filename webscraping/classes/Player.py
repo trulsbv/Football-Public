@@ -155,8 +155,13 @@ class Player():
         if type(other) == str:
             return self.name == other
         
-    def get_analysis_str(self):
-        return f"{self.url};{self.name};{self.number};{self.position}"
+    def get_analysis(self):
+        return {
+            "url": self.url,
+            "name": self.name,
+            "number": self.number,
+            "position": self.position
+            }
 
     def print_row(self) -> str:
         s = ""

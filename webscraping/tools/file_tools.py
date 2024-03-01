@@ -3,6 +3,7 @@ from datetime import date as d, datetime
 from pathlib import Path
 import os
 import re
+import json
 import settings
 
 def clear_betting_data(id: str, extension: str = ".csv") -> None:
@@ -56,24 +57,24 @@ def write_analysis(data, id, extension):
     if not file:
         file = folder / (str(id)+extension)
     file = open(file, 'w', encoding="UTF-8")
-    file.write(str(d.today())+"\n")
-    file.write(data)
-    file.close()
+    json.dump(data, file, indent=4, ensure_ascii=False)
 
 def get_analysis(id, extension):
     folder = create_folder(["analysis"])
     file = find_file(folder, id+extension)
     file = open(file, encoding="UTF-8")
-    lines = file.readlines()
     s = ""
-    for line in lines:
-        s+=line
-    return s
+    for line in file.readlines():
+        s += line.rstrip()
+    d = json.loads(s)
+    return d
 
 
 def is_analysed(id, extension):
-    folder = Path("files")/"analysis"
-    return find_file(folder, id+extension)
+    return find_file(
+        create_folder(["analysis"]), 
+        id+extension
+    )
 
 def url_to_folder_name(id, extension=".html"):
     splitted = id.split("/")

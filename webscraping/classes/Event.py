@@ -25,8 +25,13 @@ class YellowCard(Booking):
     def __repr__(self) -> str:
         return super().__repr__()+" gult kort"
     
-    def get_analysis_str(self):
-        return f"Yellow card,{self.time},{self.team.page.url},{self.player.url}"
+    def get_analysis(self):
+        return {
+            "type": "Yellow card",
+            "time": self.time,
+            "team_url": self.team.page.url,
+            "player_url": self.player.url
+        }
 
 class RedCard(Booking):
     def __init__(self, game, time, team, player):
@@ -35,8 +40,13 @@ class RedCard(Booking):
     def __repr__(self) -> str:
         return super().__repr__()+" rødt kort"
     
-    def get_analysis_str(self):
-        return f"Red card,{self.time},{self.team.page.url},{self.player.url}"
+    def get_analysis(self):
+        return {
+            "type": "Red card",
+            "time": self.time,
+            "team_url": self.team.page.url,
+            "player_url": self.player.url
+        }
 
 class Substitute(Event):
     def __init__(self, game, time, team, player):
@@ -98,9 +108,15 @@ class Substitute(Event):
     def __repr__(self) -> str:
         return f"{self.team}, {self.player_in} => {self.player_out} ({self.game.date})"
     
-    def get_analysis_str(self):
+    def get_analysis(self):
         try:
-            return f"Substitution,{self.time},{self.team.page.url},{self.player_in.url},{self.player_out.url}"
+            return {
+                "type": "Substitution",
+                "time": self.time,
+                "team_url": self.team.page.url,
+                "in_url": self.player_in.url,
+                "out_url": self.player_out.url,
+            }
         except:
             return None
 
@@ -120,8 +136,13 @@ class PlayGoal(Goal):
     def __repr__(self) -> str:
         return super().__repr__()+" spillemål"
     
-    def get_analysis_str(self):
-        return f"Playgoal,{self.time},{self.team.page.url},{self.player.url}"
+    def get_analysis(self):
+        return {
+            "type": "Playgoal",
+            "time": self.time,
+            "team_url": self.team.page.url,
+            "player_url": self.player.url
+        }
 
 class PenaltyGoal(Goal):
     def __init__(self, game, time, team, player):
@@ -130,15 +151,25 @@ class PenaltyGoal(Goal):
     def __repr__(self) -> str:
         return super().__repr__()+" straffemål"
     
-    def get_analysis_str(self):
-        return f"PenaltyGoal,{self.time},{self.team.page.url},{self.player.url}"
+    def get_analysis(self):
+        return {
+            "type": "PenaltyGoal",
+            "time": self.time,
+            "team_url": self.team.page.url,
+            "player_url": self.player.url
+        }
 
 class OwnGoal(Goal):
     def __init__(self, game, time, team, player):
         super().__init__(game, time, team, player)
     
     def __repr__(self) -> str:
-        return super().__repr__()+" selvmål"
+        return super().__repr__()+" own goal"
     
-    def get_analysis_str(self):
-        return f"OwnGoal,{self.time},{self.team.page.url},{self.player.url}"
+    def get_analysis(self):
+        return {
+            "type": "OwnGoal",
+            "time": self.time,
+            "team_url": self.team.page.url,
+            "player_url": self.player.url
+        }

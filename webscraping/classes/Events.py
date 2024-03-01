@@ -156,13 +156,11 @@ class Events():
                     home_goals += 1
         return (home_goals, away_goals)
     
-    def get_analysis_str(self):
-        s = ""
+    def get_analysis(self):
+        data = []
         for item in self.events:
-            data = item.get_analysis_str()
-            if data:
-                s += data + "\n"
-        return s
+            data.append(item.get_analysis())
+        return data
         
 
     def __repr__(self) -> str:
