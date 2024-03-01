@@ -144,6 +144,7 @@ class Game:
             out.append(
                 self.result.insert_data(event, time, team, player1, player2, self)
             )
+        return out
 
     def extract_score(self, data):
         data = data.split(" - ")
