@@ -3,7 +3,8 @@ import tools.file_tools as ft
 import tools.regex_tools as rt
 import tools.web_tools as wt
 
-class HTML():
+
+class HTML:
     def __init__(self, page, search, vf, extension):
         self.page = page
         self.fetched = date.today()
@@ -11,7 +12,7 @@ class HTML():
         self.ext = extension
         self.text = self._set_html(search)
         self.title = self._set_title()
-    
+
     def _set_title(self):
         if not self.text:
             return ""
@@ -20,7 +21,9 @@ class HTML():
 
     def _set_html(self, search=False, force=False):
         # TODO: Sørg for at den bare oppdaterer om den er utdatert!
-        if (search and ft.is_not_valid(self.page.id, self.valid_from, self.ext)) or force:
+        if (
+            search and ft.is_not_valid(self.page.id, self.valid_from, self.ext)
+        ) or force:
             text = wt.get_html(self.page.url)
             self._save_html(text)
             return text

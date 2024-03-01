@@ -11,13 +11,14 @@ def parse_map_string(map_string: str) -> dict:
 
     Arguments:
         * String dict
-    
+
     Returns:
         * Dict dict
     """
     d = eval(map_string.split("\n")[1])
     assert type(d) == dict
     return d
+
 
 def get_weather_data(pitch: Pitch, date: date, time: str) -> dict:
     """
@@ -27,7 +28,7 @@ def get_weather_data(pitch: Pitch, date: date, time: str) -> dict:
         * Pitch
         * date
         * time
-    
+
     Returns:
         * Dict with weatherdata
     """
@@ -54,6 +55,7 @@ def get_weather_data(pitch: Pitch, date: date, time: str) -> dict:
     ft.save_html(file_name, str(data), ".txt")
     return data
 
+
 def get_coords(pitch: Pitch) -> tuple:
     """
     Takes a pitch and searches throug it's webpage to find the Google-Maps search
@@ -61,7 +63,7 @@ def get_coords(pitch: Pitch) -> tuple:
 
     Arguments:
         * Pitch
-    
+
     Returns:
         * Tuple coordinates
     """

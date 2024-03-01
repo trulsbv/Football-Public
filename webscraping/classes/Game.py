@@ -6,19 +6,19 @@ import settings
 import classes.Team as Team
 
 
-class Game():
+class Game:
     def __init__(self, round, date, day, time, home, result, away, pitch, gameId):
         self.round = round
         self.date = date
         self.day = day
         self.time = time
-        self.home = home # Page - To the team
-        self.result = result # Page - To the game
-        self.away = away # Page - To the team
-        self.pitch = pitch # Page - To the pitch
+        self.home = home  # Page - To the team
+        self.result = result  # Page - To the game
+        self.away = away  # Page - To the team
+        self.pitch = pitch  # Page - To the pitch
         self.gameId = gameId
         self.events = []
-        
+
         self.weather = None
         self.hometeam = None
         self.awayteam = None
@@ -27,53 +27,49 @@ class Game():
         self.spectators = None
         self.winner = None
         self.score = None
-        self.odds = None # Not yet implemented a way to get the odds
+        self.odds = None  # Not yet implemented a way to get the odds
 
     def break_rules(self):
         rules = [
-            settings.display_weather and self.weather.conditions not in settings.display_weather,
-            settings.display_surface and self.pitch.surface not in settings.display_surface
+            settings.display_weather
+            and self.weather.conditions not in settings.display_weather,
+            settings.display_surface
+            and self.pitch.surface not in settings.display_surface,
         ]
         for rule in rules:
             if rule:
                 return True
         return False
 
-
     def _is_played(self):
         return self.date < settings.current_date
-    
+
     def write_analysis(self):
         """
         Takes the game-data and formats it to json v1.1
         """
         data = {
-                "meta": {
-                    "version": 1,
-                    "date": str(d.today()),
-                },
-                "data": {
-                    "date": str(self.date),
-                    "day": self.day,
-                    "time": self.time,
-                    "home_url": self.home.page.url,
-                    "away_url": self.away.page.url,
-                    "score_home": self.score[0],
-                    "score_away": self.score[1],
-                    "spectators": self.spectators,
-                    "odds": self.odds,
-                    "stadium": self.pitch.get_analysis(),
-                    "weather": self.weather.get_analysis(),
-                    "home_team": {
-                        "starting": [],
-                        "bench": []
-                    },
-                    "away_team": {
-                        "starting": [],
-                        "bench": []},
-                    "events": [],
-                }
-            }
+            "meta": {
+                "version": 1,
+                "date": str(d.today()),
+            },
+            "data": {
+                "date": str(self.date),
+                "day": self.day,
+                "time": self.time,
+                "home_url": self.home.page.url,
+                "away_url": self.away.page.url,
+                "score_home": self.score[0],
+                "score_away": self.score[1],
+                "spectators": self.spectators,
+                "odds": self.odds,
+                "stadium": self.pitch.get_analysis(),
+                "weather": self.weather.get_analysis(),
+                "home_team": {"starting": [], "bench": []},
+                "away_team": {"starting": [], "bench": []},
+                "events": [],
+            },
+        }
 
         for player in self._save_home[0]:
             data["data"]["home_team"]["starting"].append(player.get_analysis())
@@ -92,26 +88,30 @@ class Game():
         out = ([], [])
         for player in data["starting"]:
 
-            player = team.get_player(name=player["name"], 
-                                     url=player["url"], 
-                                     number=player["number"], 
-                                     position=player["position"])
+            player = team.get_player(
+                name=player["name"],
+                url=player["url"],
+                number=player["number"],
+                position=player["position"],
+            )
             player.matches["started"].append(self)
             out[0].append(player)
         for player in data["bench"]:
-            player = team.get_player(name=player["name"], 
-                                     url=player["url"], 
-                                     number=player["number"], 
-                                     position=player["position"])
+            player = team.get_player(
+                name=player["name"],
+                url=player["url"],
+                number=player["number"],
+                position=player["position"],
+            )
             player.matches["benched"].append(self)
             out[1].append(player)
         return out
-    
+
     def extract_weather(self, data):
         weather = Weather(self, False)
         weather.insert_data(data)
         return weather
-    
+
     def extract_events(self, data):
         out = []
         for d in data:
@@ -124,10 +124,12 @@ class Game():
             else:
                 player1 = d["player_url"]
                 player2 = None
-                
+
             team = self.home if self.home.page.url == team_url else self.away
-            out.append(self.result.insert_data(event, time, team, player1, player2, self))
-            
+            out.append(
+                self.result.insert_data(event, time, team, player1, player2, self)
+            )
+
     def extract_score(self, data):
         data = data.split(" - ")
         return (int(data[0]), int(data[1]))
@@ -140,15 +142,19 @@ class Game():
         self.weather = self.extract_weather(data["weather"])
         if self.break_rules():
             return
-        
+
         self.date = datetime.strptime(data["date"], "%Y-%m-%d").date()
         self.day = data["day"]
         self.time = data["time"]
 
         if not self._is_played():
-            prints.warning("Read analysis", f"{self.home} - {self.away} has not been played yet!", False)
+            prints.warning(
+                "Read analysis",
+                f"{self.home} - {self.away} has not been played yet!",
+                False,
+            )
             return
-        
+
         self.spectators = data["spectators"]
         self.odds = data["odds"]
         self.hometeam = self.extract_players(self.home, data["home_team"])
@@ -168,9 +174,11 @@ class Game():
             self.read_analysis(ft.get_analysis(self.gameId, ".json"))
             return
         if not self._is_played():
-            prints.warning("Analyse", f"{self.home} - {self.away} has not been played yet!", False)
+            prints.warning(
+                "Analyse", f"{self.home} - {self.away} has not been played yet!", False
+            )
             return
-             
+
         self.weather = Weather(self)
         if self.break_rules():
             return
@@ -187,18 +195,18 @@ class Game():
             self.winner = self.home
         elif self.score[0] < self.score[1]:
             self.winner = self.away
-            
+
         self.home.add_game(self)
         self.away.add_game(self)
         self.write_analysis()
-    
+
     def opponent(self, team):
         if team == self.home:
             return self.away
         if team == self.away:
             return self.home
         return False
-    
+
     def __repr__(self) -> str:
         try:
             s = f"{str(self.round):>2} {('(' + str(self.day)):>8} {self.date} at {self.time}) {str(self.home):>18} "

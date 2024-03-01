@@ -6,14 +6,16 @@ import re
 import json
 import settings
 
+
 def clear_betting_data(id: str, extension: str = ".csv") -> None:
     """
     Deletes the file containing the betting data
     """
     folder = create_folder(["betting_analysis"])
-    file = find_file(folder, str(id)+extension)
+    file = find_file(folder, str(id) + extension)
     if file:
         os.remove(file)
+
 
 def add_betting_data(data, id: str, extension: str = ".csv") -> None:
     """
@@ -27,11 +29,11 @@ def add_betting_data(data, id: str, extension: str = ".csv") -> None:
          }
     """
     folder = create_folder(["betting_analysis"])
-    file = find_file(folder, str(id)+extension)
+    file = find_file(folder, str(id) + extension)
     if not file:
-        file = folder / (str(id)+extension)
-    file = open(file, 'a', encoding="UTF-8")
-    file.write(str(d.today())+"\n")
+        file = folder / (str(id) + extension)
+    file = open(file, "a", encoding="UTF-8")
+    file.write(str(d.today()) + "\n")
 
     ht = data.home
     at = data.away
@@ -44,24 +46,26 @@ def add_betting_data(data, id: str, extension: str = ".csv") -> None:
             odds = input(f"Odds for {ht} {res} {at} ('1.4,4.53,3.5')")
             confirm = input(f"Review: {odds}\n  [Y/N]:")
         odds = set(odds.split(","))
-    
+
     # TODO: Stopped this to convert the datafiles into json
     #       which should make it easier to add new stuff
 
     file.write(f"{ht},{res},{at},{odds}")
     file.close()
 
+
 def write_analysis(data, id, extension):
     folder = create_folder(["analysis"])
-    file = find_file(folder, str(id)+extension)
+    file = find_file(folder, str(id) + extension)
     if not file:
-        file = folder / (str(id)+extension)
-    file = open(file, 'w', encoding="UTF-8")
+        file = folder / (str(id) + extension)
+    file = open(file, "w", encoding="UTF-8")
     json.dump(data, file, indent=4, ensure_ascii=False)
+
 
 def get_analysis(id, extension):
     folder = create_folder(["analysis"])
-    file = find_file(folder, id+extension)
+    file = find_file(folder, id + extension)
     file = open(file, encoding="UTF-8")
     s = ""
     for line in file.readlines():
@@ -71,16 +75,15 @@ def get_analysis(id, extension):
 
 
 def is_analysed(id, extension):
-    return find_file(
-        create_folder(["analysis"]), 
-        id+extension
-    )
+    return find_file(create_folder(["analysis"]), id + extension)
+
 
 def url_to_folder_name(id, extension=".html"):
     splitted = id.split("/")
-    name = (splitted[-1]+extension).replace("?", "")
+    name = (splitted[-1] + extension).replace("?", "")
     folder = create_folder(splitted[:-1])
     return (folder, name)
+
 
 def find_file(folder, name):
     """
@@ -89,7 +92,7 @@ def find_file(folder, name):
     Input:
         - Path/String folder
         - String name
-    
+
     Output:
         - Path file or False
     """
@@ -99,6 +102,7 @@ def find_file(folder, name):
     if file.is_file():
         return file
     return False
+
 
 def find_html(id, extension=".html"):
     """
@@ -110,16 +114,16 @@ def find_html(id, extension=".html"):
     DATE
     DATA ...
 
-    Input: 
+    Input:
         - String id
-    
+
     Output:
         - String html (success)
         - int 0 (failed to find page)
         - int 1 (found outdated page)
     """
     splitted = id.split("/")
-    filename = (splitted[-1]+extension).replace("?", "")
+    filename = (splitted[-1] + extension).replace("?", "")
     folder = create_folder(splitted[:-1])
     file = find_file(folder, filename)
     if not file:
@@ -128,41 +132,44 @@ def find_html(id, extension=".html"):
     lines = file.readlines()
     s = ""
     for line in lines:
-        s+=line
+        s += line
     return s
+
 
 def save_html(id, html, extension):
     """
     Takes a id and a string and saves it in [id].txt with todays date
 
-    Input: 
+    Input:
         - String id
         - String html content
-    
-    Output: 
+
+    Output:
         - None
     """
     splitted = id.split("/")
     filename = splitted[-1].replace("?", "")
     folder = create_folder(splitted[:-1])
 
-    file = find_file(folder, str(filename)+extension)
+    file = find_file(folder, str(filename) + extension)
     if not file:
-        file = folder / (str(filename)+extension)
-    file = open(file, 'w', encoding="UTF-8")
-    file.write(str(d.today())+"\n")
+        file = folder / (str(filename) + extension)
+    file = open(file, "w", encoding="UTF-8")
+    file.write(str(d.today()) + "\n")
     file.write(html)
     file.close()
+
 
 def create_folder(inp):
     folders = ["files"] + [str(settings.current_date.year)] + inp
     place = str(os.curdir)
     for folder in folders:
-        place += "/"+folder
+        place += "/" + folder
         f = Path(place)
         if not f.exists():
             os.mkdir(f)
     return Path(place)
+
 
 def is_not_valid(id, valid_from, ext):
     # Når er den valid?
@@ -173,17 +180,27 @@ def is_not_valid(id, valid_from, ext):
         return True
     if valid_from == False:
         return False
-    
+
     str_date = find_html(id).split("\n")[:1][0]
     date_date = datetime.strptime(str_date, "%Y-%m-%d").date()
     return date_date < valid_from
 
+
 def get_baneinfo(html):
     document = BeautifulSoup(html, "html.parser")
-    title = document.select('h1')[0].text.strip()
+    title = document.select("h1")[0].text.strip()
     info = document.find(class_="section-heading", string=re.compile("^Baneinfo"))
     info = info.find_next("ul")
-    dict = {"navn": title, "underlag": None, "banetype": None, "belysning": None, "lengde": None, "bredde": None, "driftsform": None, "krets": None}
+    dict = {
+        "navn": title,
+        "underlag": None,
+        "banetype": None,
+        "belysning": None,
+        "lengde": None,
+        "bredde": None,
+        "driftsform": None,
+        "krets": None,
+    }
     for item in [li.get_text(strip=True) for li in info]:
         if item and ":" in item:
             if len(item.split(":")) > 2:
@@ -197,13 +214,17 @@ def get_baneinfo(html):
         out.append(dict[key])
     return out
 
+
 entries = 1
+
+
 def log(where, msg):
     global entries
     f = open("log/log.txt", "a")
     f.write(f"{entries} {where}: {msg}\n")
     f.close()
-    entries+=1
+    entries += 1
+
 
 def clear_log():
     f = open("log/log.txt", "w")

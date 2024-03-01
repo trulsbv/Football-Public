@@ -3,11 +3,12 @@ from classes.Page import Page
 import tools.regex_tools as rt
 from classes.Tournament import Tournament
 
-class Mainpage():
+
+class Mainpage:
     def __init__(self):
         self.tournaments = []
         self.page = None
-    
+
     def get_tournament(self, name):
         if self.tournaments is []:
             self.fetch_tournament()
@@ -22,12 +23,12 @@ class Mainpage():
         i = 0
         for p in possible:
             print(f"[{i}] {p.page.html.title}")
-            i+=1
-        inp = i+1
+            i += 1
+        inp = i + 1
         while not str(inp).isnumeric() or int(inp) > i:
             inp = input(" => ")
         return possible[int(inp)]
-    
+
     def fetch_tournament(self):
         if self.page == None:
             raise PageNotFoundError("Mainpage", self.page)

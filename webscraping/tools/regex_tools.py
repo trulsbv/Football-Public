@@ -1,5 +1,6 @@
 import re
 
+
 def find_urls(
     html: str,
     base_url: str = "https://www.fotball.no",
@@ -20,7 +21,7 @@ def find_urls(
 
     if type(html) != str:
         return urls
-    
+
     # 1. find all the anchor tags, then
     a_pat = re.compile(r"<a[^>]+>", flags=re.IGNORECASE)
     # 2. find the urls href attributes
@@ -45,7 +46,7 @@ def find_urls(
             a = match_abs.group(1)
             if ".pdf" not in a:
                 urls.append(a.rstrip("/"))
-        
+
         elif match_new_host:
             a = "https:" + match_new_host.group(1)
             if ".pdf" not in a:
@@ -60,66 +61,74 @@ def find_urls(
             a = f"{base_url}" + match_same_host2.group(1)
             if ".pdf" not in a:
                 urls.append(a.rstrip("/"))
-        
+
     # Write to file if requested
     if output:
         f = open(output, "w", encoding="UTF-8")
         for item in urls:
-            f.write(item+"\n")
+            f.write(item + "\n")
     return urls
 
+
 def find_league_from_url(url: str) -> bool | str:
-    id_pat = re.compile(r'https:\/\/www\.fotball\.no(.*\/turneringe?r?\/.*)')
+    id_pat = re.compile(r"https:\/\/www\.fotball\.no(.*\/turneringe?r?\/.*)")
     match = id_pat.search(url)
     if match:
         return match.group(1)
     return False
 
+
 def get_id_from_url(url):
-    id_pat = re.compile(r'fiksId=(\d*)')
+    id_pat = re.compile(r"fiksId=(\d*)")
     match = id_pat.search(url)
     if match:
         return match.group(1)
-    
-    id_no_id_pat = re.compile(r'https:\/\/www\.[^.]*\.[A-z]{2,3}\/(.*)')
+
+    id_no_id_pat = re.compile(r"https:\/\/www\.[^.]*\.[A-z]{2,3}\/(.*)")
     match = id_no_id_pat.search(url)
     if match:
         new = match.group(1).replace("/", "-")
         return new[:-1] if new[-1] == "/" else new
     return False
 
+
 def get_path_from_url(url):
-    id_pat = re.compile(r'https:\/\/www\.[A-z]*\.[A-z]{2,3}\/(.*)')
+    id_pat = re.compile(r"https:\/\/www\.[A-z]*\.[A-z]{2,3}\/(.*)")
     match = id_pat.search(url)
     if match:
         return match.group(1).replace("/", "-")
 
+
 def get_title(html):
-    title_pat = re.compile(r'<title>[\s]*([^<]*)<\/title>')
+    title_pat = re.compile(r"<title>[\s]*([^<]*)<\/title>")
     match = title_pat.search(html)
     if match:
         return match.group(1)
     return False
 
+
 def get_team_name(html):
-    name_pat = re.compile(r'<title>(.*) - Hjem - Norges Fotballforbund<\/title>')
+    name_pat = re.compile(r"<title>(.*) - Hjem - Norges Fotballforbund<\/title>")
     match = name_pat.search(html)
     if match:
         return match.group(1)
     return False
 
+
 def get_krets(html):
-    krets_pat = re.compile(r'<li><b>Krets: <\/b><a href=[^>]*>([^>]*)<\/a><\/li>')
+    krets_pat = re.compile(r"<li><b>Krets: <\/b><a href=[^>]*>([^>]*)<\/a><\/li>")
     match = krets_pat.search(html)
     if match:
         return match.group(1)
     return False
-    
+
 
 def analysis(text):
     out = {}
-    out["team"] = standard_reg(text, r'<li class="([^"]*)"').replace(" sametime-event", "")
-    out["minute"] = standard_reg(text, r'<b>(\d+)<\/b>')
+    out["team"] = standard_reg(text, r'<li class="([^"]*)"').replace(
+        " sametime-event", ""
+    )
+    out["minute"] = standard_reg(text, r"<b>(\d+)<\/b>")
     out["url"] = find_urls(str(text))
     out["id"] = standard_reg(text, r'<li class="[^"]*" id="([^"]*)"')
     out["type"] = standard_reg(text, r'<span class="match-event">\s*(.*)')
@@ -137,12 +146,14 @@ def analysis(text):
             ...
     return out
 
+
 def standard_reg(text, pat):
     team_pat = re.compile(pat)
     match = team_pat.search(str(text))
     if match:
         return match.group(1)
     return False
+
 
 def standard_findall(text, pat):
     team_pat = re.compile(pat)
@@ -151,6 +162,7 @@ def standard_findall(text, pat):
         return match
     return False
 
+
 def standard_reg_two(text, pat):
     team_pat = re.compile(pat)
     match = team_pat.findall(str(text))
@@ -158,9 +170,12 @@ def standard_reg_two(text, pat):
         return (match[0], match[1])
     return False
 
+
 def get_name_url(text):
-    unrefined_name = standard_reg(str(text), r'<a class="player-name" href="[^"]*">([^<.]*)')
-    list_name = standard_findall(str(unrefined_name), r'([^-\s]*)')
+    unrefined_name = standard_reg(
+        str(text), r'<a class="player-name" href="[^"]*">([^<.]*)'
+    )
+    list_name = standard_findall(str(unrefined_name), r"([^-\s]*)")
     prev = False
     name = ""
     for item in list_name:
@@ -168,25 +183,30 @@ def get_name_url(text):
             name += " "
             prev = False
         if item:
-            name+=item
+            name += item
             prev = True
     name = name[:-1] if name[-1] == " " else name
     name = name.replace(" (strøket)", "")
     url = find_urls(str(text))[0]
     return (name, url)
 
+
 def li_class(text):
     return standard_reg(str(text), r'<li class="([^"]*)">')
 
+
 def get_player_info(text):
-    number = standard_reg(str(text), r'<span>(\d+)<\/span>')
+    number = standard_reg(str(text), r"<span>(\d+)<\/span>")
     link = find_urls(str(text))[0]
-    name = standard_reg(str(text), r'<a class="medium-heading" href="[^"]*">(.*)<\/a><br\/>')
-    position = standard_reg(str(text), r'<\/a><br\/>[\n|.| ]*([^-\s<]*)')
-    return (number, link,name, position)
+    name = standard_reg(
+        str(text), r'<a class="medium-heading" href="[^"]*">(.*)<\/a><br\/>'
+    )
+    position = standard_reg(str(text), r"<\/a><br\/>[\n|.| ]*([^-\s<]*)")
+    return (number, link, name, position)
+
 
 def get_spectators(text):
-    specs = standard_reg(str(text), r'<span>([\d]* ?[\d]*)<\/span>')
+    specs = standard_reg(str(text), r"<span>([\d]* ?[\d]*)<\/span>")
     if not specs:
         return None
     o = "0"
@@ -196,8 +216,18 @@ def get_spectators(text):
     if specs:
         return int(o)
 
+
 def get_pitch_coords(text):
-    link = standard_reg(str(text), r'(<a href="http:\/\/www\.google\.com\/maps\?q=\d+\.\d+,\d+\.\d+" target="_blank">)')
-    lat = standard_reg(str(link), r'<a href="http:\/\/www\.google\.com\/maps\?q=(\d+\.\d+),\d+\.\d+" target="_blank">')
-    lng = standard_reg(str(link), r'<a href="http:\/\/www\.google\.com\/maps\?q=\d+\.\d+,(\d+\.\d+)" target="_blank">')
+    link = standard_reg(
+        str(text),
+        r'(<a href="http:\/\/www\.google\.com\/maps\?q=\d+\.\d+,\d+\.\d+" target="_blank">)',
+    )
+    lat = standard_reg(
+        str(link),
+        r'<a href="http:\/\/www\.google\.com\/maps\?q=(\d+\.\d+),\d+\.\d+" target="_blank">',
+    )
+    lng = standard_reg(
+        str(link),
+        r'<a href="http:\/\/www\.google\.com\/maps\?q=\d+\.\d+,(\d+\.\d+)" target="_blank">',
+    )
     return (lat, lng)

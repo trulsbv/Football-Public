@@ -1,8 +1,11 @@
 from classes.Html import HTML
 from datetime import date
 
-class Page():
-    def __init__(self, url, search=True, force=False, valid_from=False, extension=".html"):
+
+class Page:
+    def __init__(
+        self, url, search=True, force=False, valid_from=False, extension=".html"
+    ):
         """
         Set search to false if you don't want to keep the page updated / fetch the page at all
         """
@@ -20,7 +23,7 @@ class Page():
             return
         if self.html.text.split("\n")[0] != str(date.today()):
             self._update_html()
-    
+
     def _update_html(self):
         self.html._set_html(True)
 
@@ -30,9 +33,9 @@ class Page():
 
     def __hash__(self):
         return hash(self.url)
-    
+
     def __lt__(self, obj):
-        return ((self.id) < (obj.id)) 
+        return (self.id) < (obj.id)
 
     def __eq__(self, other):
         if type(other) == str:

@@ -8,16 +8,21 @@ from classes.Page import Page
 from classes.Pitch import Pitch
 from datetime import date, datetime
 
-class Schedule():
+
+class Schedule:
     def __init__(self, parent, page):
         self.turnering = parent
         self.games: list[Game] = []
         self.page = page
 
     def add_betting_data(self):
-        ft.clear_betting_data(str(self.turnering.name)+"_"+settings.current_date.year)
+        ft.clear_betting_data(
+            str(self.turnering.name) + "_" + settings.current_date.year
+        )
         for game in self.games:
-            ft.add_betting_data(game, str(self.turnering.name)+"_"+settings.current_date.year)
+            ft.add_betting_data(
+                game, str(self.turnering.name) + "_" + settings.current_date.year
+            )
 
     def fetch_games(self):
         self.games = []
@@ -34,9 +39,32 @@ class Schedule():
             urls = rt.find_urls(str(row))
             cells_text = [cell.get_text(strip=True) for cell in cells]
             try:
-                round, date, day, time, _, _hometeam, _result, _awayteam, _pitch, gameId = cells_text
+                (
+                    round,
+                    date,
+                    day,
+                    time,
+                    _,
+                    _hometeam,
+                    _result,
+                    _awayteam,
+                    _pitch,
+                    gameId,
+                ) = cells_text
             except:
-                round, date, day, time, _, _hometeam, _result, _awayteam, _pitch, gameId, _live = cells_text
+                (
+                    round,
+                    date,
+                    day,
+                    time,
+                    _,
+                    _hometeam,
+                    _result,
+                    _awayteam,
+                    _pitch,
+                    gameId,
+                    _live,
+                ) = cells_text
             date = datetime.strptime(date, "%d.%m.%Y").date()
             if self._is_played(date):
                 home = self.turnering.create_team(_hometeam, urls[1])
@@ -48,4 +76,3 @@ class Schedule():
 
     def _is_played(self, d):
         return d < date.today()
-    

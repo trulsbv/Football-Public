@@ -1,4 +1,3 @@
-
 import sys
 from datetime import datetime
 
@@ -16,30 +15,42 @@ import os
 import math
 
 saved: list[Tournament] = []
-types_of_weather = ["Overcast", "Clear", "Partially cloudy", "Rain; Overcast",
-                    "Rain; Partially cloudy", "Rain", "Snow"]
-types_of_surfaces = ["Naturgress", "Kunstgress m/Sand", "Kunstgress m/gummispon", "Kunstgress u/Sand"]
+types_of_weather = [
+    "Overcast",
+    "Clear",
+    "Partially cloudy",
+    "Rain; Overcast",
+    "Rain; Partially cloudy",
+    "Rain",
+    "Snow",
+]
+types_of_surfaces = [
+    "Naturgress",
+    "Kunstgress m/Sand",
+    "Kunstgress m/gummispon",
+    "Kunstgress u/Sand",
+]
 leagues = [
     "Eliteserien - Norges Fotballforbund",
     "OBOS-ligaen - Norges Fotballforbund",
     "Post Nord-ligaen avd. 1",
     "Post Nord-ligaen avd. 2",
-    #"Norsk Tipping-Ligaen avd. 2",
-    ]
+    # "Norsk Tipping-Ligaen avd. 2",
+]
+
 
 def update() -> None:
     """
     Reads data and creates all the objects. Sets global saved to a list of
     league-objects
     """
-    
+
     prints.START()
     prints.start("Mainpage")
     main = Mainpage()
     main.page = Page("https://www.fotball.no/turneringer/")
     prints.success()
-    
-    
+
     prints.start("Tournaments")
     main.fetch_tournament()
     prints.success()
@@ -76,65 +87,67 @@ def update() -> None:
     print(f"Number of teams: {num_teams}")
     print(f"Pages fetched: {wt.fetches}")
 
-def _list_items(items: list, per_page: int = 10, page = 0) -> any:
-        """
-        Takes a list and items per page. Lets the user
-        Choose one of the items in the list
 
-        Arguments:
-            * List of items
-            * Number of items to show per page
+def _list_items(items: list, per_page: int = 10, page=0) -> any:
+    """
+    Takes a list and items per page. Lets the user
+    Choose one of the items in the list
 
-        Returns:
-            * String name of item
-        """
-        max_pages = math.floor(len(items) / per_page)
-        if len(items)-(max_pages*per_page) > 0:
-            max_pages = max_pages+1
+    Arguments:
+        * List of items
+        * Number of items to show per page
 
-        ctr = per_page*page
-        i = 1
-        inp = ""
-        print(f"\nPage {page+1}/{max_pages}")
-        while ctr < len(items) and i-1 < per_page:
-            print(f"[{i}] {items[ctr]}")
-            ctr += 1
-            i += 1
-        print(f"[1 - {per_page}] Select, [Q] Quit, [P] Previous page, [N] Next page")
-        inp = input(" => ")
+    Returns:
+        * String name of item
+    """
+    max_pages = math.floor(len(items) / per_page)
+    if len(items) - (max_pages * per_page) > 0:
+        max_pages = max_pages + 1
 
-        if inp.isnumeric():
-            inp = int(inp)
-            if not (inp <= 0 or inp >= i):
-                return items[page*per_page+inp-1]
-        else:
-            inp = inp.upper()
-            if inp == "Q":
-                return None
-            if inp == "N":
-                if ctr >= len(items):
-                    return _list_items(items, per_page, 0)
-                return _list_items(items, per_page, page+1)
-            if inp == "P":
-                if page == 0:
-                    return _list_items(items, per_page, max_pages-1)
-                return _list_items(items, per_page, page-1)
-        
-        prints.error("Select item", "Invalid input")
-        return _list_items(items, per_page, page)
+    ctr = per_page * page
+    i = 1
+    inp = ""
+    print(f"\nPage {page+1}/{max_pages}")
+    while ctr < len(items) and i - 1 < per_page:
+        print(f"[{i}] {items[ctr]}")
+        ctr += 1
+        i += 1
+    print(f"[1 - {per_page}] Select, [Q] Quit, [P] Previous page, [N] Next page")
+    inp = input(" => ")
 
-def main() -> None: 
+    if inp.isnumeric():
+        inp = int(inp)
+        if not (inp <= 0 or inp >= i):
+            return items[page * per_page + inp - 1]
+    else:
+        inp = inp.upper()
+        if inp == "Q":
+            return None
+        if inp == "N":
+            if ctr >= len(items):
+                return _list_items(items, per_page, 0)
+            return _list_items(items, per_page, page + 1)
+        if inp == "P":
+            if page == 0:
+                return _list_items(items, per_page, max_pages - 1)
+            return _list_items(items, per_page, page - 1)
+
+    prints.error("Select item", "Invalid input")
+    return _list_items(items, per_page, page)
+
+
+def main() -> None:
     if len(sys.argv) > 1 and sys.argv[1] == "-log":
         ft.clear_log()
         settings.log_bool = True
-        
+
     if len(sys.argv) > 1 and sys.argv[1] == "-help":
         args = ["-test", "-testES", "-test2"]
         print("Current valid arguments:")
         for arg in args:
             print(f" * {arg}")
         exit()
-        
+
     global leagues
     if len(sys.argv) > 1 and sys.argv[1] == "-test":
         settings.current_date = datetime.strptime("11.12.2023", "%d.%m.%Y").date()
@@ -144,18 +157,21 @@ def main() -> None:
         leagues = ["Eliteserien - Norges Fotballforbund"]
     elif len(sys.argv) > 1 and sys.argv[1] == "-test2":
         settings.current_date = datetime.strptime("20.04.2023", "%d.%m.%Y").date()
-        leagues = ["Eliteserien - Norges Fotballforbund",
-                   "OBOS-ligaen - Norges Fotballforbund"]
+        leagues = [
+            "Eliteserien - Norges Fotballforbund",
+            "OBOS-ligaen - Norges Fotballforbund",
+        ]
     else:
         settings.current_date = datetime.today().date()
         print("Suggested minimum terminal width:")
-        print("-"*145)
+        print("-" * 145)
         input("[Enter]")
-        os.system('cls' if os.name == 'nt' else 'clear')
+        os.system("cls" if os.name == "nt" else "clear")
     settings.display_weather = []
     settings.display_surface = []
 
     update()
+
     def print_weather_types() -> None:
         """
         Displays all types of weather to the user
@@ -216,7 +232,7 @@ def main() -> None:
         """
         if len(saved) == 1:
             return saved[0]
-        
+
         if not team:
             inp = ""
             while not (str(inp).isnumeric() and int(inp) < i and int(inp) >= 0):
@@ -224,8 +240,8 @@ def main() -> None:
                 prints.info("Choose a league:", newline=True)
                 for league in saved:
                     print(f"[{i}] {league}")
-                    i+=1
-                inp = i+1
+                    i += 1
+                inp = i + 1
                 inp = input(" => ")
             return saved[int(inp)]
 
@@ -239,12 +255,14 @@ def main() -> None:
         """
         inp = ""
         while inp.upper() != "E" and inp.upper() != "Q":
-            print("Type club name to hightlight (case sensitive), to see clubs: type 'clubs'")
+            print(
+                "Type club name to hightlight (case sensitive), to see clubs: type 'clubs'"
+            )
             inp = input(" => ")
             if inp == "":
                 select_tournament().print_top_performers()
             elif inp.upper() == "CLS":
-                os.system('cls' if os.name == 'nt' else 'clear')
+                os.system("cls" if os.name == "nt" else "clear")
                 continue
             elif inp.upper() == "CLUBS":
                 for club in club_list(saved):
@@ -271,7 +289,7 @@ def main() -> None:
                 clubs.append(team)
         clubs.sort()
         return clubs
-        
+
     def _print_top_performers(team: Team) -> None:
         """
         Prints players performances for a team
@@ -290,7 +308,7 @@ def main() -> None:
             * Team
         """
         team.print_team()
-    
+
     def _print_team_influence(team: Team) -> None:
         """
         Prints the games played for each player in a team
@@ -309,7 +327,7 @@ def main() -> None:
         """
         for game in team.get_all_games():
             print(game)
-        
+
     def edit_surface() -> bool:
         """
         Displays the different surfaces to the user
@@ -325,7 +343,7 @@ def main() -> None:
             print_surface_types()
             inp = input(" => ")
             for word in inp.split(", "):
-                if word in types_of_surfaces:     
+                if word in types_of_surfaces:
                     if word in settings.display_surface:
                         settings.display_surface.remove(word)
                     else:
@@ -351,7 +369,7 @@ def main() -> None:
             print_weather_types()
             inp = input(" => ")
             for word in inp.split(", "):
-                if word in types_of_weather:     
+                if word in types_of_weather:
                     if word in settings.display_weather:
                         settings.display_weather.remove(word)
                     else:
@@ -380,7 +398,7 @@ def main() -> None:
             except:
                 print("Invalid input.")
                 return False
-            
+
     def _display_player_stats(player: Player) -> None:
         """
         Prints stats about a spesific player
@@ -393,10 +411,10 @@ def main() -> None:
         """
         prints.error("_display_player_stats", "Not implemented yet!")
         player.get_stats()
-            
+
     def choose_player_stats() -> None:
         """
-        Ask user to choose league, then prints players in the 
+        Ask user to choose league, then prints players in the
         league and asks user to choose one. Then displays stats about that player.
         """
         team_name = _list_items(list(select_tournament().team), 10)
@@ -414,7 +432,7 @@ def main() -> None:
         Arguments:
             * callable function
             * string header
-        """ 
+        """
         inp = ""
         while inp.upper() != "E" and inp.upper() != "Q":
             print()
@@ -422,7 +440,7 @@ def main() -> None:
             print("Type club name (case sensitive), to see clubs: type 'clubs'")
             inp = input(" => ")
             if inp.upper() == "CLS":
-                os.system('cls' if os.name == 'nt' else 'clear')
+                os.system("cls" if os.name == "nt" else "clear")
                 continue
             if inp.upper() == "CLUBS":
                 for club in club_list(saved):
@@ -510,10 +528,9 @@ def main() -> None:
         if inp.upper() == "S":
             setting()
         if inp.upper() == "CLS":
-            os.system('cls' if os.name == 'nt' else 'clear')
+            os.system("cls" if os.name == "nt" else "clear")
 
 
-
-if __name__=="__main__":
-    # PROBLEM: Dersom man ikke leser en kamp, er den en bitch 
+if __name__ == "__main__":
+    # PROBLEM: Dersom man ikke leser en kamp, er den en bitch
     main()

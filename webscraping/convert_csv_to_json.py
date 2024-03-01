@@ -1,6 +1,8 @@
 import os
 from pathlib import Path
 import json
+
+
 def take_csv_convert_json(filename, folder):
     file = open(filename)
     content = file.readlines()
@@ -18,13 +20,13 @@ def take_csv_convert_json(filename, folder):
 
     def strip(x):
         events.append(x.rstrip())
-        
+
     result = map(strip, evts)
     for _ in result:
         pass
 
     data = {
-        "v1": {        
+        "v1": {
             "date": date,
             "header": header,
             "home_XI": home_XI,
@@ -33,12 +35,11 @@ def take_csv_convert_json(filename, folder):
             "away_sub": away_sub,
             "stadium": stadium,
             "weather": weather,
-            "events": events
+            "events": events,
         }
     }
     newfile = open(str(filename).replace(".csv", ".json"), "w")
     json.dump(data, newfile, indent=4, ensure_ascii=False)
-
 
 
 folder = Path(str(os.curdir) + "/files/2023/analysis")
