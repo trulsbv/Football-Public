@@ -67,8 +67,6 @@ class Events:
         document = BeautifulSoup(self.page.html.text, "html.parser")
         f = document.find(class_="section-heading no-margin--bottom",
                           string=re.compile("^Hendelser"))
-        print("\n\n\n")
-        print(f)
         if not f:
             return
         table = f.find_next("ul")

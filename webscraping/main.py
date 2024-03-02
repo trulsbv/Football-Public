@@ -149,7 +149,7 @@ def main() -> None:
 
     global leagues
     if len(sys.argv) > 1 and sys.argv[1] == "-test":
-        settings.current_date = datetime.strptime("11.04.2023", "%d.%m.%Y").date()
+        settings.current_date = datetime.strptime("24.12.2023", "%d.%m.%Y").date()
         leagues = ["Eliteserien - Norges Fotballforbund"]
     elif len(sys.argv) > 1 and sys.argv[1] == "-testES":
         settings.current_date = datetime.today().date()

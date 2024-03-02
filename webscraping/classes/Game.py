@@ -47,14 +47,14 @@ class Game:
     def ask_user_for_odds(self) -> list:
         """
         Prompts the user to insert odds for the game
+        Format: 1.23,4.56,7.89
         """
         inp = input(f"\n\nInsert odds for {self.home} - {self.away} ({self.gameId})\n"
-                    "Format: 1.23,4.56,7.89\n"
                     " => ")
         out = None
         try:
             h, u, b = inp.split(",")
-            out = [h, u, b]
+            out = [float(h.strip()), float(u.strip()), float(b.strip())]
         finally:
             return out
 
