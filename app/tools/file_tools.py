@@ -50,9 +50,6 @@ def add_betting_data(data: map, id: str, extension: str = ".csv") -> None:
             confirm = input(f"Review: {odds}\n  [Y/N]:")
         odds = set(odds.split(","))
 
-    # TODO: Stopped this to convert the datafiles into json
-    #       which should make it easier to add new stuff
-
     file.write(f"{ht},{res},{at},{odds}")
     file.close()
 

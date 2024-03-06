@@ -34,7 +34,6 @@ leagues = [
     "OBOS-ligaen - Norges Fotballforbund",
     "Post Nord-ligaen avd. 1",
     "Post Nord-ligaen avd. 2",
-    # "Norsk Tipping-Ligaen avd. 2",
 ]
 
 
@@ -234,7 +233,6 @@ def main() -> None:
 
         if not team:
             inp = ""
-            # i was inside the while loop?!
             i = 0
             while not (str(inp).isnumeric() and int(inp) < i and int(inp) >= 0):
                 prints.info("Choose a league:", newline=True)

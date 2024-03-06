@@ -20,7 +20,6 @@ class HTML:
             return rt.get_title(self.text)
 
     def _set_html(self, search=False, force=False):
-        # TODO: Sørg for at den bare oppdaterer om den er utdatert!
         if (
             search and ft.is_not_valid(self.page.id, self.valid_from, self.ext)
         ) or force:
