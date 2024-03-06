@@ -5,7 +5,6 @@ from classes.Mainpage import Mainpage
 from classes.Tournament import Tournament
 from classes.Player import Player
 from classes.Team import Team
-import tools.file_tools as ft
 import tools.prints as prints
 import tools.web_tools as wt
 from classes.Page import Page
@@ -135,9 +134,7 @@ def _list_items(items: list, per_page: int = 10, page=0) -> any:
 
 
 def main() -> None:
-    if len(sys.argv) > 1 and sys.argv[1] == "-log":
-        ft.clear_log()
-        settings.log_bool = True
+    settings.log_bool = False
 
     if len(sys.argv) > 1 and sys.argv[1] == "-help":
         args = ["-test", "-testES", "-test2"]
@@ -148,15 +145,12 @@ def main() -> None:
 
     global leagues
     if len(sys.argv) > 1 and sys.argv[1] == "-test":
-        settings.log_bool = True
         settings.current_date = datetime.strptime("24.12.2023", "%d.%m.%Y").date()
         leagues = ["Eliteserien - Norges Fotballforbund"]
     elif len(sys.argv) > 1 and sys.argv[1] == "-testES":
-        settings.log_bool = True
         settings.current_date = datetime.today().date()
         leagues = ["Eliteserien - Norges Fotballforbund"]
     elif len(sys.argv) > 1 and sys.argv[1] == "-test2":
-        settings.log_bool = True
         settings.current_date = datetime.strptime("20.04.2023", "%d.%m.%Y").date()
         leagues = [
             "Eliteserien - Norges Fotballforbund",
@@ -413,7 +407,6 @@ def main() -> None:
         Returns:
             * None
         """
-        prints.error("_display_player_stats", "Not implemented yet!")
         player.get_stats()
 
     def choose_player_stats() -> None:

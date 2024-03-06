@@ -23,12 +23,22 @@ class Player:
         self.events = []
         self.influence = {}
 
-    def categorize_item(self, item, group_boundaries):
+    def categorize_item(self, item: Event, group_boundaries: list[int]) -> int:
+        """
+        Takes an event and a list of times [5, 10, 15 ...] and returns
+        the index that event belongs to:
+        4 return index 0
+        60 returns index 11
+        5 returns index 0
+        """
         for i, upper_bound in enumerate(group_boundaries):
-            if item < upper_bound:
-                return i  # Groups are 1-indexed
+            if item.time <= upper_bound:
+                return i
 
-    def times_x_fits_in_y(self, x, y):
+    def times_x_fits_in_y(self, x: int, y: int) -> list:
+        """
+        Takes x and y and returns a list with the amount of times x fits in y
+        """
         if x <= 0 or y <= 0:
             return []
 
@@ -38,7 +48,7 @@ class Player:
     def _iterate_events(self, event: Event, frequency: int = 5) -> list:
         """
         Returns a list of when a chosen event has happened, places it in boxes
-        of the given frequency: 5 gives 1-5, 6-10, 11-15 ...
+        of the given frequency: 5 gives 0-4, 5-9, 10-14 ...
 
         Input:
             * Type of event e.g. Goal, Card ...
@@ -46,11 +56,11 @@ class Player:
         Output:
             * list of lists with the events
         """
-        output = [[] for _ in range(len(self.times_x_fits_in_y(frequency, 90)))]
+        output = [0 for _ in range(len(self.times_x_fits_in_y(frequency, 90)))]
         for item in self.events:
-            if item == event:
-                indx = self.categorize_item(item, self.times_x_fits_in_y(5, 90))
-                output[indx].append(item)
+            if isinstance(item, event):
+                indx = self.categorize_item(item, self.times_x_fits_in_y(frequency, 90))
+                output[indx] = output[indx] + 1
         return output
 
     def get_stats(self) -> None:
@@ -59,14 +69,25 @@ class Player:
 
         Prints info about the player to the terminal
         """
-        prints.error("get_stats", "Not implemented yet!")
-        print(self._iterate_events(Goal))
+        print(self)
+        print("Event/Time   ., 1, ., 2, ., 3, ., 4, ., 5, ., 6, ., 7, ., 8, ., 9")
+        goals = self._iterate_events(Goal)
+        play_goals = self._iterate_events(PlayGoal)
+        penalty_goals = self._iterate_events(PenaltyGoal)
+        own_goals = self._iterate_events(OwnGoal)
+        yellow_cards = self._iterate_events(YellowCard)
+        red_cards = self._iterate_events(RedCard)
+        print(f"     Goals: {goals} ({sum(goals)})")
+        print(f"Play Goals: {play_goals} ({sum(play_goals)})")
+        print(f"Pen. Goals: {penalty_goals} ({sum(penalty_goals)})")
+        print(f" Own Goals: {own_goals} ({sum(own_goals)})")
+        print(f" Yel. card: {yellow_cards} ({sum(yellow_cards)})")
+        print(f"  Red card: {red_cards} ({sum(red_cards)})")
 
     def iterate_events(self, event_type):
         types = []
         return_types = []
         if event_type == Goal:
-            types.append(OwnGoal)
             types.append(PlayGoal)
             types.append(PenaltyGoal)
         elif event_type == Booking:
@@ -192,8 +213,8 @@ class Player:
             s += f", {self.number:>2} - "
         else:
             s += "       "
-        s += (f"({len(self.matches['started']):>2}, {len(self.matches['sub in']):>2},",)
-        f"{len(self.matches['sub out']):>2}, {len(self.matches['benched']):>2})"
+        s += f"({len(self.matches['started']):>2}, {len(self.matches['sub in']):>2},"
+        s += f" {len(self.matches['sub out']):>2}, {len(self.matches['benched']):>2})"
         s += f" - {self.get_goals():>2} goals"
         res = self.get_num_games_result()
         if res:

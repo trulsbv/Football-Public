@@ -5,6 +5,7 @@ import os
 import re
 import json
 import settings
+import traceback
 
 
 log_entries = 0
@@ -219,14 +220,19 @@ def get_baneinfo(html):
     return out
 
 
-def log(where, msg):
+def log(msg):
+    if not settings.log_bool:
+        return
     global log_entries
     global log_first
     if log_first:
         clear_log()
         log_first = False
     f = open("files/log.txt", "a", encoding="UTF-8")
-    f.write(f"{log_entries} {where}: {msg}\n")
+    f.write(f"{log_entries}: {msg}\n")
+    for line in traceback.format_stack():
+        li = line.strip().replace('File "C:\\Users\\Truls\\Documents\\Fotball\\app', '..')
+        f.write(f"\t{li}\n")
     f.close()
     log_entries += 1
 
