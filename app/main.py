@@ -3,9 +3,7 @@ from datetime import datetime
 
 from classes.Mainpage import Mainpage
 from classes.Tournament import Tournament
-from classes.Player import Player
 from classes.Team import Team
-import tools.file_tools as ft
 import tools.prints as prints
 import tools.web_tools as wt
 from classes.Page import Page
@@ -135,9 +133,7 @@ def _list_items(items: list, per_page: int = 10, page=0) -> any:
 
 
 def main() -> None:
-    if len(sys.argv) > 1 and sys.argv[1] == "-log":
-        ft.clear_log()
-        settings.log_bool = True
+    settings.log_bool = False
 
     if len(sys.argv) > 1 and sys.argv[1] == "-help":
         args = ["-test", "-testES", "-test2"]
@@ -400,19 +396,6 @@ def main() -> None:
                     print("Invalid input.")
                 return bool
 
-    def _display_player_stats(player: Player) -> None:
-        """
-        Prints stats about a spesific player
-
-        Arguments:
-            * Player object
-
-        Returns:
-            * None
-        """
-        prints.error("_display_player_stats", "Not implemented yet!")
-        player.get_stats()
-
     def choose_player_stats() -> None:
         """
         Ask user to choose league, then prints players in the league
@@ -423,7 +406,7 @@ def main() -> None:
             return
         team = select_tournament().team[team_name]
         player = _list_items(list(team.players), 10)
-        _display_player_stats(player)
+        player.print_stats()
 
     def menu_page(func: callable, header: str) -> None:
         """

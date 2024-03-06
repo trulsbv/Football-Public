@@ -1,5 +1,6 @@
 import tools.prints as prints
 import tools.regex_tools as rt
+import tools.file_tools as ft
 from bs4 import BeautifulSoup
 from classes.Page import Page
 from classes.Player import Player
@@ -119,6 +120,8 @@ class Team:
         number=False,
         position=False,
     ):
+        if url:
+            url = url.split("=")[1]
         if name is False:
             name = "UnreportedPlayer"
         # Only suggest unless we have the correct url.
@@ -131,6 +134,7 @@ class Team:
                 f"Created a new player: {name} ({url}), lacking number and position",
             )
         player = Player(self, name, url)
+        ft.log(f"Created {player} ({url})")
         self.players.append(player)
         return player
 

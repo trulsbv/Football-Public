@@ -5,6 +5,11 @@ import os
 import re
 import json
 import settings
+import traceback
+
+
+log_entries = 0
+log_first = True
 
 
 def clear_betting_data(id: str, extension: str = ".csv") -> None:
@@ -215,18 +220,26 @@ def get_baneinfo(html):
     return out
 
 
-entries = 1
-
-
-def log(where, msg):
-    global entries
-    f = open("log/log.txt", "a")
-    f.write(f"{entries} {where}: {msg}\n")
+def log(msg):
+    if not settings.log_bool:
+        return
+    global log_entries
+    global log_first
+    if log_first:
+        clear_log()
+        log_first = False
+    f = open("files/log.txt", "a", encoding="UTF-8")
+    f.write(f"{log_entries}: {msg}\n")
+    for line in traceback.format_stack():
+        li = line.strip().replace('File "C:\\Users\\Truls\\Documents\\Fotball\\app', '..')
+        f.write(f"\t{li}\n")
     f.close()
-    entries += 1
+    log_entries += 1
 
 
 def clear_log():
-    f = open("log/log.txt", "w")
+    f = open("files/log.txt", "w")
     f.write(str(d.today()) + "\n")
     f.close()
+    global log_entries
+    log_entries = 0
