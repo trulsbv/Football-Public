@@ -3,7 +3,6 @@ from datetime import datetime
 
 from classes.Mainpage import Mainpage
 from classes.Tournament import Tournament
-from classes.Player import Player
 from classes.Team import Team
 import tools.prints as prints
 import tools.web_tools as wt
@@ -397,18 +396,6 @@ def main() -> None:
                     print("Invalid input.")
                 return bool
 
-    def _display_player_stats(player: Player) -> None:
-        """
-        Prints stats about a spesific player
-
-        Arguments:
-            * Player object
-
-        Returns:
-            * None
-        """
-        player.get_stats()
-
     def choose_player_stats() -> None:
         """
         Ask user to choose league, then prints players in the league
@@ -419,7 +406,7 @@ def main() -> None:
             return
         team = select_tournament().team[team_name]
         player = _list_items(list(team.players), 10)
-        _display_player_stats(player)
+        player.print_stats()
 
     def menu_page(func: callable, header: str) -> None:
         """

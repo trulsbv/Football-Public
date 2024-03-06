@@ -63,26 +63,59 @@ class Player:
                 output[indx] = output[indx] + 1
         return output
 
-    def get_stats(self) -> None:
+    def print_stats(self) -> None:
         """
-        NOT IMPLEMENTED
-
         Prints info about the player to the terminal
         """
         print(self)
-        print("Event/Time   ., 1, ., 2, ., 3, ., 4, ., 5, ., 6, ., 7, ., 8, ., 9")
-        goals = self._iterate_events(Goal)
-        play_goals = self._iterate_events(PlayGoal)
-        penalty_goals = self._iterate_events(PenaltyGoal)
-        own_goals = self._iterate_events(OwnGoal)
-        yellow_cards = self._iterate_events(YellowCard)
-        red_cards = self._iterate_events(RedCard)
-        print(f"     Goals: {goals} ({sum(goals)})")
-        print(f"Play Goals: {play_goals} ({sum(play_goals)})")
-        print(f"Pen. Goals: {penalty_goals} ({sum(penalty_goals)})")
-        print(f" Own Goals: {own_goals} ({sum(own_goals)})")
-        print(f" Yel. card: {yellow_cards} ({sum(yellow_cards)})")
-        print(f"  Red card: {red_cards} ({sum(red_cards)})")
+        print("Event / Time 0-5, -10, -15, -20, -25, -30, -35, -40, -45, -50,",
+              "-55, -60, -65, -70, -75, -80, -85, -90, -90+")
+        stats = [Goal, PlayGoal, PenaltyGoal, OwnGoal, YellowCard, RedCard]
+        s = " Min played: "
+        minutes = [0 for _ in range(len(self.times_x_fits_in_y(5, 90)))]
+
+        for game in self.matches["started"]:
+            if game in self.matches["sub out"]:
+                out_time = self.matches["sub out"][game].time
+            else:
+                out_time = 90
+            for i in range(1, 90):
+                if i < out_time:
+                    for j, upper_bound in enumerate(self.times_x_fits_in_y(5, 90)):
+                        if i <= upper_bound:
+                            minutes[j] += 1
+                            break
+
+        for game in self.matches["sub in"]:
+            in_time = self.matches["sub in"][game].time
+            if game in self.matches["sub out"]:
+                out_time = self.matches["sub out"][game].time
+            else:
+                out_time = 90
+            for i in range(1, 90):
+                if in_time <= i < out_time:
+                    for j, upper_bound in enumerate(self.times_x_fits_in_y(5, 90)):
+                        if i <= upper_bound:
+                            minutes[j] += 1
+        first = True
+        for item in minutes:
+            if first:
+                s += f"{item:>3}"
+                first = False
+            s += f", {item:>3}"
+        s += f" (= {sum(minutes)} min)"
+
+        for stat in stats:
+            result = self._iterate_events(stat)
+            s += f"\n{stat.__name__:>11}: "
+            first = True
+            for item in result:
+                if first:
+                    s += f"{item:>3}"
+                    first = False
+                s += f", {item:>3}"
+            s += f" (= {sum(result)})"
+        print(s)
 
     def iterate_events(self, event_type):
         types = []
