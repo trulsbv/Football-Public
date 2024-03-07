@@ -68,8 +68,8 @@ class Player:
         Prints info about the player to the terminal
         """
         print(self)
-        print("Event / Time 0-5, -10, -15, -20, -25, -30, -35, -40, -45, -50,",
-              "-55, -60, -65, -70, -75, -80, -85, -90, -90+")
+        print("Event / Time 1-5, -10, -15, -20, -25, -30, -35, -40, -45, -50,",
+              "-55, -60, -65, -70, -75, -80, -85, -90")
         stats = [Goal, PlayGoal, PenaltyGoal, OwnGoal, YellowCard, RedCard]
         s = " Min played: "
         minutes = [0 for _ in range(len(self.times_x_fits_in_y(5, 90)))]
@@ -80,7 +80,7 @@ class Player:
             else:
                 out_time = 90
             for i in range(1, 90):
-                if i < out_time:
+                if i <= out_time:
                     for j, upper_bound in enumerate(self.times_x_fits_in_y(5, 90)):
                         if i <= upper_bound:
                             minutes[j] += 1
@@ -92,16 +92,18 @@ class Player:
                 out_time = self.matches["sub out"][game].time
             else:
                 out_time = 90
-            for i in range(1, 90):
-                if in_time <= i < out_time:
+            for i in range(0, 90):
+                if in_time < i <= out_time:
                     for j, upper_bound in enumerate(self.times_x_fits_in_y(5, 90)):
                         if i <= upper_bound:
                             minutes[j] += 1
+                            break
         first = True
         for item in minutes:
             if first:
                 s += f"{item:>3}"
                 first = False
+                continue
             s += f", {item:>3}"
         s += f" (= {sum(minutes)} min)"
 
@@ -113,6 +115,7 @@ class Player:
                 if first:
                     s += f"{item:>3}"
                     first = False
+                    continue
                 s += f", {item:>3}"
             s += f" (= {sum(result)})"
         print(s)
