@@ -7,8 +7,6 @@ from classes.Player import Player
 
 
 class Team:
-    s = 0
-
     def __init__(self, page, tournament):
         self.tournament = tournament
         self.players = []
@@ -120,7 +118,7 @@ class Team:
         number=False,
         position=False,
     ):
-        if url:
+        if url and "=" in url:
             url = url.split("=")[1]
         if name is False:
             name = "UnreportedPlayer"

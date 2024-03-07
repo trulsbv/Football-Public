@@ -1,5 +1,4 @@
 import tools.prints as prints
-from errors import DontCare
 
 
 class Event:
@@ -132,16 +131,17 @@ class Substitute(Event):
         return f"{self.team}, {self.player_in} => {self.player_out} ({self.game.date})"
 
     def get_analysis(self):
+        out = None
         try:
-            return {
+            out = {
                 "type": "Substitution",
                 "time": self.time,
                 "team_url": self.team.page.url,
                 "in_url": self.player_in.url,
                 "out_url": self.player_out.url,
             }
-        except DontCare:
-            return None
+        finally:
+            return out
 
 
 class Goal(Event):

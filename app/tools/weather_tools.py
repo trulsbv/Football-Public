@@ -3,22 +3,6 @@ import tools.file_tools as ft
 import tools.web_tools as wt
 from datetime import date
 from classes.Pitch import Pitch
-from errors import DontCare
-
-
-def parse_map_string(map_string: str) -> dict:
-    """
-    Takes a string formatted as a dict and converts it to a dict-object
-
-    Arguments:
-        * String dict
-
-    Returns:
-        * Dict dict
-    """
-    d = eval(map_string.split("\n")[1])
-    assert isinstance(d, dict)
-    return d
 
 
 def get_weather_data(pitch: Pitch, date: date, time: str) -> dict:
@@ -44,16 +28,16 @@ def get_weather_data(pitch: Pitch, date: date, time: str) -> dict:
     file_name = file_name.replace("Å", "Aa")
     file_name = file_name.replace("å", "aa")
     file_name = file_name.replace(":", "_")
-    data = ft.find_html(file_name, extension=".txt")
+    data = ft.load_json(file_name)
     if data:
-        return parse_map_string(data)
+        return data
     cords = get_coords(pitch)
     try:
         data = wt.get_historic_data(cords, t)
-    except DontCare:
+    except LookupError:  # Random error
         print("\nERROR FETCHING FROM weather_tools.py!")
         exit()
-    ft.save_html(file_name, str(data), ".txt")
+    ft.save_json(file_name, data)
     return data
 
 

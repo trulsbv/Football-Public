@@ -9,7 +9,6 @@ from classes.Event import (
     Event,
 )
 import tools.prints as prints
-from errors import DontCare
 
 
 class Player:
@@ -310,10 +309,11 @@ class Player:
             else round(p_tot / self.influence["num_games"], 2)
         )
         mpg = round(self.influence["num_minutes"] / self.influence["num_games"], 0)
+        ppm = 0
         try:
             ppm = round(p_tot / self.influence["num_minutes"], 5)
-        except DontCare:
-            ppm = 0
+        finally:
+            ...
         li = [p_tot, ppg, mpg, ppm]
         if category == "p_tot":
             return [p_tot, li, self, self.team]
@@ -343,7 +343,7 @@ class Player:
         try:
             ppm = round(p_tot / self.influence["num_minutes"], 5)
             s += f" | avg. {prints.get_fore_color_int(ppm)} points per minute"
-        except DontCare:
+        except ZeroDivisionError:
             s += "_"
         print(s)
         if individual:

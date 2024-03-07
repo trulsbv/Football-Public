@@ -401,10 +401,11 @@ def main() -> None:
         Ask user to choose league, then prints players in the league
         and asks user to choose one. Then displays stats about that player.
         """
-        team_name = _list_items(list(select_tournament().team), 10)
+        tournament = select_tournament()
+        team_name = _list_items(list(tournament.team), 10)
         if not team_name:
             return
-        team = select_tournament().team[team_name]
+        team = tournament.team[team_name]
         player = _list_items(list(team.players), 10)
         player.print_stats()
 

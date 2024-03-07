@@ -49,6 +49,7 @@ class Game:
         Prompts the user to insert odds for the game
         Format: 1.23,4.56,7.89
         """
+        return None
         inp = input(f"\n\nInsert odds for {self.home} - {self.away} ({self.gameId})\n"
                     " => ")
         out = None
@@ -129,6 +130,8 @@ class Game:
     def extract_events(self, data):
         out = []
         for dt in data:
+            if dt is None:
+                continue
             event = dt["type"]
             time = dt["time"]
             team_url = dt["team_url"]
