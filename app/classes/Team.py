@@ -118,7 +118,7 @@ class Team:
         number=False,
         position=False,
     ):
-        if url:
+        if url and "=" in url:
             url = url.split("=")[1]
         if name is False:
             name = "UnreportedPlayer"

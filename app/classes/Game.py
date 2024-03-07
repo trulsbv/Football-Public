@@ -130,6 +130,8 @@ class Game:
     def extract_events(self, data):
         out = []
         for dt in data:
+            if dt is None:
+                continue
             event = dt["type"]
             time = dt["time"]
             team_url = dt["team_url"]

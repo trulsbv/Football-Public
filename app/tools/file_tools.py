@@ -170,6 +170,8 @@ def load_json(id):
     filename = (splitted[-1] + ".json").replace("?", "")
     folder = create_folder(splitted[:-1])
     file = find_file(folder, filename)
+    if not file:
+        return 0
     file = open(file, encoding="UTF-8")
     s = ""
     for line in file.readlines():
@@ -189,9 +191,6 @@ def save_json(id, data):
     Output:
         - None
     """
-    print()
-    print(id)
-    print()
     splitted = id.split("/")
     filename = splitted[-1].replace("?", "")
     folder = create_folder(splitted[:-1])
