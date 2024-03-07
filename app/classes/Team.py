@@ -7,8 +7,6 @@ from classes.Player import Player
 
 
 class Team:
-    s = 0
-
     def __init__(self, page, tournament):
         self.tournament = tournament
         self.players = []

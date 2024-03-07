@@ -165,6 +165,45 @@ def save_html(id, html, extension):
     file.close()
 
 
+def load_json(id):
+    splitted = id.split("/")
+    filename = (splitted[-1] + ".json").replace("?", "")
+    folder = create_folder(splitted[:-1])
+    file = find_file(folder, filename)
+    file = open(file, encoding="UTF-8")
+    s = ""
+    for line in file.readlines():
+        s += line.rstrip()
+    d = json.loads(s)
+    return d
+
+
+def save_json(id, data):
+    """
+    Takes a id and a string and saves it in [id].txt with todays date
+
+    Input:
+        - String id
+        - String html content
+
+    Output:
+        - None
+    """
+    print()
+    print(id)
+    print()
+    splitted = id.split("/")
+    filename = splitted[-1].replace("?", "")
+    folder = create_folder(splitted[:-1])
+
+    file = find_file(folder, str(filename) + ".json")
+    if not file:
+        file = folder / (str(filename) + ".json")
+    file = open(file, "w", encoding="UTF-8")
+    json.dump(data, file, indent=4, ensure_ascii=False)
+    file.close()
+
+
 def create_folder(inp):
     folders = ["files"] + [str(settings.current_date.year)] + inp
     place = str(os.curdir)
