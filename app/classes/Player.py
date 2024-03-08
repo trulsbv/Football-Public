@@ -5,10 +5,12 @@ from classes.Event import (
     RedCard,
     YellowCard,
     Goal,
-    Booking,
-    Event,
 )
 import tools.prints as prints
+import tools.statistic_tools as statt
+
+GAME_LENGTH = 90
+FRAME_SIZE = 5
 
 
 class Player:
@@ -22,56 +24,19 @@ class Player:
         self.events = []
         self.influence = {}
 
-    def categorize_item(self, item: Event, group_boundaries: list[int]) -> int:
-        """
-        Takes an event and a list of times [5, 10, 15 ...] and returns
-        the index that event belongs to:
-        4 return index 0
-        60 returns index 11
-        5 returns index 0
-        """
-        for i, upper_bound in enumerate(group_boundaries):
-            if item.time <= upper_bound:
-                return i
-
-    def times_x_fits_in_y(self, x: int, y: int) -> list:
-        """
-        Takes x and y and returns a list with the amount of times x fits in y
-        """
-        if x <= 0 or y <= 0:
-            return []
-
-        result = [i for i in range(x, y + 1) if i % x == 0]
-        return result
-
-    def _iterate_events(self, event: Event, frequency: int = 5) -> list:
-        """
-        Returns a list of when a chosen event has happened, places it in boxes
-        of the given frequency: 5 gives 0-4, 5-9, 10-14 ...
-
-        Input:
-            * Type of event e.g. Goal, Card ...
-
-        Output:
-            * list of lists with the events
-        """
-        output = [0 for _ in range(len(self.times_x_fits_in_y(frequency, 90)))]
-        for item in self.events:
-            if isinstance(item, event):
-                indx = self.categorize_item(item, self.times_x_fits_in_y(frequency, 90))
-                output[indx] = output[indx] + 1
-        return output
-
     def print_stats(self) -> None:
         """
         Prints info about the player to the terminal
         """
+        container = statt.times_x_fits_in_y(FRAME_SIZE, GAME_LENGTH)
         print(self)
-        print("Event / Time 1-5, -10, -15, -20, -25, -30, -35, -40, -45, -50,",
-              "-55, -60, -65, -70, -75, -80, -85, -90")
+        s = "Event / Time "
+        for time in container:
+            s += f"-{time:<3} "
+        print(s)
         stats = [Goal, PlayGoal, PenaltyGoal, OwnGoal, YellowCard, RedCard]
         s = " Min played: "
-        minutes = [0 for _ in range(len(self.times_x_fits_in_y(5, 90)))]
+        minutes = [0 for _ in range(len(container))]
 
         for game in self.matches["started"]:
             if game in self.matches["sub out"]:
@@ -80,7 +45,7 @@ class Player:
                 out_time = 90
             for i in range(1, 90):
                 if i <= out_time:
-                    for j, upper_bound in enumerate(self.times_x_fits_in_y(5, 90)):
+                    for j, upper_bound in enumerate(container):
                         if i <= upper_bound:
                             minutes[j] += 1
                             break
@@ -93,7 +58,7 @@ class Player:
                 out_time = 90
             for i in range(0, 90):
                 if in_time < i <= out_time:
-                    for j, upper_bound in enumerate(self.times_x_fits_in_y(5, 90)):
+                    for j, upper_bound in enumerate(container):
                         if i <= upper_bound:
                             minutes[j] += 1
                             break
@@ -107,7 +72,7 @@ class Player:
         s += f" (= {sum(minutes)} min)"
 
         for stat in stats:
-            result = self._iterate_events(stat)
+            result = statt.iterate_events(self.events, stat, FRAME_SIZE)
             s += f"\n{stat.__name__:>11}: "
             first = True
             for item in result:
@@ -118,23 +83,6 @@ class Player:
                 s += f", {item:>3}"
             s += f" (= {sum(result)})"
         print(s)
-
-    def iterate_events(self, event_type):
-        types = []
-        return_types = []
-        if event_type == Goal:
-            types.append(PlayGoal)
-            types.append(PenaltyGoal)
-        elif event_type == Booking:
-            types.append(RedCard)
-            types.append(YellowCard)
-        else:
-            types.append(event_type)
-
-        for item in self.events:
-            if type(item) in types:
-                return_types.append(item)
-        return return_types
 
     def results_while_playing(self):
         results_while_playing = []  # <-- (game, (before, after, end), (in, out))
@@ -168,7 +116,7 @@ class Player:
         return results_while_playing
 
     def get_goals(self):
-        goals = self.iterate_events(Goal)
+        goals = statt.find_event(self.events, Goal)
         goal_counter = 0
         for g in goals:
             if isinstance(g, OwnGoal):
