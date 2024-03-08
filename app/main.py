@@ -502,7 +502,7 @@ def main() -> None:
             update()
 
     inp = ""
-    while inp.upper() != "Q":
+    while inp.upper() != "QUIT":
         display_info()
         print("[1] Team overview")
         print("[2] Team stats")
@@ -513,7 +513,7 @@ def main() -> None:
         print("[7] Player stats")
         print("[8] Team stats")
         print()
-        print("[Q] Quit, [CLS] Clear, [S] Settings")
+        print("[QUIT] Quit, [CLS] Clear, [S] Settings")
         inp = input(" => ")
         if inp.isnumeric():
             if int(inp) == 1:

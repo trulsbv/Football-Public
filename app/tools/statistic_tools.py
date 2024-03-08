@@ -1,4 +1,5 @@
 from classes import Event
+import settings
 
 
 def categorize_item(integer: int, group_boundaries: list[int]) -> int:
@@ -12,6 +13,7 @@ def categorize_item(integer: int, group_boundaries: list[int]) -> int:
     for i, upper_bound in enumerate(group_boundaries):
         if integer <= upper_bound:
             return i
+    return i  # This places 90+ events in the last boundary
 
 
 def times_x_fits_in_y(x: int, y: int) -> list:
@@ -43,7 +45,7 @@ def find_event(event_list: list, event_type: Event):
     return return_types
 
 
-def iterate_events(event_list: list, event_type: Event, frequency: int = 5) -> list:
+def iterate_events(event_list: list, event_type: Event = None) -> list:
     """
     Returns a list of when a chosen event has happened, places it in boxes
     of the given frequency: 5 gives 0-4, 5-9, 10-14 ...
@@ -54,9 +56,14 @@ def iterate_events(event_list: list, event_type: Event, frequency: int = 5) -> l
     Output:
         * list of lists with the events
     """
-    output = [0 for _ in range(len(times_x_fits_in_y(frequency, 90)))]
+    container = times_x_fits_in_y(settings.FRAME_SIZE, settings.GAME_LENGTH)
+    output = [0 for _ in range(len(container))]
     for event in event_list:
-        if isinstance(event, event_type):
-            indx = categorize_item(event.time, times_x_fits_in_y(frequency, 90))
+        if event_type:
+            if isinstance(event, event_type):
+                indx = categorize_item(event.time, container)
+                output[indx] = output[indx] + 1
+        else:
+            indx = categorize_item(event.time, container)
             output[indx] = output[indx] + 1
     return output

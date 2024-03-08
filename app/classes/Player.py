@@ -70,7 +70,7 @@ class Player:
         s += f" (= {sum(minutes)} min)"
 
         for stat in stats:
-            result = statt.iterate_events(self.events, stat, settings.FRAME_SIZE)
+            result = statt.iterate_events(self.events, stat)
             s += f"\n{stat.__name__:>11}: "
             first = True
             for item in result:
@@ -85,7 +85,7 @@ class Player:
     def get_player_stats(self, stats: list) -> dict:
         output = {}
         for stat in stats:
-            output[stat] = statt.iterate_events(self.events, stat, settings.FRAME_SIZE)
+            output[stat] = statt.iterate_events(self.events, stat)
         return output
 
     def results_while_playing(self):
