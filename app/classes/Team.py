@@ -4,12 +4,20 @@ import tools.file_tools as ft
 from bs4 import BeautifulSoup
 from classes.Page import Page
 from classes.Player import Player
+from classes.Event import (
+    OwnGoal,
+    PenaltyGoal,
+    PlayGoal,
+    RedCard,
+    YellowCard,
+    Goal,
+)
 
 
 class Team:
     def __init__(self, page, tournament):
         self.tournament = tournament
-        self.players = []
+        self.players: list[Player] = []
         self.page = page
         self.name = None
         self.games = {"home": [], "away": []}
@@ -22,6 +30,26 @@ class Team:
         self.goals_conceded_away = 0
         self.goals_scored_total = 0
         self.goals_conceded_total = 0
+
+    def print_team_stats(self) -> None:
+        stats = [Goal, PlayGoal, PenaltyGoal, OwnGoal, YellowCard, RedCard]
+        team_stats = {}
+        for player in self.players:
+            player_stats = player.get_player_stats(stats)
+            for stat in player_stats:
+                if stat not in team_stats:
+                    team_stats[stat] = player_stats[stat]
+                else:
+                    team_stats[stat] = [x + y for x, y in zip(team_stats[stat], player_stats[stat])]
+        s = f"{self}\n"
+        first = True
+        for stat in team_stats:
+            if first is True:
+                s += f"{stat.__name__:>11}: {team_stats[stat]}"
+                first = False
+                continue
+            s += f"\n{stat.__name__:>11}: {team_stats[stat]}"
+        print(s)
 
     def get_all_games(self):
         out = []

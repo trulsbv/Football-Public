@@ -8,9 +8,7 @@ from classes.Event import (
 )
 import tools.prints as prints
 import tools.statistic_tools as statt
-
-GAME_LENGTH = 90
-FRAME_SIZE = 5
+import settings
 
 
 class Player:
@@ -28,7 +26,7 @@ class Player:
         """
         Prints info about the player to the terminal
         """
-        container = statt.times_x_fits_in_y(FRAME_SIZE, GAME_LENGTH)
+        container = statt.times_x_fits_in_y(settings.FRAME_SIZE, settings.GAME_LENGTH)
         print(self)
         s = "Event / Time "
         for time in container:
@@ -72,7 +70,7 @@ class Player:
         s += f" (= {sum(minutes)} min)"
 
         for stat in stats:
-            result = statt.iterate_events(self.events, stat, FRAME_SIZE)
+            result = statt.iterate_events(self.events, stat, settings.FRAME_SIZE)
             s += f"\n{stat.__name__:>11}: "
             first = True
             for item in result:
@@ -83,6 +81,12 @@ class Player:
                 s += f", {item:>3}"
             s += f" (= {sum(result)})"
         print(s)
+
+    def get_player_stats(self, stats: list) -> dict:
+        output = {}
+        for stat in stats:
+            output[stat] = statt.iterate_events(self.events, stat, settings.FRAME_SIZE)
+        return output
 
     def results_while_playing(self):
         results_while_playing = []  # <-- (game, (before, after, end), (in, out))
