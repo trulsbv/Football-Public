@@ -1,18 +1,29 @@
 import tools.prints as prints
 import tools.regex_tools as rt
 import tools.file_tools as ft
+import tools.statistic_tools as statt
+import settings
 from bs4 import BeautifulSoup
 from classes.Page import Page
 from classes.Player import Player
+from classes.Event import (
+    OwnGoal,
+    PenaltyGoal,
+    PlayGoal,
+    RedCard,
+    YellowCard,
+    Goal,
+)
 
 
 class Team:
     def __init__(self, page, tournament):
         self.tournament = tournament
-        self.players = []
+        self.players: list[Player] = []
         self.page = page
         self.name = None
         self.games = {"home": [], "away": []}
+        self.conceded_goals = []
         self._init_players()
         self.points = 0
         self.goal_diff = 0
@@ -22,6 +33,37 @@ class Team:
         self.goals_conceded_away = 0
         self.goals_scored_total = 0
         self.goals_conceded_total = 0
+
+    def stat_to_str(self, lst) -> str:
+        s = ""
+        for item in lst:
+            if not s:
+                s += f"{item:>2}"
+                continue
+            s += f", {item:>2}"
+        return s
+
+    def print_team_stats(self) -> None:
+        stats = [Goal, PlayGoal, PenaltyGoal, OwnGoal, YellowCard, RedCard]
+        team_stats = {}
+        for player in self.players:
+            player_stats = player.get_player_stats(stats)
+            for stat in player_stats:
+                if stat not in team_stats:
+                    team_stats[stat] = player_stats[stat]
+                else:
+                    team_stats[stat] = [x + y for x, y in zip(team_stats[stat], player_stats[stat])]
+        s = f"{self}\n"
+        s += "Event / Time "
+        for time in statt.times_x_fits_in_y(settings.FRAME_SIZE, settings.GAME_LENGTH):
+            s += f"-{time:<3}"
+        conceded = statt.iterate_events(self.conceded_goals)
+        s += f"\n   Conceded: {self.stat_to_str(conceded)}"
+        s += f"   ({sum(conceded)})"
+        for stat in team_stats:
+            s += f"\n{stat.__name__:>11}: {self.stat_to_str(team_stats[stat])}"
+            s += f"   ({sum(team_stats[stat])})"
+        print(s)
 
     def get_all_games(self):
         out = []

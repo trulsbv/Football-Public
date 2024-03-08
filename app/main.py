@@ -444,6 +444,15 @@ def main() -> None:
             print(f"\nLEAGUE: {league}")
             league.print_league_table()
 
+    def print_team_stats() -> None:
+        """
+        Prints team stats
+        """
+        tournament = select_tournament()
+        team = _list_items(list(tournament.team), 10)
+        team = tournament.team[team]
+        team.print_team_stats()
+
     def display_info() -> None:
         """
         Prints info about the current settings
@@ -493,7 +502,7 @@ def main() -> None:
             update()
 
     inp = ""
-    while inp.upper() != "Q":
+    while inp.upper() != "QUIT":
         display_info()
         print("[1] Team overview")
         print("[2] Team stats")
@@ -502,8 +511,9 @@ def main() -> None:
         print("[5] Top performers league")
         print("[6] League tables")
         print("[7] Player stats")
+        print("[8] Team stats")
         print()
-        print("[Q] Quit, [CLS] Clear, [S] Settings")
+        print("[QUIT] Quit, [CLS] Clear, [S] Settings")
         inp = input(" => ")
         if inp.isnumeric():
             if int(inp) == 1:
@@ -520,6 +530,8 @@ def main() -> None:
                 league_table()
             if int(inp) == 7:
                 choose_player_stats()
+            if int(inp) == 8:
+                print_team_stats()
             continue
         if inp.upper() == "S":
             setting()

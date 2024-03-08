@@ -157,6 +157,7 @@ class Goal(Event):
 class PlayGoal(Goal):
     def __init__(self, game, time, team, player):
         super().__init__(game, time, team, player)
+        game.opponent(team).conceded_goals.append(self)
 
     def __repr__(self) -> str:
         return super().__repr__() + " spillemål"
@@ -173,6 +174,7 @@ class PlayGoal(Goal):
 class PenaltyGoal(Goal):
     def __init__(self, game, time, team, player):
         super().__init__(game, time, team, player)
+        game.opponent(team).conceded_goals.append(self)
 
     def __repr__(self) -> str:
         return super().__repr__() + " straffemål"
@@ -189,6 +191,7 @@ class PenaltyGoal(Goal):
 class OwnGoal(Goal):
     def __init__(self, game, time, team, player):
         super().__init__(game, time, team, player)
+        team.conceded_goals.append(self)
 
     def __repr__(self) -> str:
         return super().__repr__() + " own goal"
