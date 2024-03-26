@@ -30,7 +30,7 @@ class HTML:
             value = ft.find_html(self.page.id)
             if value == 0:
                 return False
-            return ft.find_html(self.page.id)
+            return value
 
     def _save_html(self, text=False):
         t = text if text else self.text

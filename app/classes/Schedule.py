@@ -2,77 +2,54 @@ from bs4 import BeautifulSoup
 import tools.regex_tools as rt
 import tools.file_tools as ft
 import settings
-from classes.Events import Events
 from classes.Game import Game
 from classes.Page import Page
-from classes.Pitch import Pitch
-from datetime import date, datetime
+from datetime import datetime
 
+
+# This whole class might be excessive
 
 class Schedule:
-    def __init__(self, parent, page):
-        self.turnering = parent
+    def __init__(self, parent, url):
+        self.tournament = parent
         self.games: list[Game] = []
-        self.page = page
+        self.url = url
 
     def add_betting_data(self):
         ft.clear_betting_data(
-            str(self.turnering.name) + "_" + settings.current_date.year
+            str(self.tournament.name) + "_" + settings.DATE.year
         )
         for game in self.games:
             ft.add_betting_data(
-                game, str(self.turnering.name) + "_" + settings.current_date.year
+                game, str(self.tournament.name) + "_" + settings.DATE.year
             )
 
     def fetch_games(self):
+        self.page = Page(self.url)
         self.games = []
         document = BeautifulSoup(self.page.html.text, "html.parser")
-        table = document.find("table")
+        lastweek = document.find(class_="large-6 columns end")
+        matchweeks = document.find_all(class_="large-6 columns")
+        matchweeks.append(lastweek)
 
-        rows = table.find_all("tr")
-        column_names = [th.get_text(strip=True) for th in rows[0].find_all("th")]
-        assert "Hjemmelag" in column_names
-        for row in rows[1:]:
-            cells = row.find_all(["th", "td"])
-            if not cells:
-                continue
-            urls = rt.find_urls(str(row))
-            cells_text = [cell.get_text(strip=True) for cell in cells]
-            try:
-                (
-                    round,
-                    date,
-                    day,
-                    time,
-                    _,
-                    _hometeam,
-                    _result,
-                    _awayteam,
-                    _pitch,
-                    gameId,
-                ) = cells_text
-            except ValueError:  # Random error
-                (
-                    round,
-                    date,
-                    day,
-                    time,
-                    _,
-                    _hometeam,
-                    _result,
-                    _awayteam,
-                    _pitch,
-                    gameId,
-                    _live,
-                ) = cells_text
-            date = datetime.strptime(date, "%d.%m.%Y").date()
-            if self._is_played(date):
-                home = self.turnering.create_team(_hometeam, urls[1])
-                away = self.turnering.create_team(_awayteam, urls[3])
-                events = Events(Page(urls[2], valid_from=date))
-                pitch = Pitch(Page(urls[4], valid_from=date))
-                game = Game(round, date, day, time, home, events, away, pitch, gameId)
-                self.games.append(game)
+        for matchweek in matchweeks:
+            doc = BeautifulSoup(str(matchweek), "html.parser")
+            table = doc.find("table")
+            rows = table.find_all("tr")
+            for row in rows[1:]:
+                cells = row.find_all(["th", "td"])
+                if not cells:
+                    continue
+                cells_text = [cell.get_text(strip=True) for cell in cells]
+                if len(cells_text) == 7:
+                    if cells_text[0]:
+                        date = datetime.strptime(cells_text[0][3:], "%m/%d/%y").date()
+                    if self._is_played(date):
+                        urls = rt.find_urls(str(row))
+                        for url in urls:
+                            if "spielbericht" in url:
+                                game = Game(url, self.tournament, valid_from=date)
+                                self.games.append(game)
 
     def _is_played(self, d):
-        return d < date.today()
+        return d < settings.DATE

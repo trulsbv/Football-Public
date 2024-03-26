@@ -32,7 +32,7 @@ def find_event(event_list: list, event_type: Event):
     return_types = []
     if event_type == Event.Goal:
         types.append(Event.PlayGoal)
-        types.append(Event.PenaltyGoal)
+        types.append(Event.Penalty)
     elif event_type == Event.Booking:
         types.append(Event.RedCard)
         types.append(Event.YellowCard)

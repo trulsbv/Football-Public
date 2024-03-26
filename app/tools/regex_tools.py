@@ -1,8 +1,9 @@
 import re
 
+
 def find_urls(
     html: str,
-    base_url: str = "https://www.fotball.no",
+    base_url: str = "https://www.transfermarkt.com",
     output: str | None = None,
 ) -> set[str]:
     """
@@ -67,6 +68,37 @@ def find_urls(
         for item in urls:
             f.write(item + "\n")
     return urls
+
+
+def tm_player_birth(string: str) -> None | str:
+    type = r'<span class="info-table__content info-table__content--regular">'
+    type += r'Date of birth\/Age:<.[^\d]*\d\d\d\d-\d\d-\d\d">(.[^(]*) \(\d\d'
+    return tm_player_data(string, type)
+
+
+def tm_player_height(string: str) -> None | str:
+    type = r'<span class="info-table__content info-table__content--regular">'
+    type += r'Height:.[^\d]*(\d,\d+)'
+    return tm_player_data(string, type)
+
+
+def tm_player_nationality(string: str) -> None | str:
+    type = r'<img alt="(.[^"]*)" class="flaggenrahmen"'
+    return tm_player_data(string, type)
+
+
+def tm_player_position(string: str) -> None | str:
+    type = r'<span class="info-table__content info-table__content--regular">'
+    type += r'Position:.[^\n]*\n.[^\n]*>\n(.[^<]*)<'
+    return tm_player_data(string, type)
+
+
+def tm_player_data(string: str, type: str) -> None | str:
+    id_pat = re.compile(type)
+    match = id_pat.search(string)
+    if match:
+        return match.group(1)
+    return None
 
 
 def find_league_from_url(url: str) -> bool | str:

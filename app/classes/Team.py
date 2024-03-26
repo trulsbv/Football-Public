@@ -3,12 +3,12 @@ import tools.regex_tools as rt
 import tools.file_tools as ft
 import tools.statistic_tools as statt
 import settings
-from bs4 import BeautifulSoup
 from classes.Page import Page
+from bs4 import BeautifulSoup
 from classes.Player import Player
 from classes.Event import (
     OwnGoal,
-    PenaltyGoal,
+    Penalty,
     PlayGoal,
     RedCard,
     YellowCard,
@@ -17,14 +17,12 @@ from classes.Event import (
 
 
 class Team:
-    def __init__(self, page, tournament):
-        self.tournament = tournament
-        self.players: list[Player] = []
-        self.page = page
-        self.name = None
+    def __init__(self, url, tournament):
+        self.tournament = tournament  # TODO: Don't work with multiple competitons
+        self.url = url
+
         self.games = {"home": [], "away": []}
         self.conceded_goals = []
-        self._init_players()
         self.points = 0
         self.goal_diff = 0
         self.goals_scored_home = 0
@@ -33,6 +31,58 @@ class Team:
         self.goals_conceded_away = 0
         self.goals_scored_total = 0
         self.goals_conceded_total = 0
+        self._load()
+
+    def _load(self):
+        data = ft.get_json(ft.TF_url_to_id(self.url), "Teams")
+
+        if data:
+            self.name = data["data"]["name"]
+            self.nickname = data["data"]["nickname"]
+            self.players: list[Player] = []
+            urls = data["data"]["player_urls"].split(",")
+            for i in range(len(urls)):
+                urls[i] = urls[i].replace("'", "").replace("[", "").replace("]", "").strip()
+            for url in urls:
+                self.players.append(Player(self, url=url))
+        else:
+            self.page = Page(self.url)
+            document = BeautifulSoup(self.page.html.text, "html.parser")
+            table = document.find("table", class_="items")
+            rows = table.find_all("tr")
+            self.player_urls = set()
+            for row in rows[1:]:
+                cells = row.find_all(["th", "td"])
+                if not cells:
+                    continue
+                urls = rt.find_urls(str(row))
+                for url in urls:
+                    if "profil" in url:
+                        self.player_urls.add(url)
+
+            self.players: list[Player] = []
+            for url in self.player_urls:
+                self.players.append(Player(self, url=url))
+
+            data = document.find("h1", class_="data-header__headline-wrapper")
+            self.name = " ".join(data.get_text().strip().split())
+            self.nickname = input(f"\n{self.name} as: ")
+
+            ft.write_json(self._to_json(), ft.TF_url_to_id(self.url), "Teams")
+
+    def _to_json(self):
+        m = {
+            "meta": {
+                "version": 1,
+                "date": str(settings.DATE)
+            },
+            "data": {
+                "name": self.name,
+                "nickname": self.nickname,
+                "player_urls": str(list(self.player_urls))
+            }
+        }
+        return m
 
     def stat_to_str(self, lst) -> str:
         s = ""
@@ -44,7 +94,7 @@ class Team:
         return s
 
     def print_team_stats(self) -> None:
-        stats = [Goal, PlayGoal, PenaltyGoal, OwnGoal, YellowCard, RedCard]
+        stats = [Goal, PlayGoal, Penalty, OwnGoal, YellowCard, RedCard]
         team_stats = {}
         for player in self.players:
             player_stats = player.get_player_stats(stats)
@@ -73,14 +123,12 @@ class Team:
         return out
 
     def add_game(self, game):
-        self.tournament.weather.add(game.weather.conditions)
         self.tournament.pitches["surfaces"].add(game.pitch.surface)
         home, away = game.score
-        (
+        if game.home == self:
             self.games["home"].append(game)
-            if game.home == self
-            else self.games["away"].append(game)
-        )
+        else:
+            self.games["away"].append(game)
         if game.home == self:
             self.goal_diff += home - away
             self.goals_scored_home += home
@@ -106,14 +154,11 @@ class Team:
             exit()
 
     def print_team(self):
-        self.players.sort()
+        self.players.sort(key=lambda x: x.position)
         a = 55 - len(self)
         prints.header(f"{self} ({len(self.players)}){' '*a}(ST, SI, SO, BE)")
         for player in self.players:
             prints.row(f"   {player.print_row()}")
-
-    def set_navn(self):
-        self.name = self._set_navn()
 
     def get_player_influence(self):
         output = {}
@@ -152,9 +197,21 @@ class Team:
             first = False
             player.print_influence(individual)
 
+    def get_player_names(self):
+        names = []
+        for player in self.players:
+            names.append(player.name)
+        return names
+
+    def get_player_urls(self):
+        names = []
+        for player in self.players:
+            names.append(player.url)
+        return names
+
     def get_player(
         self,
-        name="UnreportedPlayer",
+        name=False,
         url=False,
         warning=False,
         number=False,
@@ -168,31 +225,20 @@ class Team:
         for player in self.players:
             if url == player.url:
                 return player
+            if name == player.name:
+                return player
         if warning:
             prints.warning(
                 self,
                 f"Created a new player: {name} ({url}), lacking number and position",
             )
-        player = Player(self, name, url)
+        if not url:
+            ft.log(name)
+            prints.error(self, f"{name} does not have URL!")
+        player = Player(self, url)
         ft.log(f"Created {player} ({url})")
         self.players.append(player)
         return player
-
-    def _init_players(self):
-        url = self.page.url.replace("hjem", "spillere")
-        players = Page(url)
-        document = BeautifulSoup(players.html.text, "html.parser")
-        ul = document.find("section")
-        for found in ul.find_all("li"):
-            number, link, name, position = rt.get_player_info(found)
-            player = self.get_player(name, link)
-            player.number = number
-            player.position = position
-
-    def _set_navn(self):
-        if not rt.get_team_name(self.page.html.text):
-            exit()
-        return rt.get_team_name(self.page.html.text)
 
     def _set_krets(self):
         return rt.get_krets(self.html.text)
@@ -201,15 +247,7 @@ class Team:
         return len(self.name.title().replace("Menn Senior ", ""))
 
     def __repr__(self) -> str:
-        if self.name is None:
-            self.set_navn()
-
-        return (
-            self.name.title()
-            .replace("Menn Senior ", "")
-            .replace(" A", "")
-            .replace(" Men 01", "")
-        )
+        return self.nickname
 
     def __eq__(self, other) -> bool:
         if isinstance(other, str):

@@ -7,6 +7,7 @@ import json
 import settings
 import traceback
 
+main_data = {}
 
 log_entries = 0
 log_first = True
@@ -59,8 +60,59 @@ def add_betting_data(data: map, id: str, extension: str = ".csv") -> None:
     file.close()
 
 
-def write_analysis(data, id, extension):
-    folder = create_folder(["analysis"])
+def TF_url_to_id(url):
+    url = url.split(".com/")[1].replace("/", "_")
+    return url
+
+
+def push_json():
+    folder = create_folder()
+    file = find_file(folder, (settings.CURRENT_TOURNAMENT + ".json"))
+    if not file:
+        file = folder / (settings.CURRENT_TOURNAMENT + ".json")
+    file = open(file, "w", encoding="UTF-8")
+    json.dump(main_data, file, indent=4, ensure_ascii=False)
+
+
+def write_json(data: map, id: str, folder: str):
+    global main_data
+    if main_data is None:
+        read_json()
+    if folder not in main_data:
+        main_data[folder] = {}
+    main_data[folder][id] = data
+    push_json()
+
+
+def read_json():
+    global main_data
+    folder = create_folder()
+    file = find_file(folder, (settings.CURRENT_TOURNAMENT + ".json"))
+    if not file:
+        return
+    file = open(file, encoding="UTF-8")
+    s = ""
+    for line in file.readlines():
+        s += line.rstrip()
+    main_data = json.loads(s)
+
+
+def _write_json(data: map, id: str, folder: str, extension: str = ".json") -> None:
+    if folder == "Players":
+        first = id[0]
+        if "-" in id:
+            second = id.split("-")[1][0]
+        else:
+            second = "_"
+        folder = create_folder([str(folder), first, second])
+    elif folder == "Games":
+        folder = create_folder([str(folder), id[:2]])
+    elif folder == "Pitches":
+        folder = create_folder([str(folder), id.split("_")[3][1]])
+    elif folder == "Teams":
+        folder = create_folder([str(folder), id[0]])
+    else:
+        folder = create_folder([str(folder)])
     file = find_file(folder, str(id) + extension)
     if not file:
         file = folder / (str(id) + extension)
@@ -68,15 +120,18 @@ def write_analysis(data, id, extension):
     json.dump(data, file, indent=4, ensure_ascii=False)
 
 
-def get_analysis(id, extension):
-    folder = create_folder(["analysis"])
-    file = find_file(folder, id + extension)
-    file = open(file, encoding="UTF-8")
-    s = ""
-    for line in file.readlines():
-        s += line.rstrip()
-    d = json.loads(s)
-    return d
+def get_json(id: str, folder: str) -> map:
+    """
+    Returns map from json file stored in folder, with id and extension
+
+    Returns None if the file can't be found
+    """
+    global main_data
+    if main_data is None or folder not in main_data or id not in main_data[folder]:
+        read_json()
+    if folder not in main_data or id not in main_data[folder]:
+        return None
+    return main_data[folder][id]
 
 
 def is_analysed(id, extension):
@@ -101,10 +156,12 @@ def find_file(folder, name):
     Output:
         - Path file or False
     """
-
     folder = Path(folder)
     file = folder / name
     if file.is_file():
+        if file not in settings.FILES_FETCHED:
+            settings.FILES_FETCHED[file] = 0
+        settings.FILES_FETCHED[file] += 1
         return file
     return False
 
@@ -177,6 +234,7 @@ def load_json(id):
     for line in file.readlines():
         s += line.rstrip()
     d = json.loads(s)
+    file.close()
     return d
 
 
@@ -203,8 +261,11 @@ def save_json(id, data):
     file.close()
 
 
-def create_folder(inp):
-    folders = ["files"] + [str(settings.current_date.year)] + inp
+def create_folder(inp: str = ""):
+    if inp:
+        folders = ["files"] + [str(settings.DATE.year)] + inp
+    else:
+        folders = ["files"] + [str(settings.DATE.year)]
     place = str(os.curdir)
     for folder in folders:
         place += "/" + folder
@@ -259,7 +320,7 @@ def get_baneinfo(html):
 
 
 def log(msg):
-    if not settings.log_bool:
+    if not settings.LOG_BOOL:
         return
     global log_entries
     global log_first

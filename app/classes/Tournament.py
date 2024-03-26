@@ -1,19 +1,17 @@
-from bs4 import BeautifulSoup
-from classes.Page import Page
 from classes.Schedule import Schedule
 from classes.Team import Team
+from classes.Page import Page
 import tools.regex_tools as rt
 import tools.prints as prints
 
 
 class Tournament:
-    def __init__(self, parent):
+    def __init__(self, parent, url):
         self.mainpage = parent
-        self.name = None
         self.schedule = None
         self.team = {}
         self.analyser = None
-        self.page = None
+        self.page = Page(url)
         self.weather = set()
         self.pitches = {"surfaces": set()}
 
@@ -33,7 +31,7 @@ class Tournament:
         print(f"POS | {'TEAM':>20} | GP ( H/A ) | GS ( H/A ) | GC ( H/A ) | +/- | P ")
         print("-" * 76)
         for team in self._get_league_table():
-            s = f"{i:>3} | {team.name:>20} | "
+            s = f"{i:>3} | {team.nickname:>15} | "
             s += f"{str(len(team.games['home']) + len(team.games['away'])):>2} "
             s += f"({str(len(team.games['home'])):>2}/{str(len(team.games['away'])):>2}) | "
             s += f"{str(team.goals_scored_total):>2} ({str(team.goals_scored_home):>2}/"
@@ -73,19 +71,24 @@ class Tournament:
         ...
 
     def _get_schedule_url(self):
-        document = BeautifulSoup(self.page.html.text, "html.parser")
-        ml = document.find(class_="match-list")
-        btn = ml.find_next(class_="btn btn--default")
-        return rt.find_urls(str(btn))[0]
+        urls = rt.find_urls(self.page.html.text)
+        for url in urls:
+            if "gesamtspielplan" in url:
+                return url  # TODO: Not very safe? But works for now
+
+    def get_team(self, name, url):
+        if name in self.team:
+            return self.team[name]
+        return self.create_team(name, url)
 
     def create_team(self, name, url):
         if name not in self.team:
-            self.team[name] = Team(Page(url), self)
+            self.team[name] = Team(url, self)
             self.team[name].name = name
         return self.team[name]
 
     def create_schedule(self):
-        self.schedule = Schedule(self, Page(self._get_schedule_url()))
+        self.schedule = Schedule(self, self._get_schedule_url())
 
     def get_top_performers(self):
         output = []
@@ -112,4 +115,4 @@ class Tournament:
         self.page.html.title < other.page.html.title
 
     def __repr__(self) -> str:
-        return self.name
+        return self.page.html.title

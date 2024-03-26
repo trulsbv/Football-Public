@@ -1,26 +1,88 @@
 from classes.Event import (
     OwnGoal,
-    PenaltyGoal,
+    Penalty,
     PlayGoal,
     RedCard,
     YellowCard,
     Goal,
 )
 import tools.prints as prints
+import tools.regex_tools as rt
+import tools.file_tools as ft
 import tools.statistic_tools as statt
+from classes.Page import Page
 import settings
+from bs4 import BeautifulSoup
+from datetime import datetime
 
 
 class Player:
-    def __init__(self, team, name, url):
+    def __init__(self, team, url):
         self.team = team
-        self.name = name
         self.url = url
-        self.number = False
-        self.position = False
+        self._load()
+
         self.matches = {"started": [], "sub in": {}, "sub out": {}, "benched": []}
         self.events = []
         self.influence = {}
+
+    def _load(self):
+        data = ft.get_json(ft.TF_url_to_id(self.url), "Players")
+        settings.NUMBER_OF_PLAYERS += 1
+        if not settings.NUMBER_OF_PLAYERS % 7:
+            prints.info(f"Reading players from json: {settings.NUMBER_OF_PLAYERS}")
+        if data:
+            self.name = data["data"]["name"]
+            self.number = data["data"]["number"]
+            self.birthday = data["data"]["birthday"]
+            self.height = data["data"]["height"]
+            self.position = data["data"]["position"]
+            self.nationality = data["data"]["nationality"]
+            return True
+        self.page = Page(self.url, search=False)
+        document = BeautifulSoup(self.page.html.text, "html.parser")
+        data = document.find("h1", class_="data-header__headline-wrapper")
+        try:
+            self.number = int(data.get_text().strip().split()[0].strip("#"))
+            self.name = " ".join(data.get_text().strip().split()[1:])
+        except ValueError:
+            self.number = None
+            self.name = " ".join(data.get_text().strip().split())
+
+        table = document.find(class_="info-table info-table--right-space")
+        if not table:
+            table = document.find(class_="info-table info-table--right-space min-height-audio")
+        if not table:
+            print(f"Could not find stats for {self.name}")
+        self.birthday = rt.tm_player_birth(str(table))
+        if self.birthday:
+            self.birthday = datetime.strptime(self.birthday, '%b %d, %Y').strftime('%d/%m/%Y')
+        self.height = rt.tm_player_height(str(table))
+        if self.height:
+            self.height = float(self.height.replace(",", "."))
+        self.nationality = rt.tm_player_nationality(str(table))
+        self.position = rt.tm_player_position(str(table))
+        if self.position:
+            self.position = self.position.strip()
+        ft.write_json(self._to_json(), ft.TF_url_to_id(self.url), "Players")
+        return False
+
+    def _to_json(self):
+        m = {
+            "meta": {
+                "version": 1,
+                "date": str(settings.DATE)
+            },
+            "data": {
+                "name": self.name,
+                "number": self.number,
+                "birthday": str(self.birthday),
+                "height": str(self.height),
+                "position": self.position,
+                "nationality": self.nationality,
+            }
+        }
+        return m
 
     def print_stats(self) -> None:
         """
@@ -32,7 +94,7 @@ class Player:
         for time in container:
             s += f"-{time:<3} "
         print(s)
-        stats = [Goal, PlayGoal, PenaltyGoal, OwnGoal, YellowCard, RedCard]
+        stats = [Goal, PlayGoal, Penalty, OwnGoal, YellowCard, RedCard]
         s = " Min played: "
         minutes = [0 for _ in range(len(container))]
 
@@ -97,9 +159,9 @@ class Player:
                 fin = self.matches["sub out"][game].current_score
                 out_time = self.matches["sub out"][game].time
             else:
-                fin = game.result.get_result()
+                fin = game.get_result()
                 out_time = 90
-            end = game.result.get_result()
+            end = game.get_result()
             results_while_playing.append((game, (cur, fin, end), (in_time, out_time)))
 
         for game in self.matches["sub in"]:
@@ -110,13 +172,12 @@ class Player:
                 fin = self.matches["sub out"][game].current_score
                 out_time = self.matches["sub out"][game].time
             else:
-                fin = game.result.get_result()
+                fin = game.get_result()
                 out_time = 90
-            end = game.result.get_result()
+            end = game.get_result()
             results_while_playing.append((game, (cur, fin, end), (in_time, out_time)))
-        results_while_playing.sort(
-            key=lambda x: x[0].date
-        )  # (x[0].date.year, x[0].date.month, x[0].date.day)
+        results_while_playing.sort(key=lambda x: x[0].date)
+        # (x[0].date.year, x[0].date.month, x[0].date.day)
         return results_while_playing
 
     def get_goals(self):
@@ -185,17 +246,18 @@ class Player:
     def print_row(self) -> str:
         s = ""
         if self.position:
-            s += f"{self.position.upper():>8}, "
+            s += f"{self.position.upper():>30}, "
         else:
             s += "          "
-
         split = self.name.split(" ")
-        name = (
-            f"{split[0]} ... {split[-1]}"
-            if len(self.name.split(" ")) > 4 and len(self.name) > 40
-            else self.name
-        )
-        s += f"{name:>40}"
+        if len(self.name.split(" ")) >= 3 and len(self.name) > 25:
+            if len(" ".join(split[1:-1])) < len(" ... "):
+                name = f"{split[0][0]}. {split[-1]}"
+            else:
+                name = f"{split[0]} ... {split[-1]}"
+        else:
+            name = self.name
+        s += f"{name:>25}"
         if self.number:
             s += f", {self.number:>2} - "
         else:
@@ -243,7 +305,7 @@ class Player:
                     self.influence["goals_for"] += goals_for
                     self.influence["goals_against"] += goals_against
                     self.influence["num_games"] += 1
-                    self.influence["num_minutes"] += (sub_time[1]) - sub_time[0]
+                    self.influence["num_minutes"] += (sub_time[1] - sub_time[0])
                 output.append(
                     [game, loc, sub_time, pre, post, end, goals_for, goals_against]
                 )
@@ -333,5 +395,5 @@ class Player:
             f"{home_post:>2} - {away_post:<2} {personal_res:<4} | {loc}",
             f"| Result {end[0]:>2} - {end[1]:<2} {actual_res:<4} | for:",
             f"{goals_for:>2}, agst: {goals_against:>2}, tot: {total_goals:>3}",
-            f"| {game.date}, {game.opponent(self.team)}",
+            f"| {game.date}, {game.opponent(self.team).nickname}",
         )

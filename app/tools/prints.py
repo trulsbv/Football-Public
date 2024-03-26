@@ -2,7 +2,7 @@ from colorama import Fore, Back
 import time
 
 time_start = 0.0
-prev_len = 0
+prev_len = 100  # This should be 0, but stress
 pos = "✓"
 neg = "✘"
 prev_str = ""
@@ -73,6 +73,15 @@ def start(where: str) -> None:
     prev_str = where
     time_start = time.perf_counter()
     _prints(s, False, meta)
+
+
+def failed(where) -> None:
+    """
+    Finishes the timer due to error and prints the time
+    """
+    t = round((time.perf_counter() - START_TIME), 3)
+    message = f"{Fore.RED}{neg}{Fore.RESET} {t} s: {where}"
+    _prints(message, newline=True)
 
 
 def error(where: any, message: any = "No reason given, sorry.") -> None:
