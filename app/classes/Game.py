@@ -91,12 +91,20 @@ class Game:
                     case "Penalty":
                         k = event["keeper_url"]
                         keeper = None if not k else opposition.get_player(url=k)
+                        assist = None
+                        if event["fouled"]:
+                            fouled = team.get_player(url=event["fouled"]["player_url"])
+                            assist = Assist(player=fouled,
+                                            info=event["fouled"]["info"])
                         pen = Penalty(game=self,
                                       time=int(event["time"]),
                                       team=team,
                                       player=team.get_player(url=event["player_url"]),
                                       goal=event["goal"],
-                                      keeper=keeper)
+                                      keeper=keeper,
+                                      fouled=assist)
+                        if assist:
+                            assist.goal = pen
                         self.events.append(pen)
                     case "OwnGoal":
                         own = OwnGoal(game=self,
@@ -116,6 +124,8 @@ class Game:
                                         player=team.get_player(url=event["player_url"]),
                                         assist=assist,
                                         info=event["info"])
+                        if assist:
+                            assist.goal = goal
                         self.events.append(goal)
                     case "Yellow card":
                         card = YellowCard(game=self,
@@ -263,7 +273,9 @@ class Game:
                     splitted = data[1].split(",")
                     if len(splitted) > 1:
                         if splitted[0] in team.get_player_names():
-                            assist = Assist(team.get_player(name=splitted[0]), splitted[1])
+                            info = splitted[1] if "Assist of the Season" not in splitted[1] else ""
+
+                            assist = Assist(team.get_player(name=splitted[0]), info)
                         else:
                             p.warning(self, f"{splitted[0]} does not play for {team}")
 
@@ -277,18 +289,22 @@ class Game:
                     continue
                 if "PENALTY" in splitted[1].upper():
                     player = team.get_player(name=splitted[0])
+
                     if team == self.home:
                         keeper_team = self.away_xi
                     else:
                         keeper_team = self.home_xi
                     keeper = None
-                    for player in keeper_team:
-                        if player.position == "Goalkeeper":
-                            keeper = player
+                    for plyer in keeper_team:
+                        if plyer.position == "Goalkeeper":
+                            keeper = plyer
                             break
                     if not keeper:
                         p.warning(self, "No keeper found at penalty")
-                    self.events.append(Penalty(self, time, team, player, True, keeper))
+                    g = Penalty(self, time, team, player, True, keeper, assist)
+                    if assist:
+                        assist.goal = g
+                    self.events.append(g)
                     continue
                 g = PlayGoal(self,
                              time=time,
@@ -339,7 +355,9 @@ class Game:
                     if "spieler" in url and "leistungsdatendetails" not in url:
                         inout.append(url)
                 time = self.px_to_minute(rt.standard_reg(sub, r'(-\d+px -\d+)'))
-                reason = rt.standard_reg(sub, r'hide-for-small">,(.[^<]*)<').strip()
+                reason = rt.standard_reg(sub, r'hide-for-small">,(.[^<]*)<')
+                if reason:
+                    reason = reason.strip()
                 if len(inout) == 2:
                     player_in, player_out = inout
                     self.events.append(Substitute(self,
@@ -361,6 +379,8 @@ class Game:
                 xi.append(player)
 
             table = document.find("table")
+            self.home_manager = None
+            self.away_manager = None
             for url in rt.find_urls(str(table)):
                 if "spieler" in url:
                     player = team.get_player(url=url)
@@ -406,16 +426,41 @@ class Game:
         self.page = Page(self.url, self.valid_from)
         document = BeautifulSoup(self.page.html.text, "html.parser")
         self.gameId = self.url.split("/")[-1]
-        matchday, date, time = document.find(
-            class_="sb-datum hide-for-small").get_text(strip=True).split("|")
-        self.round = matchday.split(".")[0]
-        self.day, self.date = date.split(", ")
-        self.date = datetime.strptime(self.date, "%m/%d/%y").date()
-        self.time = datetime.strptime(time.strip(), "%H:%M PM")
-        if "PM" in time:
-            self.time = str(self.time + timedelta(hours=12)).split(" ")[1]
+        items = document.find(class_="sb-datum hide-for-small").get_text(strip=True).split("|")
+        matchday = None
+        date = None
+        time = None
+        for item in items:
+            if "day" in item:
+                matchday = item
+            if "/" in item:
+                date = item
+            if ":" in item:
+                time = item
+
+        if matchday:
+            self.round = matchday.split(".")[0]
         else:
-            self.time = str(self.time).split(" ")[1]
+            self.round = None
+            p.warning(self.url, "Round not found")
+
+        if date:
+            self.day, self.date = date.split(", ")
+            self.date = datetime.strptime(self.date, "%m/%d/%y").date()
+        else:
+            self.day = None
+            self.date = None
+            p.warning(self.url, "Day/date not found")
+
+        if time:
+            self.time = datetime.strptime(time.strip(), "%H:%M PM")
+            if "PM" in time:
+                self.time = str(self.time + timedelta(hours=12)).split(" ")[1]
+            else:
+                self.time = str(self.time).split(" ")[1]
+        else:
+            self.time = None
+            p.warning(self.url, "Time not found")
 
         hometeam = document.find(class_="sb-team sb-heim")
         url = rt.find_urls(str(hometeam))[0]
@@ -566,8 +611,8 @@ class Game:
     def __repr__(self) -> str:
         s = ""
         s += f"{self.date} {self.home.nickname}"
-        if self.date > settings.DATE and self.score:
-            s += f" {self.score} "
+        if self.score:
+            s += f" {self.score[0]}-{self.score[1]} "
         else:
             s += " - "
         s += f"{self.away.nickname}"

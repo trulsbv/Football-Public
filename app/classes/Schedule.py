@@ -4,10 +4,9 @@ import tools.file_tools as ft
 import settings
 from classes.Game import Game
 from classes.Page import Page
-from datetime import datetime
-
-
+from datetime import datetime, timedelta
 # This whole class might be excessive
+
 
 class Schedule:
     def __init__(self, parent, url):
@@ -26,6 +25,10 @@ class Schedule:
 
     def fetch_games(self):
         self.page = Page(self.url)
+        date_string = self.page.html.text.split("\n")[0]
+        date_object = datetime.strptime(date_string, "%Y-%m-%d").date()
+        if date_object < settings.DATE:
+            self.page.html.force_fetch_html()
         self.games = []
         document = BeautifulSoup(self.page.html.text, "html.parser")
         lastweek = document.find(class_="large-6 columns end")
@@ -44,12 +47,25 @@ class Schedule:
                 if len(cells_text) == 7:
                     if cells_text[0]:
                         date = datetime.strptime(cells_text[0][3:], "%m/%d/%y").date()
-                    if self._is_played(date):
+                        time = self.convert_time(cells_text[1])
+                    if self._is_played(date, time):
                         urls = rt.find_urls(str(row))
                         for url in urls:
-                            if "spielbericht" in url:
+                            if "spielbericht" in url and "-" not in cells_text[4]:
+                                print(url)
                                 game = Game(url, self.tournament, valid_from=date)
                                 self.games.append(game)
 
-    def _is_played(self, d):
+    def _is_played(self, d, t):
+        t_datetime = datetime.combine(settings.DATE, t)
+        t_plus3 = t_datetime + timedelta(hours=3)
+        print(f"\n{d} <= {settings.DATE}:", d <= settings.DATE)
+        print(f"{t_plus3.time()} <= {settings.TIME()}:", t_plus3.time() <= settings.TIME())
+        if d == settings.DATE and t_plus3.time() <= settings.TIME():
+            return True
         return d < settings.DATE
+
+    def convert_time(self, cells_text):
+        time_format = "%I:%M %p"
+        time = datetime.strptime(cells_text, time_format).time()
+        return time

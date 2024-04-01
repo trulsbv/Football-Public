@@ -84,6 +84,22 @@ def write_json(data: map, id: str, folder: str):
     push_json()
 
 
+def delete_analysis(team: str = ""):
+    global main_data
+    read_json()
+    if not team:
+        main_data.pop("Games")
+        push_json()
+        return
+    remove = set()
+    for game in main_data["Games"]:
+        if team in game:
+            remove.add(game)
+    for game in remove:
+        main_data["Games"].pop(game)
+    push_json()
+
+
 def read_json():
     global main_data
     folder = create_folder()
@@ -220,6 +236,30 @@ def save_html(id, html, extension):
     file.write(str(d.today()) + "\n")
     file.write(html)
     file.close()
+
+
+def delete_html(id: str = "", url: str = "", extension: str = ".html") -> None:
+    """
+    Takes a id and deletes the file associated to it
+    Input:
+        - String id
+
+    Output:
+        - None
+    """
+    if not id and url:
+        id = url.replace("https://www.", "")
+        id = id[:-1] if id[-1] == "/" else id
+
+    splitted = id.split("/")
+    filename = splitted[-1].replace("?", "")
+    folder = create_folder(splitted[:-1])
+    file = find_file(folder, str(filename) + extension)
+    print(folder, filename)
+    if file:
+        os.remove(file)
+        return True
+    return False
 
 
 def load_json(id):

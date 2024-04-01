@@ -11,37 +11,47 @@ from menu import menu
 
 def main() -> None:
     if len(sys.argv) > 1 and sys.argv[1] == "-help":
-        args = ["-test", "-testES", "-test2"]
+        args = ["OBOS",
+                "Eliteserien",
+                "PremierLeague",
+                "PostNord1",
+                "LaLiga",
+                "2023",
+                "resetA"
+                ]
         print("Current valid arguments:")
         for arg in args:
             print(f" * {arg}")
         exit()
+    args = ", ".join(sys.argv[1:])
+    if len(sys.argv) > 1 and "-2023" in args:
+        settings.DATE = datetime.strptime("31.12.2023", "%d.%m.%Y").date()
+    if len(sys.argv) > 1 and "-resetA" in args:
+        settings.RESET_A = True
+    if len(sys.argv) > 1 and sys.argv[2] == "-deleteU":
+        print(f"Url {sys.argv[3]} deleted from files: {ft.delete_html(url=sys.argv[3])}")
+        exit()
 
-    if len(sys.argv) > 1 and sys.argv[1] == "-test":
-        settings.DATE = datetime.strptime("24.12.2023", "%d.%m.%Y").date()
+    if len(sys.argv) > 1 and "-OBOS" in args:
         settings.LEAGUES = ["OBOS-ligaen"]
         settings.COUNTRIES = ["Norway"]
-    elif len(sys.argv) > 1 and sys.argv[1] == "-testES":
-        settings.DATE = datetime.strptime("24.12.2023", "%d.%m.%Y").date()
+    elif len(sys.argv) > 1 and "-Eliteserien" in args:
         settings.LEAGUES = ["Eliteserien"]
         settings.COUNTRIES = ["Norway"]
-    elif len(sys.argv) > 1 and sys.argv[1] == "-testPL":
-        settings.DATE = datetime.today().date()
+    elif len(sys.argv) > 1 and "-PremierLeague" in args:
         settings.LEAGUES = ["Premier League"]
         settings.COUNTRIES = ["England"]
-    elif len(sys.argv) > 1 and sys.argv[1] == "-test2":
-        settings.DATE = datetime.strptime("24.04.2023", "%d.%m.%Y").date()
-        settings.LEAGUES = [
-            "Eliteserien",
-        ]
+    elif len(sys.argv) > 1 and "-PostNord1" in args:
+        settings.LEAGUES = ["PostNord-ligaen Avd. 1"]
         settings.COUNTRIES = ["Norway"]
+    elif len(sys.argv) > 1 and "-LaLiga" in args:
+        settings.LEAGUES = ["LaLiga"]
+        settings.COUNTRIES = ["Spain"]
     else:
-        settings.DATE = datetime.today().date()
         print("Suggested minimum terminal width:")
         print("-" * 145)
         input("[Enter]")
         os.system("cls" if os.name == "nt" else "clear")
-    settings.SURFACES = []
 
     update()
     menu(update)
@@ -79,10 +89,12 @@ def update() -> None:
 
             for leg in settings.LEAGUES:
                 settings.CURRENT_TOURNAMENT = leg
+                if settings.RESET_A:
+                    ft.delete_analysis()
+                    exit()
                 prints.start(f"Reading league: {leg}")
                 tournament = main.get_tournament(leg)
                 if not tournament:
-                    prints.failed(leg)
                     continue
                 tournament.name = leg
                 prints.success()

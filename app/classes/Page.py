@@ -1,5 +1,5 @@
 from classes.Html import HTML
-from datetime import date
+import settings
 
 
 class Page:
@@ -21,7 +21,7 @@ class Page:
         if not self.html.text:
             self._update_html()
             return
-        if self.html.text.split("\n")[0] != str(date.today()):
+        if self.html.text.split("\n")[0] != str(settings.DATE):
             self._update_html()
 
     def _update_html(self):
@@ -40,7 +40,6 @@ class Page:
     def __eq__(self, other):
         if isinstance(other, str):
             return other == self.url
-        # type(other) == Page:
         if isinstance(other, Page):
             return other.url == self.url
         return False

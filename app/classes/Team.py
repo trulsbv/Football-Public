@@ -155,10 +155,13 @@ class Team:
 
     def print_team(self):
         self.players.sort(key=lambda x: x.position)
-        a = 55 - len(self)
-        prints.header(f"{self} ({len(self.players)}){' '*a}(ST, SI, SO, BE)")
+        prints.header(f"{self} ({len(self.players)} players)")
+        s = " " * 22 + "POSITION"
+        s += " " * 23 + "NAME  NR   SRT  IN OUT BNCH  SCR AS."
+        s += "  WIN, LOSS, DRAW"
+        prints.header(s)
         for player in self.players:
-            prints.row(f"   {player.print_row()}")
+            prints.row(f"{player.print_row()}")
 
     def get_player_influence(self):
         output = {}

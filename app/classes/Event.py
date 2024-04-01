@@ -7,6 +7,10 @@ class Event:
         self.time = int(time)
         self.team = team
 
+    def info(self) -> str:
+        s = f"{self.game}, {self.time}, {self.team}"
+        return s
+
     def __repr__(self) -> str:
         return f"{self.time} "
 
@@ -18,6 +22,11 @@ class Booking(Event):
         self.player.events.append(self)
         self.reason = reason
 
+    def info(self) -> str:
+        s = super().info()
+        s += f", {self.player}, reason: {self.reason}"
+        return s
+
     def __repr__(self) -> str:
         return super().__repr__()
 
@@ -25,6 +34,11 @@ class Booking(Event):
 class YellowCard(Booking):
     def __init__(self, game, time, team, player, reason):
         super().__init__(game, time, team, player, reason)
+
+    def info(self) -> str:
+        s = super().info()
+        s += ", yellow card"
+        return s
 
     def __repr__(self) -> str:
         return super().__repr__() + " gult kort"
@@ -42,6 +56,11 @@ class YellowCard(Booking):
 class RedCard(Booking):
     def __init__(self, game, time, team, player, reason):
         super().__init__(game, time, team, player, reason)
+
+    def info(self) -> str:
+        s = super().info()
+        s += ", red card"
+        return s
 
     def __repr__(self) -> str:
         return super().__repr__() + " rødt kort"
@@ -74,10 +93,11 @@ class Substitute(Event):
 
             res = self.replace_item(xi, self._out, self._in)
             if res is False:
-                prints.warning(self, f"{self._out} not in xi? {xi}")
+                prints.warning(self, f"{self._out} not on pitch. {self.game.url}")
             res = self.replace_item(bench, self._in, self._out)
             if res is False:
-                prints.warning(self, f"{self._in} not on bench: {bench}")
+                if bench:  # Only display the warning if there is a bench
+                    prints.warning(self, f"{self._in} not on bench! {self.game.url}")
         else:
             self._in = None
             self._out = team.get_player(url=_out, warning=True)
@@ -87,7 +107,7 @@ class Substitute(Event):
                 xi = game.away_xi
             res = self.replace_item(xi, self._out, None)
             if res is False:
-                prints.warning(self, f"{self._out} not in xi? {xi}")
+                prints.warning(self, f"{self._out}. {self.game.url} not on pitch")
 
         self._out.matches["sub out"][game] = self
         if self._in:
@@ -111,6 +131,11 @@ class Substitute(Event):
                 lst[i] = new_item
                 return
         return False
+
+    def info(self) -> str:
+        s = super().info()
+        s += f", substitution, in: {self._in}, out: {self._out}, reason: {self.reason}"
+        return s
 
     def __repr__(self) -> str:
         return f"{self.team}, {self._in} => {self._out} ({self.game.date})"
@@ -137,17 +162,24 @@ class Assist():
     def __init__(self, player, info):
         self.player = player
         player.events.append(self)
-        self.info = info
+        self.inf = info.strip()
         self.goal = None
+
+    def info(self) -> str:
+        if self.goal:
+            s = f"{self.goal.game}, {self.goal.time}, {self.goal.team}"
+            s += f", assist, by: {self.player}, how: {self.inf}, to: {self.goal.player}"
+            return s
+        return f"No goal connected? {self.player}, {self.inf}"
 
     def to_json(self):
         return {
             "player_url": self.player.url,
-            "info": self.info,
+            "info": self.inf,
         }
 
     def __repr__(self) -> str:
-        return f"{self.how} by {self.player}"
+        return f"{self.inf} by {self.player}"
 
 
 class Goal(Event):
@@ -157,6 +189,11 @@ class Goal(Event):
         self.player.events.append(self)
         self.assist = assist
 
+    def info(self) -> str:
+        s = super().info()
+        s += f", goal, by: {self.player}, assist: {self.assist}"
+        return s
+
     def __repr__(self) -> str:
         return super().__repr__()
 
@@ -165,7 +202,12 @@ class PlayGoal(Goal):
     def __init__(self, game, time, team, player, assist, info):
         super().__init__(game, time, team, player, assist)
         game.opponent(team).conceded_goals.append(self)
-        self.info = info
+        self.inf = info
+
+    def info(self) -> str:
+        s = super().info()
+        s += f", active goal, how: {self.inf}"
+        return s
 
     def __repr__(self) -> str:
         if self.assist:
@@ -176,7 +218,7 @@ class PlayGoal(Goal):
         return {
             "type": "Playgoal",
             "time": self.time,
-            "info": self.info,
+            "info": self.inf,
             "assist": self.assist.to_json() if self.assist else None,
             "team_url": self.team.url,
             "player_url": self.player.url,
@@ -184,14 +226,20 @@ class PlayGoal(Goal):
 
 
 class Penalty(Goal):
-    def __init__(self, game, time, team, player, goal: bool, keeper):
-        super().__init__(game, time, team, player, False)
+    def __init__(self, game, time, team, player, goal: bool, keeper, fouled: any = False):
+        super().__init__(game, time, team, player, fouled)
         self.goal = goal
         self.keeper = keeper
-        if self.keeper:
-            self.keeper.events.append(self)
+        self.fouled = fouled
+        # if self.keeper:
+        #   self.keeper.events.append(self)
         if goal:
             game.opponent(team).conceded_goals.append(self)
+
+    def info(self) -> str:
+        s = super().info()
+        s += f", penalty, keeper: {self.keeper}"
+        return s
 
     def __repr__(self) -> str:
         return super().__repr__() + " penalty " + "goal" if self.goal else "miss"
@@ -203,7 +251,8 @@ class Penalty(Goal):
             "time": self.time,
             "team_url": self.team.url,
             "player_url": self.player.url,
-            "keeper_url": None if not self.keeper else self.keeper.url
+            "keeper_url": None if not self.keeper else self.keeper.url,
+            "fouled": self.fouled.to_json() if self.fouled else None,
         }
 
 
@@ -211,6 +260,11 @@ class OwnGoal(Goal):
     def __init__(self, game, time, team, player):
         super().__init__(game, time, team, player, None)
         team.conceded_goals.append(self)
+
+    def info(self) -> str:
+        s = super().info()
+        s += ", own goal"
+        return s
 
     def __repr__(self) -> str:
         return super().__repr__() + " own goal"

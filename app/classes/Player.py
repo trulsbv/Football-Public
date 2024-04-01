@@ -5,6 +5,7 @@ from classes.Event import (
     RedCard,
     YellowCard,
     Goal,
+    Assist,
 )
 import tools.prints as prints
 import tools.regex_tools as rt
@@ -40,6 +41,8 @@ class Player:
             self.nationality = data["data"]["nationality"]
             return True
         self.page = Page(self.url, search=False)
+        if not self.page.html.text:
+            self.page.html.force_fetch_html()
         document = BeautifulSoup(self.page.html.text, "html.parser")
         data = document.find("h1", class_="data-header__headline-wrapper")
         try:
@@ -180,7 +183,7 @@ class Player:
         # (x[0].date.year, x[0].date.month, x[0].date.day)
         return results_while_playing
 
-    def get_goals(self):
+    def num_goals(self):
         goals = statt.find_event(self.events, Goal)
         goal_counter = 0
         for g in goals:
@@ -189,6 +192,9 @@ class Player:
             else:
                 goal_counter += 1
         return goal_counter
+
+    def num_assists(self):
+        return len(statt.find_event(self.events, Assist))
 
     def get_num_games_result(self):
         win = 0
@@ -246,7 +252,7 @@ class Player:
     def print_row(self) -> str:
         s = ""
         if self.position:
-            s += f"{self.position.upper():>30}, "
+            s += f"{self.position.title():>30}, "
         else:
             s += "          "
         split = self.name.split(" ")
@@ -262,9 +268,9 @@ class Player:
             s += f", {self.number:>2} - "
         else:
             s += "       "
-        s += f"({len(self.matches['started']):>2}, {len(self.matches['sub in']):>2},"
-        s += f" {len(self.matches['sub out']):>2}, {len(self.matches['benched']):>2})"
-        s += f" - {self.get_goals():>2} goals"
+        s += f" {len(self.matches['started']):>2}, {len(self.matches['sub in']):>2},"
+        s += f" {len(self.matches['sub out']):>2}, {len(self.matches['benched']):>2} "
+        s += f" - {self.num_goals():>2}, {self.num_assists():>2}"
         res = self.get_num_games_result()
         if res:
             win, draw, loss = res
@@ -272,7 +278,8 @@ class Player:
             win_percent = round((win / sum) * 100, 2)
             draw_percent = round((draw / sum) * 100, 2)
             loss_percent = round((loss / sum) * 100, 2)
-            s += f" ({win} {win_percent}%, {draw} {draw_percent}%, {loss} {loss_percent}%)"
+            s += f" ({win:>2}, {draw:>2}, {loss:>2} |"
+            s += f" {win_percent:>5}%, {draw_percent:>5}%, {loss_percent:>5}%)"
         return s
 
     def get_influence(self):

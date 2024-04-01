@@ -28,9 +28,9 @@ def menu(update_function) -> None:
             if int(inp) == 2:
                 _print_team_influence()
             if int(inp) == 3:
-                menu_page(_print_top_performers, "Top performers for team")
+                _print_top_performers()
             if int(inp) == 4:
-                menu_page(_print_team_games, "See team games")
+                _print_team_games()
             if int(inp) == 5:
                 league_top_performers()
             if int(inp) == 6:
@@ -49,7 +49,7 @@ def menu(update_function) -> None:
             os.system("cls" if os.name == "nt" else "clear")
 
 
-def _list_items(items: list, per_page: int = 10, page=0) -> any:
+def _list_items(items: list, per_page: int = 10, page=0, accept_none=False) -> any:
     """
     Takes a list and items per page. Lets the user
     Choose one of the items in the list
@@ -66,20 +66,22 @@ def _list_items(items: list, per_page: int = 10, page=0) -> any:
         max_pages = max_pages + 1
 
     ctr = per_page * page
-    i = 1
+    i = 0
     inp = ""
     print(f"\nPage {page+1}/{max_pages}")
-    while ctr < len(items) and i - 1 < per_page:
+    while ctr < len(items) and i < per_page:
         print(f"[{i}] {items[ctr]}")
         ctr += 1
         i += 1
-    print(f"[1 - {per_page}] Select, " + "[Q] Quit, [P] Previous page, [N] Next page")
+    print(f"[0 - {per_page-1}] Select, " + "[Q] Quit, [P] Previous page, [N] Next page")
     inp = input(" => ")
+    if accept_none and inp == "":
+        return None
 
     if inp.isnumeric():
         inp = int(inp)
-        if not (inp <= 0 or inp >= i):
-            return items[page * per_page + inp - 1]
+        if not (inp < 0 or inp >= i):
+            return items[page * per_page + inp]
     else:
         inp = inp.upper()
         if inp == "Q":
@@ -105,12 +107,21 @@ def print_system_stats() -> None:
     print(f"Total: {prints.get_blue_back(sum(settings.FILES_FETCHED.values()))} times")
 
 
-def select_team() -> Team:
-    tournament = select_tournament()
-    team = _list_items(list(tournament.team), 10)
+def select_team(tournament: Tournament = None, accept_none: bool = False) -> Team:
+    if not tournament:
+        tournament = select_tournament()
+    team = _list_items(list(tournament.team), 10, accept_none=accept_none)
     if team:
         return tournament.team[team]
     return None
+
+
+def print_players_events() -> None:
+    team = select_team()
+    for player in team.players:
+        print(f"\n === {player} ===")
+        for event in player.events:
+            print(" * ", event.info())
 
 
 def print_surface_types() -> None:
@@ -171,25 +182,9 @@ def league_top_performers() -> None:
     """
     Prints a list of players from a user-chosen tournament
     """
-    inp = ""
-    while inp.upper() != "E" and inp.upper() != "Q":
-        print(
-            "Type club name to hightlight (case sensitive), "
-            + "to see clubs: type 'clubs'"
-        )
-        inp = input(" => ")
-        if inp == "":
-            select_tournament().print_top_performers()
-        elif inp.upper() == "CLS":
-            os.system("cls" if os.name == "nt" else "clear")
-            continue
-        elif inp.upper() == "CLUBS":
-            for club in club_list(settings.SAVED_TOURNAMENTS):
-                print(club)
-            continue
-        for league in settings.SAVED_TOURNAMENTS:
-            if inp in league.team:
-                select_tournament(inp).print_top_performers(inp)
+    tournament = select_tournament()
+    team = select_team(tournament=tournament, accept_none=True)
+    tournament.print_top_performers(team)
 
 
 def club_list(list_of_leagues: list[Tournament]) -> list[Team]:
@@ -211,13 +206,14 @@ def club_list(list_of_leagues: list[Tournament]) -> list[Team]:
     return clubs
 
 
-def _print_top_performers(team: Team) -> None:
+def _print_top_performers() -> None:
     """
     Prints players performances for a team
 
     Arguments:
         * Team
     """
+    team = select_team()
     team.print_top_performers()
     print()
 
