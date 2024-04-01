@@ -19,6 +19,7 @@ def menu(update_function) -> None:
         print("[6] League tables")
         print("[7] Player stats")
         print("[8] Team stats")
+        print("[9] Player events")
         print()
         print("[QUIT] Quit, [CLS] Clear, [S] Settings, [T] System stats")
         inp = input(" => ")
@@ -39,6 +40,8 @@ def menu(update_function) -> None:
                 choose_player_stats()
             if int(inp) == 8:
                 print_team_stats()
+            if int(inp) == 9:
+                print_players_events()
             continue
         if inp.upper() == "T":
             print_system_stats()
@@ -107,7 +110,14 @@ def print_system_stats() -> None:
     print(f"Total: {prints.get_blue_back(sum(settings.FILES_FETCHED.values()))} times")
 
 
+def force_team():
+    for team in settings.SAVED_TOURNAMENTS[0].team:
+        return settings.SAVED_TOURNAMENTS[0].team[team]
+
+
 def select_team(tournament: Tournament = None, accept_none: bool = False) -> Team:
+    if settings.FORCE:
+        return force_team()
     if not tournament:
         tournament = select_tournament()
     team = _list_items(list(tournament.team), 10, accept_none=accept_none)
@@ -119,9 +129,8 @@ def select_team(tournament: Tournament = None, accept_none: bool = False) -> Tea
 def print_players_events() -> None:
     team = select_team()
     for player in team.players:
-        print(f"\n === {player} ===")
-        for event in player.events:
-            print(" * ", event.info())
+        print(f"\n === {player} ({player.position}) ===")
+        player.print_events()
 
 
 def print_surface_types() -> None:

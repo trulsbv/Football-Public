@@ -52,15 +52,12 @@ class Schedule:
                         urls = rt.find_urls(str(row))
                         for url in urls:
                             if "spielbericht" in url and "-" not in cells_text[4]:
-                                print(url)
                                 game = Game(url, self.tournament, valid_from=date)
                                 self.games.append(game)
 
     def _is_played(self, d, t):
         t_datetime = datetime.combine(settings.DATE, t)
         t_plus3 = t_datetime + timedelta(hours=3)
-        print(f"\n{d} <= {settings.DATE}:", d <= settings.DATE)
-        print(f"{t_plus3.time()} <= {settings.TIME()}:", t_plus3.time() <= settings.TIME())
         if d == settings.DATE and t_plus3.time() <= settings.TIME():
             return True
         return d < settings.DATE

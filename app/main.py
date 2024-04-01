@@ -28,6 +28,8 @@ def main() -> None:
         settings.DATE = datetime.strptime("31.12.2023", "%d.%m.%Y").date()
     if len(sys.argv) > 1 and "-resetA" in args:
         settings.RESET_A = True
+    if len(sys.argv) > 1 and "-FORCE" in args:
+        settings.FORCE = True
     if len(sys.argv) > 1 and sys.argv[2] == "-deleteU":
         print(f"Url {sys.argv[3]} deleted from files: {ft.delete_html(url=sys.argv[3])}")
         exit()

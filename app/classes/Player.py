@@ -221,6 +221,11 @@ class Player:
 
         return (win, draw, loss)
 
+    def print_events(self):
+        for event in self.events:
+            data = event.info()
+            print(data)
+
     def __lt__(self, obj):
         return (self.name) < (obj.name)
 

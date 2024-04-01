@@ -5,6 +5,7 @@ def TIME():
     return datetime.now().time()
 
 
+FORCE = False
 DATE = datetime.today().date()
 FILES_FETCHED = {}
 NUMBER_OF_PLAYERS = 0

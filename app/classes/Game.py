@@ -610,10 +610,10 @@ class Game:
 
     def __repr__(self) -> str:
         s = ""
-        s += f"{self.date} {self.home.nickname}"
+        s += f"{self.date} {self.home.nickname:>10}"
         if self.score:
             s += f" {self.score[0]}-{self.score[1]} "
         else:
             s += " - "
-        s += f"{self.away.nickname}"
+        s += f"{self.away.nickname:<10}"
         return s
