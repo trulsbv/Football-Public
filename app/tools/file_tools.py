@@ -81,27 +81,31 @@ def write_json(data: map, id: str, folder: str):
     if folder not in main_data:
         main_data[folder] = {}
     main_data[folder][id] = data
-    push_json()
+    # push_json() # Saves all the time, very slow
 
 
-def delete_analysis(team: str = ""):
+def delete_analysis(team: str = "", selection: str = ""):
     global main_data
     read_json()
     if not team:
-        main_data.pop("Games")
+        if selection not in main_data:
+            return
+        main_data.pop(selection)
         push_json()
         return
     remove = set()
-    for game in main_data["Games"]:
+    for game in main_data[selection]:
         if team in game:
             remove.add(game)
     for game in remove:
-        main_data["Games"].pop(game)
+        main_data[selection].pop(game)
     push_json()
 
 
 def read_json():
     global main_data
+    if main_data:
+        return
     folder = create_folder()
     file = find_file(folder, (settings.CURRENT_TOURNAMENT + ".json"))
     if not file:
@@ -111,29 +115,6 @@ def read_json():
     for line in file.readlines():
         s += line.rstrip()
     main_data = json.loads(s)
-
-
-def _write_json(data: map, id: str, folder: str, extension: str = ".json") -> None:
-    if folder == "Players":
-        first = id[0]
-        if "-" in id:
-            second = id.split("-")[1][0]
-        else:
-            second = "_"
-        folder = create_folder([str(folder), first, second])
-    elif folder == "Games":
-        folder = create_folder([str(folder), id[:2]])
-    elif folder == "Pitches":
-        folder = create_folder([str(folder), id.split("_")[3][1]])
-    elif folder == "Teams":
-        folder = create_folder([str(folder), id[0]])
-    else:
-        folder = create_folder([str(folder)])
-    file = find_file(folder, str(id) + extension)
-    if not file:
-        file = folder / (str(id) + extension)
-    file = open(file, "w", encoding="UTF-8")
-    json.dump(data, file, indent=4, ensure_ascii=False)
 
 
 def get_json(id: str, folder: str) -> map:
@@ -148,10 +129,6 @@ def get_json(id: str, folder: str) -> map:
     if folder not in main_data or id not in main_data[folder]:
         return None
     return main_data[folder][id]
-
-
-def is_analysed(id, extension):
-    return find_file(create_folder(["analysis"]), id + extension)
 
 
 def url_to_folder_name(id, extension=".html"):
@@ -238,7 +215,7 @@ def save_html(id, html, extension):
     file.close()
 
 
-def delete_html(id: str = "", url: str = "", extension: str = ".html") -> None:
+def delete_html(id: str = "", url: str = "", extension: str = ".html") -> bool:
     """
     Takes a id and deletes the file associated to it
     Input:
@@ -255,7 +232,6 @@ def delete_html(id: str = "", url: str = "", extension: str = ".html") -> None:
     filename = splitted[-1].replace("?", "")
     folder = create_folder(splitted[:-1])
     file = find_file(folder, str(filename) + extension)
-    print(folder, filename)
     if file:
         os.remove(file)
         return True
@@ -303,9 +279,9 @@ def save_json(id, data):
 
 def create_folder(inp: str = ""):
     if inp:
-        folders = ["files"] + [str(settings.DATE.year)] + inp
+        folders = [settings.FOLDER] + [str(settings.DATE.year)] + inp
     else:
-        folders = ["files"] + [str(settings.DATE.year)]
+        folders = [settings.FOLDER] + [str(settings.DATE.year)]
     place = str(os.curdir)
     for folder in folders:
         place += "/" + folder
@@ -367,7 +343,7 @@ def log(msg):
     if log_first:
         clear_log()
         log_first = False
-    f = open("files/log.txt", "a", encoding="UTF-8")
+    f = open(f"{settings.FOLDER}/log.txt", "a", encoding="UTF-8")
     f.write(f"{log_entries}: {msg}\n")
     for line in traceback.format_stack():
         li = line.strip().replace('File "C:\\Users\\Truls\\Documents\\Fotball\\app', '..')
@@ -377,7 +353,7 @@ def log(msg):
 
 
 def clear_log():
-    f = open("files/log.txt", "w")
+    f = open(f"{settings.FOLDER}/log.txt", "w")
     f.write(str(d.today()) + "\n")
     f.close()
     global log_entries

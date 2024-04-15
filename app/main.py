@@ -5,55 +5,44 @@ from classes.Continent import Continent
 import tools.prints as prints
 import tools.file_tools as ft
 import settings
-import os
 from menu import menu
 
 
 def main() -> None:
-    if len(sys.argv) > 1 and sys.argv[1] == "-help":
-        args = ["OBOS",
-                "Eliteserien",
-                "PremierLeague",
-                "PostNord1",
-                "LaLiga",
-                "2023",
-                "resetA"
-                ]
+    args = ", ".join(sys.argv[1:])
+    if len(sys.argv) > 1 and "-help" in args:
+        pos_args = [
+            "           Run: -run [league] [country]",
+            "Run historical: -[year] [league] [country]",
+            "   Delete file: -deleteU [year] [url]",
+            "   Reset saved: -reset[P/G] [league] [country]",
+            "-OBOS",
+            "-Eliteserien",
+            "-PremierLeague",
+            "-PostNord1",
+            "-LaLiga",
+            ]
         print("Current valid arguments:")
-        for arg in args:
+        for arg in pos_args:
             print(f" * {arg}")
         exit()
-    args = ", ".join(sys.argv[1:])
-    if len(sys.argv) > 1 and "-2023" in args:
-        settings.DATE = datetime.strptime("31.12.2023", "%d.%m.%Y").date()
-    if len(sys.argv) > 1 and "-resetA" in args:
-        settings.RESET_A = True
-    if len(sys.argv) > 1 and "-FORCE" in args:
-        settings.FORCE = True
-    if len(sys.argv) > 1 and sys.argv[2] == "-deleteU":
-        print(f"Url {sys.argv[3]} deleted from files: {ft.delete_html(url=sys.argv[3])}")
+    if sys.argv[1] == "-run":
+        settings.LEAGUES = [sys.argv[2]]
+        settings.COUNTRIES = [sys.argv[3]]
+    if len(sys.argv[1]) == 5 and sys.argv[1].strip("-").isnumeric():
+        settings.DATE = datetime.strptime(f"31.12.{sys.argv[1].strip('-')}", "%d.%m.%Y").date()
+        settings.LEAGUES = [sys.argv[2]]
+        settings.COUNTRIES = [sys.argv[3]]
+    if sys.argv[1] == "-deleteU":
+        settings.DATE = datetime.strptime(f"31.12.{sys.argv[2].strip('-')}", "%d.%m.%Y").date()
+        print(f"Url {sys.argv[3]} deleted: {ft.delete_html(url=sys.argv[3])}")
         exit()
-
-    if len(sys.argv) > 1 and "-OBOS" in args:
-        settings.LEAGUES = ["OBOS-ligaen"]
-        settings.COUNTRIES = ["Norway"]
-    elif len(sys.argv) > 1 and "-Eliteserien" in args:
-        settings.LEAGUES = ["Eliteserien"]
-        settings.COUNTRIES = ["Norway"]
-    elif len(sys.argv) > 1 and "-PremierLeague" in args:
-        settings.LEAGUES = ["Premier League"]
-        settings.COUNTRIES = ["England"]
-    elif len(sys.argv) > 1 and "-PostNord1" in args:
-        settings.LEAGUES = ["PostNord-ligaen Avd. 1"]
-        settings.COUNTRIES = ["Norway"]
-    elif len(sys.argv) > 1 and "-LaLiga" in args:
-        settings.LEAGUES = ["LaLiga"]
-        settings.COUNTRIES = ["Spain"]
-    else:
-        print("Suggested minimum terminal width:")
-        print("-" * 145)
-        input("[Enter]")
-        os.system("cls" if os.name == "nt" else "clear")
+    if len(sys.argv) > 1 and "-resetP" in args:
+        settings.RESET_P = True
+    if len(sys.argv) > 1 and "-resetG" in args:
+        settings.RESET_G = True
+    if len(sys.argv) > 1 and "-mute" in args:
+        settings.NO_PRINT = True
 
     update()
     menu(update)
@@ -90,15 +79,24 @@ def update() -> None:
             main.avaliable_tournaments()
 
             for leg in settings.LEAGUES:
-                settings.CURRENT_TOURNAMENT = leg
-                if settings.RESET_A:
-                    ft.delete_analysis()
-                    exit()
-                prints.start(f"Reading league: {leg}")
+                if settings.RESET_P or settings.RESET_G:
+                    prints.start(f"Deleting data from: {leg}")
+                else:
+                    prints.start(f"Reading league: {leg}")
                 tournament = main.get_tournament(leg)
                 if not tournament:
                     continue
-                tournament.name = leg
+                name = tournament.page.html.title.strip(" | Transfermarkt").replace("/", "_")
+                settings.CURRENT_TOURNAMENT = name
+                if settings.RESET_P:
+                    ft.delete_analysis(selection="Players")
+                if settings.RESET_G:
+                    ft.delete_analysis(selection="Games")
+                if settings.RESET_P or settings.RESET_G:
+                    prints.success()
+                    prints.FINISH()
+                    exit()
+                tournament.name = name
                 prints.success()
 
                 prints.start("Schedule")
@@ -108,7 +106,7 @@ def update() -> None:
                 prints.start("Read games")
                 pn1_schedule = tournament.schedule
                 pn1_schedule.fetch_games()
-                prints.success()
+
                 ft.push_json()  # TODO: This might not be neeeded
                 settings.SAVED_TOURNAMENTS.append(tournament)
                 prints.success()

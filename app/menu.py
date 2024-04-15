@@ -5,6 +5,8 @@ import os
 from classes.Tournament import Tournament
 from classes.Team import Team
 from datetime import datetime
+import pandas as pd
+import export
 
 
 def menu(update_function) -> None:
@@ -20,6 +22,7 @@ def menu(update_function) -> None:
         print("[7] Player stats")
         print("[8] Team stats")
         print("[9] Player events")
+        print("[10] Export menu")
         print()
         print("[QUIT] Quit, [CLS] Clear, [S] Settings, [T] System stats")
         inp = input(" => ")
@@ -42,6 +45,8 @@ def menu(update_function) -> None:
                 print_team_stats()
             if int(inp) == 9:
                 print_players_events()
+            if int(inp) == 10:
+                export_menu()
             continue
         if inp.upper() == "T":
             print_system_stats()
@@ -50,6 +55,106 @@ def menu(update_function) -> None:
                 update_function()
         if inp.upper() == "CLS":
             os.system("cls" if os.name == "nt" else "clear")
+
+
+def export_menu():
+    types_of_export = [
+        "Players",
+        "Assist graph",
+        "Assist bar chart",
+        "Goal bar chart",
+        "Goals heatmap"
+        ]
+    what_to_export = _list_items(types_of_export)
+    if what_to_export == "Players":
+        export_players()
+    if what_to_export == "Assist graph":
+        export_assists_graph()
+    if what_to_export == "Assist bar chart":
+        export_bar("Assist")
+    if what_to_export == "Goal bar chart":
+        export_type = _list_items(["Goals scored", "Goals conceded"])
+        if export_type == "Goals scored":
+            export_bar("Goal")
+        if export_type == "Goals conceded":
+            export_bar("ConcededGoal")
+    if what_to_export == "Goals heatmap":
+        export_goals_heatmap()
+
+
+def export_players():
+    tournament = select_tournament()
+    frames = []
+    for team in tournament.team:
+        for player in tournament.team[team].players:
+            data = player.to_dict()
+            frames.append({**data, **{"team": team}})
+    df = pd.DataFrame(frames)
+    df.fillna("Unreported", inplace=True)
+    what_to_export = _list_items(["Tournament", "Team"])
+    if what_to_export == "Team":
+        df = df[df["team"] == select_team(tournament).name]
+    category = _list_items(df.columns)
+    df = df[category]
+    export.export_series(df, f"{category} for {what_to_export}")
+
+
+def export_bar(type):
+    tournament = select_tournament()
+    frames = []
+    for team in tournament.team:
+        for player in tournament.team[team].players:
+            df = player.events_to_df()
+            df["name"] = player.name
+            df["team"] = team
+            frames.append(df)
+    df = pd.concat(frames, ignore_index=True)
+    df = df[df["type"] == type]
+    df = df[["team", "by", "how"]]
+    print(df)
+    what_to_export = _list_items(["Tournament", "Team", "Player"])
+    if what_to_export == "Tournament":
+        export.export_assists(df, f"{type}s in {tournament.name}")
+    if what_to_export == "Team":
+        team = select_team(tournament)
+        df = df[df["team"] == team.name]
+        export.export_assists(df, f"{type}s by {team.name}")
+    if what_to_export == "Player":
+        player = select_player()
+        df = df[df["by"] == player.name]
+        export.export_assists(df, f"{type}s by {player.name}")
+
+
+def export_assists_graph():
+    team = select_team()
+    team.graphs["assists"].export_graph(team.name)
+
+
+def export_goals_heatmap():
+    tournament = select_tournament()
+    frames = []
+    for team in tournament.team:
+        for player in tournament.team[team].players:
+            df = player.events_to_df()
+            df["name"] = player.name
+            df["team"] = team
+            frames.append(df)
+
+    df = pd.concat(frames, ignore_index=True)
+    export_type = _list_items(["Goals scored", "Goals conceded"])
+    if export_type == "Goals scored":
+        df = df[df["type"] == "Goal"]
+    if export_type == "Goals conceded":
+        df = df[df["type"] == "ConcededGoal"]
+    df = df[["type", "time", "team", "name"]]
+
+    what_to_export = _list_items(["Tournament", "Team"])
+    if what_to_export == "Tournament":
+        export.export_heatmap(df, "team", f"{export_type} for {tournament.name}")
+    if what_to_export == "Team":
+        team = select_team(tournament)
+        df = df[df["team"] == team.name]
+        export.export_heatmap(df, "name", f"{export_type} for {team.name}")
 
 
 def _list_items(items: list, per_page: int = 10, page=0, accept_none=False) -> any:
@@ -76,7 +181,17 @@ def _list_items(items: list, per_page: int = 10, page=0, accept_none=False) -> a
         print(f"[{i}] {items[ctr]}")
         ctr += 1
         i += 1
-    print(f"[0 - {per_page-1}] Select, " + "[Q] Quit, [P] Previous page, [N] Next page")
+    s = "[0 - "
+    if len(items) < per_page:
+        s += f"{len(items)-1}"
+    else:
+        s += f"{per_page-1}"
+    s += "] Select"
+    if accept_none:
+        s += ", [Q] Quit"
+    if len(items) > per_page:
+        s += ", [P] Previous page, [N] Next page"
+    print(s)
     inp = input(" => ")
     if accept_none and inp == "":
         return None
@@ -108,6 +223,11 @@ def print_system_stats() -> None:
     for file in settings.FILES_FETCHED:
         print(f" * {file} accessed {prints.get_blue_back(settings.FILES_FETCHED[file])} time(s)")
     print(f"Total: {prints.get_blue_back(sum(settings.FILES_FETCHED.values()))} times")
+    ctr = 0
+    for tournament in settings.SAVED_TOURNAMENTS:
+        for team in tournament.team:
+            ctr += len(tournament.team[team].players)
+    print(f"Number of players: {ctr}")
 
 
 def force_team():
@@ -126,10 +246,15 @@ def select_team(tournament: Tournament = None, accept_none: bool = False) -> Tea
     return None
 
 
+def select_player(team: Team = None, accept_none: bool = False) -> Team:
+    if not team:
+        team = select_team()
+    return _list_items(list(team.players), 10, accept_none=accept_none)
+
+
 def print_players_events() -> None:
     team = select_team()
     for player in team.players:
-        print(f"\n === {player} ({player.position}) ===")
         player.print_events()
 
 
@@ -254,7 +379,14 @@ def _print_team_games() -> None:
     """
     team = select_team()
     for game in team.get_all_games():
-        print(game)
+        opponent = game.opponent(team)
+        if team == game.teams["home"]["team"]:
+            home = team.WDL_games(game.teams["home"]["previous"])
+            away = opponent.WDL_games(game.teams["away"]["previous"])
+        else:
+            home = opponent.WDL_games(game.teams["home"]["previous"])
+            away = team.WDL_games(game.teams["away"]["previous"])
+        prints.p(prints.mid(f"({home}) {game} ({away})", 64))
 
 
 def edit_surface() -> bool:
@@ -354,7 +486,9 @@ def league_table() -> None:
     """
     for league in settings.SAVED_TOURNAMENTS:
         print(f"\nLEAGUE: {league}")
-        league.print_league_table()
+        league.print_league_table_by_points()
+        print()
+        league.print_league_table_by_score()
 
 
 def print_team_stats() -> None:

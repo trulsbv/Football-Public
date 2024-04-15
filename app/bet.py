@@ -149,7 +149,7 @@ class League():
         win = 0
 
         for game in self.games:
-            home = game.home
+            home = game.teams["home"]["team"]
             total += 1
             if game.win(home):
                 win += 1
@@ -160,7 +160,7 @@ class League():
         win = 0
 
         for game in self.games:
-            home = game.away
+            home = game.teams["away"]["team"]
             total += 1
             if game.win(home):
                 win += 1

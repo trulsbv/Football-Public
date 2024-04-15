@@ -6,6 +6,7 @@ from classes.Event import (
     YellowCard,
     Goal,
     Assist,
+    ConcededGoal,
 )
 import tools.prints as prints
 import tools.regex_tools as rt
@@ -15,77 +16,33 @@ from classes.Page import Page
 import settings
 from bs4 import BeautifulSoup
 from datetime import datetime
+import pandas as pd
 
 
 class Player:
-    def __init__(self, team, url):
+    def __init__(self, team, url, graphs):
         self.team = team
         self.url = url
-        self._load()
-
+        self.graphs = graphs
+        self.datasets = []
         self.matches = {"started": [], "sub in": {}, "sub out": {}, "benched": []}
         self.events = []
         self.influence = {}
+        self.name = None
+        self.number = None
+        self.birthday = None
+        self.height = None
+        self.role = None
+        self.position = None
+        self.nationality = None
+        self.points = 0
+        self._load()
 
-    def _load(self):
-        data = ft.get_json(ft.TF_url_to_id(self.url), "Players")
-        settings.NUMBER_OF_PLAYERS += 1
-        if not settings.NUMBER_OF_PLAYERS % 7:
-            prints.info(f"Reading players from json: {settings.NUMBER_OF_PLAYERS}")
-        if data:
-            self.name = data["data"]["name"]
-            self.number = data["data"]["number"]
-            self.birthday = data["data"]["birthday"]
-            self.height = data["data"]["height"]
-            self.position = data["data"]["position"]
-            self.nationality = data["data"]["nationality"]
-            return True
-        self.page = Page(self.url, search=False)
-        if not self.page.html.text:
-            self.page.html.force_fetch_html()
-        document = BeautifulSoup(self.page.html.text, "html.parser")
-        data = document.find("h1", class_="data-header__headline-wrapper")
-        try:
-            self.number = int(data.get_text().strip().split()[0].strip("#"))
-            self.name = " ".join(data.get_text().strip().split()[1:])
-        except ValueError:
-            self.number = None
-            self.name = " ".join(data.get_text().strip().split())
-
-        table = document.find(class_="info-table info-table--right-space")
-        if not table:
-            table = document.find(class_="info-table info-table--right-space min-height-audio")
-        if not table:
-            print(f"Could not find stats for {self.name}")
-        self.birthday = rt.tm_player_birth(str(table))
-        if self.birthday:
-            self.birthday = datetime.strptime(self.birthday, '%b %d, %Y').strftime('%d/%m/%Y')
-        self.height = rt.tm_player_height(str(table))
-        if self.height:
-            self.height = float(self.height.replace(",", "."))
-        self.nationality = rt.tm_player_nationality(str(table))
-        self.position = rt.tm_player_position(str(table))
-        if self.position:
-            self.position = self.position.strip()
-        ft.write_json(self._to_json(), ft.TF_url_to_id(self.url), "Players")
-        return False
-
-    def _to_json(self):
-        m = {
-            "meta": {
-                "version": 1,
-                "date": str(settings.DATE)
-            },
-            "data": {
-                "name": self.name,
-                "number": self.number,
-                "birthday": str(self.birthday),
-                "height": str(self.height),
-                "position": self.position,
-                "nationality": self.nationality,
-            }
-        }
-        return m
+    def events_to_df(self):
+        temp = []
+        for event in self.events:
+            temp.append(event.to_dict())
+        return pd.DataFrame(temp)
 
     def print_stats(self) -> None:
         """
@@ -152,6 +109,31 @@ class Player:
         for stat in stats:
             output[stat] = statt.iterate_events(self.events, stat)
         return output
+
+    def get_points(self):
+        if not self.points or not self.minutes_played():
+            return 0
+        return round(self.points/self.minutes_played(), 4)
+
+    def minutes_played(self):
+        total = 0
+        for game in self.matches["started"]:
+            in_time = 0
+            if game in self.matches["sub out"]:
+                out_time = self.matches["sub out"][game].time
+            else:
+                out_time = 90
+            total += (out_time-in_time)
+
+        for game in self.matches["sub in"]:
+            in_time = self.matches["sub in"][game].time
+
+            if game in self.matches["sub out"]:
+                out_time = self.matches["sub out"][game].time
+            else:
+                out_time = 90
+            total += (out_time-in_time)
+        return total
 
     def results_while_playing(self):
         results_while_playing = []  # <-- (game, (before, after, end), (in, out))
@@ -222,42 +204,70 @@ class Player:
         return (win, draw, loss)
 
     def print_events(self):
+        WIDTH = 75
         for event in self.events:
-            data = event.info()
-            print(data)
-
-    def __lt__(self, obj):
-        return (self.name) < (obj.name)
-
-    def __repr__(self) -> str:
-        if not self.name:
-            return "None"
-        if len(self.name) > 30:
-            split = self.name.split(" ")
-            return f"{split[0]} ... {split[-1]}"
-        return self.name
-
-    def __hash__(self) -> int:
-        return hash(self.url)
-
-    def __eq__(self, other):
-        if isinstance(other, Player):
-            return self.url == other.url
-        if isinstance(other, str):
-            return self.name == other
+            if not isinstance(event, Assist):
+                continue
+            if isinstance(event, Assist):
+                s = f"({str(event.goal.time):>2}) Assist: "
+                s += prints.mid(f"{event.inf} to {event.goal.player}", WIDTH-len(s))
+            elif isinstance(event, PlayGoal):
+                s = f"({str(event.time):>2}) Goal: "
+                c = f"{event.inf}"
+                if event.assist:
+                    c += f", assist by {event.assist.player}"
+                s += prints.mid(c, WIDTH-len(s))
+            elif isinstance(event, Penalty):
+                s = f"({str(event.time):>2}) "
+                if event.goal:
+                    s += "Penalty: "
+                    c = f"Scored by {event.player}"
+                else:
+                    s += "Pen. Miss: "
+                    s += "Miss: "
+                if event.fouled:
+                    c += f", accuired by {event.assist.player}"
+                s += prints.mid(c, WIDTH-len(s))
+            elif isinstance(event, YellowCard):
+                s = f"({str(event.time):>2}) Yellow card: "
+                s += prints.mid(f"for {event.reason}", WIDTH-len(s))
+            elif isinstance(event, RedCard):
+                s = f"({str(event.time):>2}) Red card: "
+                s += prints.mid(f"for {event.reason}", WIDTH-len(s))
+            elif isinstance(event, ConcededGoal):
+                s = f"({str(event.goal.time):>2}) Conceded: "
+                s += prints.mid(f"{event.goal.inf} by {event.goal.player}", WIDTH-len(s))
+            else:
+                data = event.to_dict()
+                print(data)
+                continue
+            try:
+                s += f" | {event.game}"
+            except AttributeError:
+                s += f" | {event.goal.game}"
+            print(s)
 
     def get_analysis(self):
         return {
             "url": self.url,
             "name": self.name,
             "number": self.number,
+            "role": self.role,
             "position": self.position,
         }
 
+    def get_age(self):
+        if not self.birthday:
+            return None
+        today = settings.DATE
+        return today.year - self.birthday.year - ((today.month,
+                                                   today.day) < (self.birthday.month,
+                                                                 self.birthday.day))
+
     def print_row(self) -> str:
         s = ""
-        if self.position:
-            s += f"{self.position.title():>30}, "
+        if self.role:
+            s += f"{self.role.title():>10}, "
         else:
             s += "          "
         split = self.name.split(" ")
@@ -269,10 +279,16 @@ class Player:
         else:
             name = self.name
         s += f"{name:>25}"
+        age = self.get_age()
+        if age:
+            s += f" ({age})"
+        else:
+            s += "     "
         if self.number:
             s += f", {self.number:>2} - "
         else:
-            s += "       "
+            s += "     - "
+        s += f" {self.get_points():>5}"
         s += f" {len(self.matches['started']):>2}, {len(self.matches['sub in']):>2},"
         s += f" {len(self.matches['sub out']):>2}, {len(self.matches['benched']):>2} "
         s += f" - {self.num_goals():>2}, {self.num_assists():>2}"
@@ -290,6 +306,7 @@ class Player:
     def get_influence(self):
         output = []
         result = self.results_while_playing()
+        self.influence.clear()
         for res in result:
             if res:
                 game, results, sub_time = res
@@ -300,10 +317,10 @@ class Player:
                 goals_against = 0
                 loc = "Home"
 
-                if game.home == self.team:
+                if game.teams["home"]["team"] == self.team:
                     goals_for = home_post - home_pre
                     goals_against = away_post - away_pre
-                elif game.away == self.team:
+                elif game.teams["away"]["team"] == self.team:
                     goals_for = away_post - away_pre
                     goals_against = home_post - home_pre
                     loc = "Away"
@@ -323,10 +340,27 @@ class Player:
                 )
         return output
 
+    def get_playtime_game(self, game):
+        {"started": [], "sub in": {}, "sub out": {}, "benched": []}
+
+        for game in self.matches["started"]:
+            in_time = 0
+            out_time = 90
+            if game in self.matches["sub out"]:
+                out_time = self.matches["sub out"][game].time
+            return out_time-in_time
+
+        for game in self.matches["sub in"]:
+            in_time = self.matches["sub in"][game].time
+            out_time = 90
+            if game in self.matches["sub out"]:
+                out_time = self.matches["sub out"][game].time
+            return out_time-in_time
+        return 0
+
     def get_performance(self, category):
         if "goals_for" not in self.influence:
             if not self.get_influence():
-                print("No registered data for", self)
                 return
         p_tot = self.influence["goals_for"] - self.influence["goals_against"]
         ppg = (
@@ -334,12 +368,13 @@ class Player:
             if self.influence["num_games"] == 0
             else round(p_tot / self.influence["num_games"], 2)
         )
-        mpg = round(self.influence["num_minutes"] / self.influence["num_games"], 0)
+        if self.influence["num_games"]:
+            mpg = round(self.influence["num_minutes"] / self.influence["num_games"], 0)
+        else:
+            mpg = 0
         ppm = 0
-        try:
+        if self.influence["num_minutes"]:
             ppm = round(p_tot / self.influence["num_minutes"], 5)
-        finally:
-            ...
         li = [p_tot, ppg, mpg, ppm]
         if category == "p_tot":
             return [p_tot, li, self, self.team]
@@ -384,12 +419,12 @@ class Player:
         total_goals = goals_for - goals_against
         actual_res = prints.get_yellow_fore("(draw)")
         if end[0] > end[1]:
-            if game.home == self:
+            if game.teams["home"]["team"] == self:
                 actual_res = prints.get_green_fore("(win) ")
             else:
                 actual_res = prints.get_red_fore("(loss)")
         if end[0] < end[1]:
-            if game.home == self:
+            if game.teams["home"]["team"] == self:
                 actual_res = prints.get_red_fore("(loss)")
             else:
                 actual_res = prints.get_green_fore("(win) ")
@@ -409,3 +444,121 @@ class Player:
             f"{goals_for:>2}, agst: {goals_against:>2}, tot: {total_goals:>3}",
             f"| {game.date}, {game.opponent(self.team).nickname}",
         )
+
+    def _to_json(self):
+        m = {
+            "meta": {
+                "version": 1,
+                "date": str(settings.DATE)
+            },
+            "data": {
+                "name": self.name,
+                "number": self.number,
+                "birthday": str(self.birthday),
+                "height": str(self.height),
+                "foot": self.foot,
+                "role": self.role,
+                "position": self.position,
+                "nationality": self.nationality,
+            }
+        }
+        return m
+
+    def _load(self):
+        data = ft.get_json(ft.TF_url_to_id(self.url), "Players")
+        settings.NUMBER_OF_PLAYERS += 1
+        if not settings.NUMBER_OF_PLAYERS % 7:
+            prints.info(f"Reading players from json: {settings.NUMBER_OF_PLAYERS}")
+        if data:
+            self.name = data["data"]["name"]
+            self.number = data["data"]["number"]
+            if data["data"]["birthday"] != "None":
+                self.birthday = datetime.strptime(data["data"]["birthday"], "%d/%m/%Y")
+            else:
+                self.birthday = None
+            self.height = data["data"]["height"]
+            self.role = data["data"]["role"]
+            self.position = data["data"]["position"]
+            self.foot = data["data"]["foot"]
+            self.nationality = data["data"]["nationality"]
+            if self.role in self.team.player_by_role:
+                self.team.player_by_role[self.role].append(self)
+            else:
+                self.team.player_by_role[self.role] = [self]
+            return True
+        self.page = Page(self.url, search=False)
+        if not self.page.html.text:
+            self.page.html.force_fetch_html()
+        document = BeautifulSoup(self.page.html.text, "html.parser")
+        data = document.find("h1", class_="data-header__headline-wrapper")
+        try:
+            self.number = int(data.get_text().strip().split()[0].strip("#"))
+            self.name = " ".join(data.get_text().strip().split()[1:])
+        except ValueError:
+            self.number = None
+            self.name = " ".join(data.get_text().strip().split())
+
+        table = document.find(class_="info-table info-table--right-space")
+        if not table:
+            table = document.find(class_="info-table info-table--right-space min-height-audio")
+        if not table:
+            print(f"Could not find stats for {self.name}")
+        self.birthday = rt.tm_player_birth(str(table))
+        if self.birthday:
+            self.birthday = datetime.strptime(self.birthday, '%b %d, %Y').strftime('%d/%m/%Y')
+        self.height = rt.tm_player_height(str(table))
+        if self.height:
+            self.height = float(self.height.replace(",", "."))
+        self.nationality = rt.tm_player_nationality(str(table))
+        self.foot = rt.tm_player_foot(str(table))
+        res = rt.tm_player_position(str(table)).strip()
+        if res:
+            if res == "Goalkeeper":
+                self.position = "Goalkeeper"
+                self.role = "Goalkeeper"
+            else:
+                res = res.split(" - ")
+                if len(res) == 2:
+                    self.role, self.position = res
+                else:
+                    prints.warning("Player.py 406", f"{res} for {self.url}")
+                    self.role = res[0]
+                    self.position = None
+        if self.role in self.team.player_by_role:
+            self.team.player_by_role[self.role].append(self)
+        else:
+            self.team.player_by_role[self.role] = [self]
+        ft.write_json(self._to_json(), ft.TF_url_to_id(self.url), "Players")
+        return False
+
+    def to_dict(self) -> str:
+        return {
+            "name": self.name,
+            "number": self.number,
+            "age": self.get_age(),
+            "height": self.height,
+            "foot": self.foot,
+            "role": self.role,
+            "position": self.position,
+            "nationality": self.nationality
+            }
+
+    def __lt__(self, obj):
+        return (self.name) < (obj.name)
+
+    def __repr__(self) -> str:
+        if not self.name:
+            return "None"
+        if len(self.name) > 30:
+            split = self.name.split(" ")
+            return f"{split[0]} ... {split[-1]}"
+        return self.name
+
+    def __hash__(self) -> int:
+        return hash(self.url)
+
+    def __eq__(self, other):
+        if isinstance(other, Player):
+            return self.url == other.url
+        if isinstance(other, str):
+            return self.name == other

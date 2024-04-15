@@ -1,5 +1,7 @@
 from colorama import Fore, Back
+import settings
 import time
+import re
 
 time_start = 0.0
 prev_len = 100  # This should be 0, but stress
@@ -8,27 +10,34 @@ neg = "✘"
 prev_str = ""
 
 
-def fill_blanks(string: str, meta: int) -> str:
+def remove_color_codes(text):
+    color_pattern = re.compile(r"\x1b\[[0-9;]*m")
+    return color_pattern.sub("", text)
+
+
+def fill_blanks(string: str) -> str:
     """
     Takes a string and the number of characters that the previous string
     was, and fills the string with white-space if meta > len(string)
     Returns the string
     """
-    while len(string) - meta < prev_len:
+    while len(remove_color_codes(string)) < prev_len:
         string += " "
     if prev_str == "":
         string += "  "
     return string
 
 
-def _prints(s: str, newline: bool, meta: int = 0) -> None:
+def _prints(s: str, newline: bool) -> None:
     """
     Prints a string, and a newline if newline set true.
     Meta is used to calculate how many white-spaces is needed
     if there is no new-line
     """
+    if settings.NO_PRINT:
+        return
     global prev_len
-    s = fill_blanks(s, meta)
+    s = fill_blanks(s)
     if newline:
         if prev_str != "":
             print("  " + s)
@@ -39,7 +48,7 @@ def _prints(s: str, newline: bool, meta: int = 0) -> None:
             print("  " + s, end="\r")
         else:
             print(s, end="\r")
-        prev_len = len(s) - meta
+        prev_len = len(remove_color_codes(s))
 
 
 def success(where: str = None) -> None:
@@ -55,10 +64,9 @@ def success(where: str = None) -> None:
         s += f"{Fore.GREEN}{pos}{Fore.RESET} {where} ({t} s)"
     else:
         s += f"{Fore.GREEN}{pos}{Fore.RESET} {prev_str} ({t} s)"
-    meta = len(f"{Fore.RESET}{Fore.RESET}")
     prev_str = ""
 
-    _prints(s, True, meta)
+    _prints(s, True)
 
 
 def start(where: str) -> None:
@@ -69,10 +77,24 @@ def start(where: str) -> None:
     global prev_str
     global time_start
     s = f"{Fore.CYAN}→{Fore.RESET} {where}"
-    meta = len(f"{Fore.CYAN}{Fore.RESET}")
     prev_str = where
     time_start = time.perf_counter()
-    _prints(s, False, meta)
+    _prints(s, False)
+
+
+def p(word):
+    print(word)
+
+
+def mid(word, margins) -> str:
+    word = str(word)
+    word_length = len(remove_color_codes(word))
+    if word_length > margins:
+        error("prints mid()", f"'{word}' ({len(word)}) is larger than its margins ({margins})")
+        exit()
+    front = int((margins-word_length)/2)
+    back = int(margins-front-word_length)
+    return " "*front + word + " "*back
 
 
 def failed(where) -> None:
@@ -90,8 +112,7 @@ def error(where: any, message: any = "No reason given, sorry.") -> None:
     kind of error.
     """
     s = f"{Fore.RED}{neg}{Fore.RESET} {where}: {message}"
-    meta = len(f"{Fore.RED}{Fore.RESET}")
-    _prints(s, True, meta)
+    _prints(s, True)
 
 
 def warning(where: any = "", message: any = "", newline: bool = True) -> None:
@@ -106,8 +127,7 @@ def warning(where: any = "", message: any = "", newline: bool = True) -> None:
         - None
     """
     s = f"{Fore.YELLOW}{pos}{Fore.RESET} {where}{':'if message else ''} {message}"
-    meta = len(f"{Fore.YELLOW}{Fore.RESET}")
-    _prints(s, newline, meta)
+    _prints(s, newline)
 
 
 def download(url: str) -> None:
@@ -115,8 +135,7 @@ def download(url: str) -> None:
     Lets the user know the url is being downloaded
     """
     s = f"{Fore.CYAN}↓{Fore.RESET} {url}"
-    meta = len(f"{Fore.CYAN}{Fore.RESET}")
-    _prints(s, False, meta)
+    _prints(s, False)
 
 
 def info(message: any, sender: any = "?", newline: bool = False) -> None:
@@ -134,8 +153,7 @@ def STOP() -> None:
     global prev
     prev = False
     s = f"{Back.RED}{Fore.BLACK}STOPPING THE SCRIPT{Fore.RESET}{Back.RESET}"
-    meta = len(f"{Back.RED}{Fore.BLACK}{Fore.RESET}{Back.RESET}")
-    _prints(s, newline=True, meta=meta)
+    _prints(s, newline=True)
 
 
 def header(message: str) -> None:
@@ -163,7 +181,14 @@ def get_green_fore(message: any) -> str:
     """
     Takes a message and returns it with green text
     """
-    return f"{Fore.GREEN}{message}{Fore.RESET}"
+    return f"{Fore.LIGHTGREEN_EX}{message}{Fore.RESET}"
+
+
+def get_lightblack_fore(message: any) -> str:
+    """
+    Takes a message and returns it with green text
+    """
+    return f"{Fore.LIGHTBLACK_EX}{message}{Fore.RESET}"
 
 
 def get_yellow_fore(message: any) -> str:
@@ -185,6 +210,13 @@ def get_blue_back(message: any) -> str:
     Takes a message and returns it with blue background
     """
     return f"{Back.BLUE}{message}{Back.RESET}"
+
+
+def get_lightblack_back(message: any) -> str:
+    """
+    Takes a message and returns it with blue background
+    """
+    return f"{Back.LIGHTBLACK_EX}{message}{Back.RESET}"
 
 
 def get_fore_color_int(int) -> str:

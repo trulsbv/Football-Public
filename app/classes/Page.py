@@ -11,10 +11,8 @@ class Page:
         """
         self.url = url
         self.id = self._set_id()
-        self.fetched = False
         self.html = HTML(self, search, valid_from, extension)
         if force:
-            print("FORCE")
             self.html._set_html(force=True)
 
     def update_html(self):

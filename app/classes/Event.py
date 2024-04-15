@@ -7,9 +7,8 @@ class Event:
         self.time = int(time)
         self.team = team
 
-    def info(self) -> str:
-        s = f"{self.game}, {self.time}, {self.team}"
-        return s
+    def to_dict(self) -> str:
+        return {"game": self.game, "time": self.time, "team": self.team}
 
     def __repr__(self) -> str:
         return f"{self.time} "
@@ -22,26 +21,39 @@ class Booking(Event):
         self.player.events.append(self)
         self.reason = reason
 
-    def info(self) -> str:
-        s = super().info()
-        s += f", {self.player}, reason: {self.reason}"
-        return s
+    def to_dict(self) -> str:
+        cur = {
+            "type": "Booking",
+            "player": self.player,
+            "reason": self.reason if self.reason else "Unknown",
+        }
+        return {**cur, **super().to_dict()}
 
     def __repr__(self) -> str:
         return super().__repr__()
 
 
 class YellowCard(Booking):
-    def __init__(self, game, time, team, player, reason):
+    def __init__(
+        self, game=None, time=None, team=None, player=None, reason=None, lst=None
+    ):
+        if lst:
+            game = lst[0]
+            time = lst[1]
+            team = lst[2]
+            player = lst[3]
+            reason = lst[4]
         super().__init__(game, time, team, player, reason)
+        team.assign_points(self)
 
-    def info(self) -> str:
-        s = super().info()
-        s += ", yellow card"
-        return s
+    def to_dict(self) -> str:
+        cur = {
+            "card": "Yellow",
+        }
+        return {**cur, **super().to_dict()}
 
     def __repr__(self) -> str:
-        return super().__repr__() + " gult kort"
+        return super().__repr__() + " yellow card"
 
     def to_json(self):
         return {
@@ -54,16 +66,26 @@ class YellowCard(Booking):
 
 
 class RedCard(Booking):
-    def __init__(self, game, time, team, player, reason):
+    def __init__(
+        self, game=None, time=None, team=None, player=None, reason=None, lst=None
+    ):
+        if lst:
+            game = lst[0]
+            time = lst[1]
+            team = lst[2]
+            player = lst[3]
+            reason = lst[4]
         super().__init__(game, time, team, player, reason)
+        team.assign_points(self)
 
-    def info(self) -> str:
-        s = super().info()
-        s += ", red card"
-        return s
+    def to_dict(self) -> str:
+        cur = {
+            "card": "Red",
+        }
+        return {**cur, **super().to_dict()}
 
     def __repr__(self) -> str:
-        return super().__repr__() + " rødt kort"
+        return super().__repr__() + " red card"
 
     def to_json(self):
         return {
@@ -76,20 +98,28 @@ class RedCard(Booking):
 
 
 class Substitute(Event):
-    def __init__(self, game, time, team, players, reason):
+    def __init__(
+        self, game=None, time=None, team=None, players=None, reason=None, lst=None
+    ):
+        if lst:
+            game = lst[0]
+            time = lst[1]
+            team = lst[2]
+            players = lst[3]
+            reason = lst[4]
         super().__init__(game, time, team)
         self.reason = reason
         _out, _in = players
-        if _in:
-            self._out = team.get_player(url=_out, warning=True)
-            self._in = team.get_player(url=_in, warning=True)
+        if team == game.teams["home"]["team"]:
+            xi = game.teams["home"]["xi"]
+            bench = game.teams["home"]["bench"]
+        else:
+            xi = game.teams["away"]["xi"]
+            bench = game.teams["away"]["bench"]
 
-            if team == game.home:
-                xi = game.home_xi
-                bench = game.home_bench
-            else:
-                xi = game.away_xi
-                bench = game.away_bench
+        self._out = team.get_player(url=_out, warning=True)
+        if _in:
+            self._in = team.get_player(url=_in, warning=True)
 
             res = self.replace_item(xi, self._out, self._in)
             if res is False:
@@ -100,30 +130,24 @@ class Substitute(Event):
                     prints.warning(self, f"{self._in} not on bench! {self.game.url}")
         else:
             self._in = None
-            self._out = team.get_player(url=_out, warning=True)
-            if team == game.home:
-                xi = game.home_xi
-            else:
-                xi = game.away_xi
             res = self.replace_item(xi, self._out, None)
             if res is False:
-                prints.warning(self, f"{self._out}. {self.game.url} not on pitch")
+                prints.warning(self, f"{self._out} not on pitch! {self.game.url}")
 
         self._out.matches["sub out"][game] = self
         if self._in:
             self._in.matches["sub in"][game] = self
             if game not in self._in.matches["benched"]:
-                if team == game.home:
-                    game._save_home[1].append(self._in)
-                elif team == game.away:
-                    game._save_away[1].append(self._in)
+                if team == game.teams["home"]["team"]:
+                    game.teams["home"]["lineup"][1].append(self._in)
+                elif team == game.teams["away"]["team"]:
+                    game.teams["away"]["lineup"][1].append(self._in)
                 else:
                     prints.error(self, f"Failed to put {team} as home/away: {game}")
-
             else:
                 self._in.matches["benched"].remove(game)
-
         self.current_score = game.get_timed_result(self.time)
+        team.assign_points(self)
 
     def replace_item(self, lst, old_item, new_item):
         for i in range(len(lst)):
@@ -132,13 +156,20 @@ class Substitute(Event):
                 return
         return False
 
-    def info(self) -> str:
-        s = super().info()
-        s += f", substitution, in: {self._in}, out: {self._out}, reason: {self.reason}"
-        return s
+    def to_dict(self) -> str:
+        cur = {
+            "type": "Substitution",
+            "in": self._in,
+            "out": self._out,
+            "reason": self.reason if self.reason else "Unknown",
+        }
+        return {**cur, **super().to_dict()}
 
     def __repr__(self) -> str:
-        return f"{self.team}, {self._in} => {self._out} ({self.game.date})"
+        return (
+            super().__repr__()
+            + f"{self.team}, {self._in} => {self._out} ({self.game.date})"
+        )
 
     def to_json(self):
         out = None
@@ -159,18 +190,23 @@ class Substitute(Event):
 
 
 class Assist():
-    def __init__(self, player, info):
+    def __init__(self, player, info, url):
         self.player = player
         player.events.append(self)
         self.inf = info.strip()
         self.goal = None
+        self.url = url
 
-    def info(self) -> str:
-        if self.goal:
-            s = f"{self.goal.game}, {self.goal.time}, {self.goal.team}"
-            s += f", assist, by: {self.player}, how: {self.inf}, to: {self.goal.player}"
-            return s
-        return f"No goal connected? {self.player}, {self.inf}"
+    def to_dict(self) -> str:
+        return {
+            "type": "Assist",
+            "by": self.player,
+            "how": self.inf,
+            "to": "ERROR: Unknown" if not self.goal else self.goal.player,
+            "time": "ERROR: Unknown" if not self.goal else self.goal.time,
+            "game": "ERROR: Unknown" if not self.goal else self.goal.game,
+            "team": "ERROR: Unknown" if not self.goal else self.goal.team,
+        }
 
     def to_json(self):
         return {
@@ -179,40 +215,64 @@ class Assist():
         }
 
     def __repr__(self) -> str:
-        return f"{self.inf} by {self.player}"
+        if not self.goal:
+            return self.url
+        return f"Assist to {self.goal.player}: {self.inf} by {self.player}"
 
 
 class Goal(Event):
-    def __init__(self, game, time, team, player, assist):
+    def __init__(self, game, time, team, player, assist, keeper):
         super().__init__(game, time, team)
         self.player = player
         self.player.events.append(self)
         self.assist = assist
+        self.keeper = keeper
 
-    def info(self) -> str:
-        s = super().info()
-        s += f", goal, by: {self.player}, assist: {self.assist}"
-        return s
+    def to_dict(self) -> str:
+        cur = {
+            "type": "Goal",
+            "by": self.player,
+            "assist": self.assist,
+        }
+        return {**cur, **super().to_dict()}
 
     def __repr__(self) -> str:
         return super().__repr__()
 
 
 class PlayGoal(Goal):
-    def __init__(self, game, time, team, player, assist, info):
-        super().__init__(game, time, team, player, assist)
-        game.opponent(team).conceded_goals.append(self)
+    def __init__(
+        self,
+        game=None,
+        time=None,
+        team=None,
+        player=None,
+        assist=None,
+        info=None,
+        keeper=None,
+        lst=None,
+    ):
+        if lst:
+            game = lst[0]
+            time = lst[1]
+            team = lst[2]
+            player = lst[3]
+            assist = lst[4]
+            info = lst[5]
+            keeper = lst[6]
+        super().__init__(game, time, team, player, assist, keeper)
+        opponent = game.opponent(team)
+        opponent.conceded_goals.append(self)
+        ConcededGoal(self, game.get_keeper(opponent))
         self.inf = info
+        team.assign_points(self)
 
-    def info(self) -> str:
-        s = super().info()
-        s += f", active goal, how: {self.inf}"
-        return s
+    def to_dict(self) -> str:
+        cur = {"action": "Active", "assist": self.assist, "how": self.inf}
+        return {**cur, **super().to_dict()}
 
     def __repr__(self) -> str:
-        if self.assist:
-            return super().__repr__() + f" active play goal (assist: {self.assist})"
-        return super().__repr__() + " active play goal"
+        return super().__repr__() + f"Active goal by {self.player} against {self.keeper}"
 
     def to_json(self):
         return {
@@ -222,27 +282,51 @@ class PlayGoal(Goal):
             "assist": self.assist.to_json() if self.assist else None,
             "team_url": self.team.url,
             "player_url": self.player.url,
+            "keeper_url": self.keeper.url,
         }
 
 
 class Penalty(Goal):
-    def __init__(self, game, time, team, player, goal: bool, keeper, fouled: any = False):
-        super().__init__(game, time, team, player, fouled)
+    def __init__(
+        self,
+        game=None,
+        time=None,
+        team=None,
+        player=None,
+        goal=None,
+        fouled=False,
+        keeper=None,
+        lst=None,
+    ):
+        if lst:
+            game = lst[0]
+            time = lst[1]
+            team = lst[2]
+            player = lst[3]
+            goal = lst[4]
+            fouled = lst[5]
+            keeper = lst[6]
+        super().__init__(game, time, team, player, fouled, keeper)
         self.goal = goal
-        self.keeper = keeper
         self.fouled = fouled
-        # if self.keeper:
-        #   self.keeper.events.append(self)
+        self.inf = "Penalty"
         if goal:
-            game.opponent(team).conceded_goals.append(self)
+            opponent = game.opponent(team)
+            opponent.conceded_goals.append(self)
+            ConcededGoal(self, game.get_keeper(opponent))
+        team.assign_points(self)
 
-    def info(self) -> str:
-        s = super().info()
-        s += f", penalty, keeper: {self.keeper}"
-        return s
+    def to_dict(self) -> str:
+        cur = {
+            "action": "Penalty",
+            "keeper": self.keeper,
+            "fouled": self.fouled if self.fouled else "Unknown",
+            "goal": self.goal,
+        }
+        return {**cur, **super().to_dict()}
 
     def __repr__(self) -> str:
-        return super().__repr__() + " penalty " + "goal" if self.goal else "miss"
+        return super().__repr__() + " penalty goal" if self.goal else "miss"
 
     def to_json(self):
         return {
@@ -257,17 +341,27 @@ class Penalty(Goal):
 
 
 class OwnGoal(Goal):
-    def __init__(self, game, time, team, player):
-        super().__init__(game, time, team, player, None)
+    def __init__(self, game=None, time=None, team=None, player=None, keeper=None, lst=None):
+        if lst:
+            game = lst[0]
+            time = lst[1]
+            team = lst[2]
+            player = lst[3]
+            keeper = lst[4]
+        super().__init__(game, time, team, player, None, keeper)
         team.conceded_goals.append(self)
+        ConcededGoal(self, game.get_keeper(team))
+        team.assign_points(self)
+        self.inf = "Own goal"
 
-    def info(self) -> str:
-        s = super().info()
-        s += ", own goal"
-        return s
+    def to_dict(self) -> str:
+        cur = {
+            "type": "Own goal",
+        }
+        return {**cur, **super().to_dict()}
 
     def __repr__(self) -> str:
-        return super().__repr__() + " own goal"
+        return super().__repr__() + f"Own goal by {self.player} at {self.time}"
 
     def to_json(self):
         return {
@@ -275,4 +369,25 @@ class OwnGoal(Goal):
             "time": self.time,
             "team_url": self.team.url,
             "player_url": self.player.url,
+            "keeper_url": self.keeper.url,
         }
+
+
+class ConcededGoal():
+    def __init__(self, goal, keeper):
+        self.goal = goal
+        self.keeper = keeper
+        self.keeper.events.append(self)
+
+    def __repr__(self) -> str:
+        return f"{self.keeper} conceded goal to {self.goal.player}"
+
+    def to_dict(self) -> str:
+        return {
+                "type": "ConcededGoal",
+                "time": self.goal.time,
+                "by": self.keeper,
+                "goal": self.goal,
+                "game": self.goal.game,
+                "how": self.goal.inf
+            }

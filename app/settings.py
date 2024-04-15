@@ -5,6 +5,10 @@ def TIME():
     return datetime.now().time()
 
 
+def NOW():
+    return datetime.combine(DATE, TIME())
+
+
 FORCE = False
 DATE = datetime.today().date()
 FILES_FETCHED = {}
@@ -16,15 +20,9 @@ FRAME_SIZE = 5
 SAVED_TOURNAMENTS = []
 SURFACE_TYPES = []
 CURRENT_TOURNAMENT = ""
-RESET_A = False
-LEAGUES = [
-    "Eliteserien",
-    "OBOS-ligaen",
-    "PostNord-ligaen Avd. 1",
-    "PostNord-ligaen Avd. 2",
-    "Premier League"
-]
-COUNTRIES = [
-    "England",
-    "Norway"
-]
+RESET_P = False
+RESET_G = False
+LEAGUES = []
+COUNTRIES = []
+FOLDER = "files"
+NO_PRINT = False

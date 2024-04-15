@@ -14,6 +14,7 @@ class Tournament:
         self.page = Page(url)
         self.weather = set()
         self.pitches = {"surfaces": set()}
+        self.name = None
 
     def _get_league_table(self):
         out = []
@@ -26,11 +27,27 @@ class Tournament:
 
         return out
 
-    def print_league_table(self):
+    def current_position(self, team):
         i = 1
-        print(f"POS | {'TEAM':>20} | GP ( H/A ) | GS ( H/A ) | GC ( H/A ) | +/- | P ")
-        print("-" * 76)
-        for team in self._get_league_table():
+        for t in self._get_league_table():
+            if team == t:
+                return i
+            i += 1
+        prints.error("current_position", "team not in league")
+        exit()
+
+    def print_league_table_by_points(self):
+        self.print_league_table(self._get_league_table())
+
+    def print_league_table_by_score(self):
+        ut = sorted(self._get_league_table(), key=lambda x: x.average_player_points(), reverse=True)
+        self.print_league_table(ut)
+
+    def print_league_table(self, table):
+        i = 1
+        print(f"POS | {'TEAM':>15} | GP ( H/A ) | GS ( H/A ) | GC ( H/A ) | +/- | P | Rating")
+        print("-" * 81)
+        for team in table:
             s = f"{i:>3} | {team.nickname:>15} | "
             s += f"{str(len(team.games['home']) + len(team.games['away'])):>2} "
             s += f"({str(len(team.games['home'])):>2}/{str(len(team.games['away'])):>2}) | "
@@ -40,6 +57,7 @@ class Tournament:
             s += f"/{str(team.goals_conceded_away):>2}) | "
             s += f"{str(team.goal_diff):>3} | "
             s += f"{team.points}"
+            s += f" | {team.average_player_points()}"
             print(s)
             i += 1
 
@@ -90,26 +108,48 @@ class Tournament:
     def create_schedule(self):
         self.schedule = Schedule(self, self._get_schedule_url())
 
-    def get_top_performers(self):
+    def get_all_players(self):
         output = []
         for team in self.team:
-            output.extend(self.team[team].get_top_performers())
+            output.extend(self.team[team].players)
         return output
 
     def print_top_performers(self, hightlight: Team = None):
-        inp = sorted(self.get_top_performers(), key=lambda x: x[0], reverse=True)
-        for i in inp:
-            s = f"{i[2].team.nickname}{' '*(10-len(i[2].team.nickname))}"
-            s += f" | {str(i[2]):>30}, personal total: {str(i[1][0]):>3}"
-            s += f" | avg. {' '*(5-len(str(i[1][1])))}{prints.get_fore_color_int(i[1][1])}"
-            s += f" per game ({str(len(i[2].results_while_playing())):>2})"
-            s += f" | avg. {str(int(i[1][2])):>2} minutes per game"
-            s += f" | avg. {'' if i[1][3]<0 else ' '}{prints.get_fore_color_int(i[1][3])}"
-            s += f"{' '*(8-len(str(i[1][3])))} points per minute"
-            if hightlight and str(i[2].team).upper() == hightlight.nickname.upper():
-                print(prints.get_blue_back(s))
-            else:
+        tournament_players = sorted(self.get_all_players(),
+                                    key=lambda x: x.get_points(),
+                                    reverse=True)
+        tournament_players = sorted(tournament_players,
+                                    key=lambda x: x.role,
+                                    reverse=True)
+        defenders = list(filter(lambda player: player.role == "Defender", tournament_players))
+        attackers = list(filter(lambda player: player.role == "Attack", tournament_players))
+        midfielders = list(filter(lambda player: player.role == "midfield", tournament_players))
+        goalkeepers = list(filter(lambda player: player.role == "Goalkeeper", tournament_players))
+        for group in [attackers, midfielders, defenders, goalkeepers]:
+            for player in group:
+                possible_minutes = (len(player.team.games["home"]) +
+                                    len(player.team.games["away"]))*90
+                if player.minutes_played() == 0:
+                    continue
+                percentage_played = player.minutes_played()/possible_minutes
+                s = f"{prints.mid(player.team.nickname, 12)}"
+                s += f" | {prints.mid(player.role, 10)}"
+                s += f" | {prints.mid(player.name, 31)}"
+                s += f" | {prints.mid(player.get_points(), 7)}"
+                s += f" | {round(player.points, 4):<8}/ {player.minutes_played():<4}"
+                s += f" ({round((percentage_played)*100, 2)} %)"
+                if hightlight and str(player.team).upper() == hightlight.nickname.upper():
+                    s = prints.get_blue_back(s)
+                if percentage_played > 0.80:
+                    s = prints.get_green_fore(s)
+                if percentage_played < 0.50 and percentage_played > 0.20:
+                    s = prints.get_lightblack_fore(s)
+                if percentage_played < 0.20 and percentage_played > 0.10:
+                    s = prints.get_yellow_fore(s)
+                if percentage_played < 0.10:
+                    s = prints.get_red_fore(s)
                 print(s)
+            print()
 
     def __lt__(self, other):
         self.page.html.title < other.page.html.title

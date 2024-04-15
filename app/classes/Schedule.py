@@ -4,7 +4,7 @@ import tools.file_tools as ft
 import settings
 from classes.Game import Game
 from classes.Page import Page
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time
 # This whole class might be excessive
 
 
@@ -56,13 +56,13 @@ class Schedule:
                                 self.games.append(game)
 
     def _is_played(self, d, t):
-        t_datetime = datetime.combine(settings.DATE, t)
+        t_datetime = datetime.combine(d, t)
         t_plus3 = t_datetime + timedelta(hours=3)
-        if d == settings.DATE and t_plus3.time() <= settings.TIME():
-            return True
-        return d < settings.DATE
+        return t_plus3 <= settings.NOW()
 
-    def convert_time(self, cells_text):
+    def convert_time(self, t):
+        if t == "Unknown":
+            return time(20, 59)
         time_format = "%I:%M %p"
-        time = datetime.strptime(cells_text, time_format).time()
-        return time
+        t = datetime.strptime(t, time_format).time()
+        return t
