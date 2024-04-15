@@ -92,11 +92,11 @@ class Game:
                             category, int(self.teams[team]["stats"][category]), self)
             for team in ["home", "away"]:
                 for player in data[f"{team}_start"]:
-                    player = self.teams[team]["team"].get_player(url=player)
+                    player = self.teams[team]["team"].get_player(url=player, source_url=self.url)
                     self.teams[team]["xi"].append(player)
                     player.matches["started"].append(self)
                 for player in data[f"{team}_bench"]:
-                    player = self.teams[team]["team"].get_player(url=player)
+                    player = self.teams[team]["team"].get_player(url=player, source_url=self.url)
                     self.teams[team]["bench"].append(player)
                     player.matches["benched"].append(self)
                 self.teams[team]["lineup"] = [self.teams[team]["xi"].copy(),
@@ -124,16 +124,19 @@ class Game:
                     case "Penalty":
                         assist = None
                         if event["fouled"]:
-                            fouled = team.get_player(url=event["fouled"]["player_url"])
+                            fouled = team.get_player(url=event["fouled"]["player_url"],
+                                                     source_url=self.url)
                             assist = Assist(player=fouled,
                                             info=event["fouled"]["info"],
                                             url=self.url)
                         pen = Penalty(game=self,
                                       time=int(event["time"]),
                                       team=team,
-                                      player=team.get_player(url=event["player_url"]),
+                                      player=team.get_player(url=event["player_url"],
+                                                             source_url=self.url),
                                       goal=event["goal"],
-                                      keeper=opposition.get_player(url=event["keeper_url"]),
+                                      keeper=opposition.get_player(url=event["keeper_url"],
+                                                                   source_url=self.url),
                                       fouled=assist)
                         if assist:
                             assist.goal = pen
@@ -142,23 +145,28 @@ class Game:
                         own = OwnGoal(game=self,
                                       time=int(event["time"]),
                                       team=team,
-                                      player=team.get_player(url=event["player_url"]),
-                                      keeper=opposition.get_player(url=event["keeper_url"]))
+                                      player=team.get_player(url=event["player_url"],
+                                                             source_url=self.url),
+                                      keeper=opposition.get_player(url=event["keeper_url"],
+                                                                   source_url=self.url))
                         self.events.append(own)
                     case "Playgoal":
                         assist = None
                         if event["assist"]:
-                            player = team.get_player(url=event["assist"]["player_url"])
+                            player = team.get_player(url=event["assist"]["player_url"],
+                                                     source_url=self.url)
                             assist = Assist(player=player,
                                             info=event["assist"]["info"],
                                             url=self.url)
                         goal = PlayGoal(game=self,
                                         time=int(event["time"]),
                                         team=team,
-                                        player=team.get_player(url=event["player_url"]),
+                                        player=team.get_player(url=event["player_url"],
+                                                               source_url=self.url),
                                         assist=assist,
                                         info=event["info"],
-                                        keeper=opposition.get_player(url=event["keeper_url"]))
+                                        keeper=opposition.get_player(url=event["keeper_url"],
+                                                                     source_url=self.url))
                         if assist:
                             assist.goal = goal
                             team.graphs["assists"].add_edge(assist.player.name,
@@ -168,14 +176,16 @@ class Game:
                         card = YellowCard(game=self,
                                           time=int(event["time"]),
                                           team=team,
-                                          player=team.get_player(url=event["player_url"]),
+                                          player=team.get_player(url=event["player_url"],
+                                                                 source_url=self.url),
                                           reason=event["reason"])
                         self.events.append(card)
                     case "Red card":
                         card = RedCard(game=self,
                                        time=int(event["time"]),
                                        team=team,
-                                       player=team.get_player(url=event["player_url"]),
+                                       player=team.get_player(url=event["player_url"],
+                                                              source_url=self.url),
                                        reason=event["reason"])
                         self.events.append(card)
                     case _:
@@ -260,12 +270,12 @@ class Game:
             keeper = chosen.pop(0)
             taker = chosen.pop(0)
             if keeper in self.teams["home"]["team"].get_player_urls():
-                keeper = self.teams["home"]["team"].get_player(url=keeper)
-                taker = self.teams["away"]["team"].get_player(url=taker)
+                keeper = self.teams["home"]["team"].get_player(url=keeper, source_url=self.url)
+                taker = self.teams["away"]["team"].get_player(url=taker, source_url=self.url)
                 team = self.teams["away"]["team"]
             else:
-                keeper = self.teams["away"]["team"].get_player(url=keeper)
-                taker = self.teams["home"]["team"].get_player(url=taker)
+                keeper = self.teams["away"]["team"].get_player(url=keeper, source_url=self.url)
+                taker = self.teams["home"]["team"].get_player(url=taker, source_url=self.url)
                 team = self.teams["home"]["team"]
             px = rt.standard_reg(document, r'(-\d+px -\d+)')
             time = self.px_to_minute(px)
@@ -294,7 +304,8 @@ class Game:
                         if splitted[0] in team.get_player_names():
                             info = splitted[1] if "Assist of the Season" not in splitted[1] else ""
 
-                            assist = Assist(team.get_player(name=splitted[0]), info, url=self.url)
+                            assist = Assist(team.get_player(name=splitted[0], source_url=self.url),
+                                            info, url=self.url)
                         else:
                             prints.warning(self, f"{splitted[0]} does not play for {team}")
 
@@ -305,10 +316,11 @@ class Game:
                                              self,
                                              time,
                                              temp_team,
-                                             temp_team.get_player(name=splitted[0])])
+                                             temp_team.get_player(name=splitted[0],
+                                                                  source_url=self.url)])
                     continue
                 if "PENALTY" in splitted[1].upper():
-                    player = team.get_player(name=splitted[0])
+                    player = team.get_player(name=splitted[0], source_url=self.url)
                     self.temp_events.append(["Penalty",
                                              self,
                                              time,
@@ -322,7 +334,7 @@ class Game:
                                         self,
                                         time,
                                         team,
-                                        team.get_player(name=splitted[0]),
+                                        team.get_player(name=splitted[0], source_url=self.url),
                                         assist,
                                         info])
 
@@ -336,7 +348,9 @@ class Game:
                 time = self.px_to_minute(rt.standard_reg(card, r'(-\d+px -\d+)'))
                 name = rt.standard_reg(player, r'title="(.[^"]*)"')
                 type = rt.standard_reg(player, r'title=".[^\n]*\n(.[^<]*)<').strip()
-                player = team.get_player(name=name)
+                u = "https://www.transfermarkt.com" + rt.standard_reg(player, r'href="(.*)/saison')
+                url = u.replace("leistungsdatendetails", "profil")
+                player = team.get_player(name=name, url=url, source_url=self.url)
                 if "," in type:
                     color, reason = (type.split(","))
                     reason = reason.strip()
@@ -384,14 +398,14 @@ class Game:
         data = document.find_all(class_="large-7 columns small-12 aufstellung-vereinsseite")
         if data:
             for url in rt.find_urls(str(data[0])):
-                player = team.get_player(url=url)
+                player = team.get_player(url=url, source_url=self.url)
                 player.matches["started"].append(self)
                 xi.append(player)
 
             table = document.find("table")
             for url in rt.find_urls(str(table)):
                 if "spieler" in url:
-                    player = team.get_player(url=url)
+                    player = team.get_player(url=url, source_url=self.url)
                     player.matches["benched"].append(self)
                     bench.append(player)
                 if "trainer" in url:
@@ -408,7 +422,8 @@ class Game:
             self.teams["away"]["manager"] = "https://www.transfermarkt.com" + urls[-1]
         if len(urls[:-1]) == 11:
             for url in urls[:-1]:
-                player = team.get_player(url=("https://www.transfermarkt.com" + url))
+                player = team.get_player(url=("https://www.transfermarkt.com" + url),
+                                         source_url=self.url)
                 player.matches["started"].append(self)
                 xi.append(player)
         else:

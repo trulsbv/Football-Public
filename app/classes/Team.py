@@ -187,7 +187,7 @@ class Team:
             elif home == away:
                 self.points += 1
         else:
-            prints.error(self, f"Was not {game.teams['home']['team']} or {game.teams['away']['team']}")
+            prints.error(self, f"Not {game.teams['home']['team']} or {game.teams['away']['team']}")
             exit()
 
     def print_team(self):
@@ -257,6 +257,7 @@ class Team:
         warning=False,
         number=False,
         position=False,
+        source_url=False,
     ):
         if url and "=" in url:
             url = url.split("=")[1]
@@ -275,7 +276,9 @@ class Team:
             )
         if not url:
             ft.log(name)
-            prints.error(self, f"{name} does not have URL!")
+            prints.error(self, f"{name} does not have URL! {source_url}")
+            ft.push_json()
+            exit()
         player = Player(self, url=url, graphs=self.graphs)
         ft.log(f"Created {player} ({url})")
         self.players.append(player)
@@ -432,7 +435,11 @@ class Team:
         YELLOW_PENALTY = -8
         RED_PENALTY = -20
 
-        xi = event.game.teams["home"]["xi"] if self == event.game.teams["home"]["team"] else event.game.teams["away"]["xi"]
+        if self == event.game.teams["home"]["team"]:
+            xi = event.game.teams["home"]["xi"]
+        else:
+            xi = event.game.teams["away"]["xi"]
+
         if isinstance(event, Goal):
             self.give_points(event.player, GOAL_POINTS)
             if event.assist:

@@ -81,7 +81,7 @@ def write_json(data: map, id: str, folder: str):
     if folder not in main_data:
         main_data[folder] = {}
     main_data[folder][id] = data
-    # push_json() # Saves all the time, very slow
+    # push_json()  # Saves all the time, very slow
 
 
 def delete_analysis(team: str = "", selection: str = ""):

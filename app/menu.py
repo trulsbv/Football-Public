@@ -11,6 +11,8 @@ import export
 
 def menu(update_function) -> None:
     inp = ""
+    export.export_game_pdf(select_tournament(), force_team())
+    exit()
     while inp.upper() != "QUIT":
         display_info()
         print("[1] Team overview")
@@ -109,6 +111,7 @@ def export_bar(type):
             df["team"] = team
             frames.append(df)
     df = pd.concat(frames, ignore_index=True)
+    df.fillna("Unreported", inplace=True)
     df = df[df["type"] == type]
     df = df[["team", "by", "how"]]
     print(df)
@@ -141,6 +144,7 @@ def export_goals_heatmap():
             frames.append(df)
 
     df = pd.concat(frames, ignore_index=True)
+    df.fillna("Unreported", inplace=True)
     export_type = _list_items(["Goals scored", "Goals conceded"])
     if export_type == "Goals scored":
         df = df[df["type"] == "Goal"]

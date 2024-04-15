@@ -1,86 +1,11 @@
-import tools.plot as plot
-import tools.prints as prints
-import pandas as pd
 import matplotlib.pyplot as plt
-
-
-def export_scored_goals_team(df: pd.DataFrame, team: str, freq: int = 5) -> None:
-    """
-    Creates a scattergram with each of the player's goals per freq for the given team
-
-    Input:
-        * df: as a DataFrame with all events
-        * freq: int frequency
-    """
-    prints.error("SHOULD BE DELETED")
-    exit()
-    df = plot.filter_dataframe(df, keep=("team", team))
-    keys = ["type", "time", "team", "name"]
-    export_scored_goals(df, "name", keys, freq,
-                        f"{team} - Goals scored per {freq}-minute interval (by player)")
-
-
-def export_conceded_goals_team(df: pd.DataFrame, team: str, freq: int = 5) -> None:
-    """
-    Creates a scattergram with each of the player's goals per freq for the given team
-
-    Input:
-        * df: as a DataFrame with all events
-        * freq: int frequency
-    """
-    prints.error("SHOULD BE DELETED")
-    exit()
-    print(df)
-    df = plot.filter_dataframe(df, keep=("team", team))
-    keys = ["type", "time", "team", "name"]
-    export_conceded_goals(df, "name", keys, freq,
-                          f"{team} - Goals conceded per {freq}-minute interval (by player)")
-
-
-def export_scored_goals_league(df: pd.DataFrame, freq: int = 5, league: str = None) -> None:
-    """
-    Creates a scattergram with each of the team's goals per freq for the given team
-
-    Input:
-        * df as a DataFrame with all events
-        * freq int frequency
-        * league (optional) to give the header and filename context
-    """
-    prints.error("SHOULD BE DELETED")
-    exit()
-    keys = ["type", "time", "team", "name"]
-    export_scored_goals(df, "team", keys, freq,
-                        f"{league} - Goals scored per {freq}-minute interval (by team)")
-
-
-def export_conceded_goals_league(df: pd.DataFrame, freq: int = 5, league: str = None) -> None:
-    """
-    Creates a scattergram with each of the team's goals per freq for the given team
-
-    Input:
-        * df as a DataFrame with all events
-        * freq int frequency
-        * league (optional) to give the header and filename context
-    """
-    prints.error("SHOULD BE DELETED")
-    exit()
-    keys = ["type", "time", "team", "name"]
-    export_conceded_goals(df, "team", keys, freq,
-                          f"{league} - Goals conceded per {freq}-minute interval (by team)")
-
-
-def export_scored_goals(df, key: str, keys: list, freq: int, msg: str) -> None:
-    prints.error("SHOULD BE DELETED")
-    exit()
-    DF = plot.filter_dataframe(df, keys=keys, keep=("type", "Goal"))
-    plot.scattergram_goals_time(DF, freq, key, msg)
-
-
-def export_conceded_goals(df, key: str, keys: list, freq: int, msg: str) -> None:
-    prints.error("SHOULD BE DELETED")
-    exit()
-    DF = plot.filter_dataframe(df, keys=keys, keep=("type", "ConcededGoal"))
-    plot.scattergram_goals_time(DF, freq, key, msg)
+import numpy as np
+import os
+import pandas as pd
+import seaborn as sns
+import settings
+import tools.prints as prints
+from matplotlib.backends.backend_pdf import PdfPages
 
 
 def legal_df(df, info):
@@ -90,16 +15,16 @@ def legal_df(df, info):
     return True
 
 
-def export_heatmap(df, key, title):
+def export_heatmap(df, key, title, hightlight: str = ""):
     if legal_df(df, title):
-        plot.scattergram_goals_time(df, 5, key, title)
+        return scattergram_goals_time(df, 5, key, title, hightlight)
 
 
 def export_series(series, title):
     value_counts = series.value_counts()
 
     # Plot as a bar chart
-    ax = value_counts.plot(kind='bar')
+    ax = value_counts.plot(kind='bar', label="TBV")
 
     # Add labels and title
     plt.xlabel('Values')
@@ -125,7 +50,7 @@ def export_assists(df, title):
     ax = how_counts.plot(kind='bar')
 
     # Adding labels and title
-    plt.xlabel('Type of assist')
+    plt.xlabel('Type')
     plt.ylabel('Count')
     plt.title(title)
 
@@ -135,5 +60,109 @@ def export_assists(df, title):
                     (p.get_x() + p.get_width() / 2., p.get_height()),
                     ha='center', va='center', xytext=(0, 5), textcoords='offset points')
     plt.xticks(rotation=15, ha='right')
+
     # Display the plot
     plt.show()
+
+
+def filter_dataframe(dataframe: pd.DataFrame, keys: list[str] = None, keep: tuple = None):
+    """
+    dataframe: DataFrame
+    keys: list with keys from DF, ["type", "time", "name"] will return DF with only those columns
+    keep: tuple  with a key from DF and what that key should be
+    """
+    print("UNUSED? filter_dataframe")
+    exit()
+    if keys:
+        dataframe = dataframe[keys]
+    if keep:
+        dataframe = dataframe[dataframe[keep[0]] == keep[1]]
+    return dataframe
+
+
+def scattergram_goals_time(dataframe: pd.DataFrame,
+                           interval: int,
+                           key: str,
+                           header: str = "",
+                           highlight: str = ""):
+    goal_counts = (
+        dataframe.groupby(
+            [key, pd.cut(dataframe["time"], np.arange(0, (90 + interval), interval))]
+        )
+        .size()
+        .reset_index(name="goal_count")
+    )
+
+    # Pivot the data to have players as rows and time intervals as columns
+    pivot_df = goal_counts.pivot(
+        index=key, columns="time", values="goal_count"
+    ).fillna(0)
+
+    # Convert column labels from intervals to strings
+    pivot_df.columns = [str(col) for col in pivot_df.columns]
+
+    # Plotting a heatmap
+    plt.figure(figsize=(12, 8))
+    sns.heatmap(pivot_df, cmap="viridis", annot=True, fmt=".0f", linewidths=0.5)
+    plt.xlabel("Minute")
+    plt.ylabel(key.title())
+    plt.title(header)
+    plt.yticks(rotation=0)
+
+    # Highlight rows where key is "current" with a red box
+    if highlight:
+        highlight_row = pivot_df.index == highlight
+        # Adding the red box
+        for i, cond in enumerate(highlight_row):
+            if cond:
+                plt.gca().add_patch(plt.Rectangle((0, i), pivot_df.shape[1], 1, fill=False, edgecolor='red', lw=2))
+
+    plt.tight_layout()
+
+    folder = f"{os.getcwd()}/{settings.FOLDER}/plots"
+    if not os.path.isdir(folder):
+        os.mkdir(folder)
+    return plt.gcf()
+    # Save or display the plot
+    #  plt.savefig(f"files/plots/{header}.png")  # Save the plot as an image
+    plt.show()  # Display the plot
+
+
+def export_game_pdf(tournament, team):
+    frames = []
+    for t in tournament.team:
+        for player in tournament.team[t].players:
+            df = player.events_to_df()
+            df["name"] = player.name
+            df["team"] = t
+            frames.append(df)
+
+    df = pd.concat(frames, ignore_index=True)
+    df.fillna("Unreported", inplace=True)
+
+    # Goals scored
+    goals_scored_df = df[df["type"] == "Goal"]
+    goal_per_team_fig = export_heatmap(goals_scored_df,
+                                       "team",
+                                       f"Goals scored in {tournament.name}",
+                                       team.name)
+    goals_scored_team_df = goals_scored_df[goals_scored_df["team"] == team.name]
+    goal_per_player_fig = export_heatmap(goals_scored_team_df,
+                                         "name",
+                                         f"Goals scored by {team.name}")
+    pdf_file = "multiple_plots.pdf"
+    with PdfPages(pdf_file) as pdf:
+        pdf.savefig(goal_per_team_fig, bbox_inches='tight')
+        pdf.savefig(goal_per_player_fig, bbox_inches='tight')
+
+    plt.close(goal_per_team_fig)
+    plt.close(goal_per_player_fig)
+
+    import subprocess
+    subprocess.Popen([pdf_file], shell=True)
+
+    return
+    goals_scored_team_df = goals_scored_df[goals_scored_df["team"] == team.name]
+    goal_per_player_pdf = export_heatmap(goals_scored_team_df,
+                                         "name",
+                                         f"Goals scored for {team.name}")

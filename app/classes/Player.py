@@ -454,7 +454,7 @@ class Player:
             "data": {
                 "name": self.name,
                 "number": self.number,
-                "birthday": str(self.birthday.strftime('%d/%m/%Y')),  # strftime might be unneeded
+                "birthday": None if not self.birthday else str(self.birthday.strftime('%d/%m/%Y')),
                 "height": str(self.height),
                 "foot": self.foot,
                 "role": self.role,
@@ -472,7 +472,7 @@ class Player:
         if data:
             self.name = data["data"]["name"]
             self.number = data["data"]["number"]
-            if data["data"]["birthday"] != "None":
+            if data["data"]["birthday"]:
                 self.birthday = datetime.strptime(data["data"]["birthday"], "%d/%m/%Y")
             else:
                 self.birthday = None
