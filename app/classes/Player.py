@@ -454,7 +454,7 @@ class Player:
             "data": {
                 "name": self.name,
                 "number": self.number,
-                "birthday": str(self.birthday),
+                "birthday": str(self.birthday.strftime('%d/%m/%Y')),  # strftime might be unneeded
                 "height": str(self.height),
                 "foot": self.foot,
                 "role": self.role,
@@ -505,7 +505,7 @@ class Player:
             print(f"Could not find stats for {self.name}")
         self.birthday = rt.tm_player_birth(str(table))
         if self.birthday:
-            self.birthday = datetime.strptime(self.birthday, '%b %d, %Y').strftime('%d/%m/%Y')
+            self.birthday = datetime.strptime(self.birthday, '%b %d, %Y')
         self.height = rt.tm_player_height(str(table))
         if self.height:
             self.height = float(self.height.replace(",", "."))

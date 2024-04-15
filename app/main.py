@@ -16,11 +16,6 @@ def main() -> None:
             "Run historical: -[year] [league] [country]",
             "   Delete file: -deleteU [year] [url]",
             "   Reset saved: -reset[P/G] [league] [country]",
-            "-OBOS",
-            "-Eliteserien",
-            "-PremierLeague",
-            "-PostNord1",
-            "-LaLiga",
             ]
         print("Current valid arguments:")
         for arg in pos_args:
@@ -110,6 +105,9 @@ def update() -> None:
                 ft.push_json()  # TODO: This might not be neeeded
                 settings.SAVED_TOURNAMENTS.append(tournament)
                 prints.success()
+    if not settings.CURRENT_TOURNAMENT:
+        prints.failed("No tournament found")
+        exit()
     prints.FINISH()
 
 

@@ -28,8 +28,9 @@ class HTML:
             search and ft.is_not_valid(self.page.id, self.valid_from, self.ext)
         ) or force:
             text = wt.get_html(self.page.url)
+            self.fetched = date.today()
             self._save_html(text)
-            return f"{date.today()}\n{text}"
+            return text
         else:
             value = ft.find_html(self.page.id)
             if value == 0:

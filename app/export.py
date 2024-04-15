@@ -104,7 +104,7 @@ def export_series(series, title):
     # Add labels and title
     plt.xlabel('Values')
     plt.ylabel('Frequency')
-    plt.title('Frequency of Values in Series')
+    plt.title(title)
 
     # Add counts on top of each bar
     for i, v in enumerate(value_counts):
