@@ -23,7 +23,6 @@ jobs:
           git remote add public https://github.com/trulsbv/Football-Public
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
-          git push --force public main
+          git push public main
         env:
-          PAT: ${{ secrets.PAT }}
-          
+          PAT: ${{ secrets.PAT }
