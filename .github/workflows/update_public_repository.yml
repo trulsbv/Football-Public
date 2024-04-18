@@ -1,0 +1,22 @@
+name: Update Public Repository
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [closed]
+
+jobs:
+  update_public:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      - name: Push to Public Repository
+        if: github.event.pull_request.merged == true
+        run: |
+          git remote add public https://github.com/trulsbv/Football-Public
+          git push public main
