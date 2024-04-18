@@ -1,12 +1,14 @@
 name: Merge to Main
 
 on:
-  push:
+  pull_request:
+    types: [closed]
     branches:
       - main
 
 jobs:
   merge_to_public:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     steps:
