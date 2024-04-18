@@ -13,7 +13,7 @@ To create the PDF beneath, run main.py with the flags: -2023 Eliteserien Norway
 
 [Eliteserien 2023 - Molde FK.pdf](https://github.com/trulsbv/Fotball/files/15025648/Eliteserien.2023.-.Molde.FK.pdf)
 
-Some of the different graphs that can be automatically generated based on transfermarkt data:
+Some of the samples of the different graphs that can be automatically generated for every club based on transfermarkt data:
 ![image](https://github.com/trulsbv/Fotball/assets/114477568/1967477b-8bc2-48fd-86ea-6fe5de9baac4)
 ![image](https://github.com/trulsbv/Fotball/assets/114477568/e3317b39-6e89-49fc-90a0-e5f6731b9fa2)
 ![image](https://github.com/trulsbv/Fotball/assets/114477568/74f473c2-1634-4cc8-8720-bbb36599af5d)
