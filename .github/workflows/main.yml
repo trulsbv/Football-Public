@@ -18,3 +18,5 @@ jobs:
           git config --global user.email 'truls.vidnes@hotmail.no'
           git remote add public https://github.com/trulsbv/Football-Public
           git push public main:main
+        env:
+          PAT: ${{ secrets.PAT }}
