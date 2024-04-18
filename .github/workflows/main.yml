@@ -14,6 +14,6 @@ jobs:
 
       - name: Push to Remote
         run: |
-          git config --global user.name 'Your Name'
-          git config --global user.email 'your.email@example.com'
-          git push origin main:remote-branch-name
+          git config --global user.name 'Truls'
+          git config --global user.email 'truls.vidnes@hotmail.no'
+          git push origin main:main
