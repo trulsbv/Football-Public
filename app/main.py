@@ -12,7 +12,7 @@ def main() -> None:
     args = ", ".join(sys.argv[1:])
     if len(sys.argv) > 1 and "-help" in args:
         pos_args = [
-            "           Run: -run [league] [country]",
+            "Run cur season: -run [league] [country]",
             "Run historical: -[year] [league] [country]",
             "   Delete file: -deleteU [year] [url]",
             "   Reset saved: -reset[P/G] [league] [country]",
