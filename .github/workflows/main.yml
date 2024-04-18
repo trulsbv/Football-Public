@@ -1,0 +1,19 @@
+name: Push to Remote Branch
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  push-to-remote-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Push to Remote
+        run: |
+          git config --global user.name 'Your Name'
+          git config --global user.email 'your.email@example.com'
+          git push origin main:remote-branch-name
