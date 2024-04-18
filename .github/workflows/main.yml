@@ -19,4 +19,4 @@ jobs:
           git remote add public https://github.com/trulsbv/Football-Public
           git push public main:main
         env:
-          PAT: ${{ secrets.PAT }}
+          PAT_V2: ${{ secrets.PAT_V2 }}
