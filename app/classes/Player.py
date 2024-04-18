@@ -113,7 +113,7 @@ class Player:
     def get_points(self):
         if not self.points or not self.minutes_played():
             return 0
-        return round(self.points/self.minutes_played(), 4)
+        return round(self.points/(self.minutes_played()), 4)
 
     def minutes_played(self):
         total = 0
@@ -134,6 +134,17 @@ class Player:
                 out_time = 90
             total += (out_time-in_time)
         return total
+
+    def minutes_played_in_match(self, game):
+        if game in self.matches["started"]:
+            if game in self.matches["sub out"]:
+                return self.matches["sub out"][game].time
+            return 90
+        if game in self.matches["sub in"]:
+            if game in self.matches["sub out"]:
+                return self.matches["sub out"][game].time - self.matches["sub in"][game].time
+            return 90 - self.matches["sub in"][game].time
+        return 0
 
     def results_while_playing(self):
         results_while_playing = []  # <-- (game, (before, after, end), (in, out))

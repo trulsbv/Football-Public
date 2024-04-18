@@ -17,7 +17,6 @@ def fetch_goals_per_player_per_position(team):
         for event in game.events:
             data = event.high_level_dict()
             if data["name"] == "Goal" and data["team"] == team:
-                print(data["type"])
                 if not isinstance(data["player"], str):
                     data["role"] = data["player"].role
                 frames.append(data)
@@ -145,21 +144,6 @@ def bar_chart(df, title, key="how"):
     value = plt.gcf()
     plt.close()
     return value
-
-
-def filter_dataframe(dataframe: pd.DataFrame, keys: list[str] = None, keep: tuple = None):
-    """
-    dataframe: DataFrame
-    keys: list with keys from DF, ["type", "time", "name"] will return DF with only those columns
-    keep: tuple  with a key from DF and what that key should be
-    """
-    print("UNUSED? filter_dataframe")
-    exit()
-    if keys:
-        dataframe = dataframe[keys]
-    if keep:
-        dataframe = dataframe[dataframe[keep[0]] == keep[1]]
-    return dataframe
 
 
 def scattergram_goals_time(dataframe: pd.DataFrame,

@@ -53,12 +53,15 @@ class Node:
         self.edges = []
 
     def display(self) -> None:
+        return f"{self.name} ({self.outgoing_edges()})"
+
+    def outgoing_edges(self):
         ctr = 0
         for edge in self.edges:
             if self == edge.second:
                 continue
             ctr += edge.weight
-        return f"{self.name} ({ctr})"
+        return ctr
 
     def __eq__(self, node):
         if isinstance(node, Node):
@@ -108,8 +111,15 @@ class DirectedCumulativeGraph():
         dot = gv.Graph()
         dot.attr(label=f'{club_name} assist graph', labelloc='t', fontname='Arial', fontsize='20')
         format = "png"
+        node_sizes = {}
+
         for node in self.nodes:
-            dot.node(node.name, node.display(), color=node.color, fontname='Arial', fontsize='15')
+            size = node.outgoing_edges()  # Assuming node.display() returns an integer
+            node_sizes[node.name] = int(1 + (size/3))
+
+        for node in self.nodes:
+            dot.node(node.name, node.display(), color=node.color, fontname='Arial', fontsize='15',
+                     width=str(node_sizes[node.name]), height=str(node_sizes[node.name]))
 
         for edge in self.edges:
             dot.edge(edge.first.name,

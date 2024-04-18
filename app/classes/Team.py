@@ -159,9 +159,14 @@ class Team:
             s += game.WDL_team(self)
         return s
 
+    def reduce_points(self):
+        for player in self.players:
+            player.points = player.points * 0.9
+
     def add_game(self, game):
         self.tournament.pitches["surfaces"].add(game.pitch.surface)
         home, away = game.score
+        self.reduce_points()
         if game.teams["home"]["team"] == self:
             self.games["home"].append(game)
         else:
