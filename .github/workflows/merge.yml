@@ -19,4 +19,8 @@ jobs:
         if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
         run: |
           git remote add public https://github.com/trulsbv/Football-Public
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
           git push public main
+        env:
+          PAT: ${{ secrets.PAT }}
