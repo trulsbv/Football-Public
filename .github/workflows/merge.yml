@@ -1,27 +1,22 @@
-name: Merge to Main
+name: Update Public Repository
 
 on:
-  pull_request:
-    types:
-      - closed
+  push:
     branches:
       - main
+  pull_request:
+    types: [closed]
 
 jobs:
-  merge_to_public:
-    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
+  update_public:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup SSH and push to Football-Public
+      - name: Push to Public Repository
+        if: github.event.pull_request.merged == true
         run: |
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" | base64 --decode > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
-          git remote add public_repo git@github.com:trulsbv/Football-Public.git
-          git push public_repo main
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          git remote add public https://github.com/trulsbv/Football-Public
+          git push public main
