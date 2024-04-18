@@ -10,7 +10,7 @@ jobs:
     
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         
       - name: Push to Public Repository
         if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
@@ -18,4 +18,4 @@ jobs:
           git remote add public https://github.com/trulsbv/Football-Public.git
           git push public main
         env:
-          PAT: ${{ secrets.PAT }}
+          token: ${{ secrets.PAT }}
