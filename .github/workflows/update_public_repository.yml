@@ -11,7 +11,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        
+        with:
+          node-version: '20' # Update to Node.js 20
+
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
