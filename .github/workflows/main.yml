@@ -16,4 +16,4 @@ jobs:
         run: |
           git config --global user.name 'Truls'
           git config --global user.email 'truls.vidnes@hotmail.no'
-          git push origin main:main
+          git push public main:main
