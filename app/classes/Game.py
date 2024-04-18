@@ -8,6 +8,7 @@ from bs4 import BeautifulSoup
 import tools.regex_tools as rt
 import tools.file_tools as ft
 import tools.prints as prints
+import pandas as pd
 
 
 class Game:
@@ -55,6 +56,42 @@ class Game:
         self.analysised = False
         self.post_game_points = {}
         self._load()
+
+    def to_df(self):
+        data = []
+        for team_name in ["home", "away"]:
+            team_data = self.teams[team_name]
+            row = {
+                "team": team_data["team"].nickname,
+                "formation": team_data["formation"],
+                "number": team_data["number"],
+                "points": team_data["points"],
+                "events": []
+            }
+            for event in self.events:
+                d = event.high_level_dict()
+                if d["team"] == team_data["team"]:
+                    row["events"].append(d)
+            data.append(row)
+
+        df = pd.DataFrame(data)
+
+        # Explode the "events" column
+        df_exploded = df.explode("events", ignore_index=True)
+
+        # Convert the "events" column to a DataFrame
+        df_events = pd.DataFrame(list(df_exploded['events']))
+
+        # Rename the "team" column from events to avoid duplication
+        df_events = df_events.rename(columns={"team": "event_team"})
+
+        # Join the event details back to the original DataFrame based on the index
+        df_merged = pd.concat([df_exploded.drop(columns='events'), df_events], axis=1)
+
+        # Reorder the columns
+        df_final = df_merged[['team', 'formation', 'number', 'points', 'name', 'time']]
+
+        return df_final
 
     def _load(self):
         data = ft.get_json(ft.TF_url_to_id(self.url), "Games")
@@ -302,8 +339,10 @@ class Game:
                     splitted = data[1].split(",")
                     if len(splitted) > 1:
                         if splitted[0] in team.get_player_names():
-                            info = splitted[1] if "Assist of the Season" not in splitted[1] else ""
-
+                            if "Assist of the Season" not in splitted[1]:
+                                info = splitted[1]
+                            else:
+                                info = None
                             assist = Assist(team.get_player(name=splitted[0], source_url=self.url),
                                             info, url=self.url)
                         else:
@@ -433,13 +472,18 @@ class Game:
         divs = document.find_all("div", recursive=False)
         i = 0
         for team in ["home", "away"]:
-            self.TM_individual_lineup(self.teams[team]["team"],
-                                      self.teams[team]["xi"],
-                                      self.teams[team]["bench"],
+            t = self.teams[team]
+            self.TM_individual_lineup(t["team"],
+                                      t["xi"],
+                                      t["bench"],
                                       divs[i])
+            try:
+                t["formation"] = rt.standard_reg(divs[i],
+                                                 r'Starting Line-up:(.[^<]*)').strip()
+            except AttributeError:
+                prints.warning(f"Failed to find formation for {team}", self.url)
+            t["lineup"] = [t["xi"].copy(), t["bench"].copy()]
             i += 1
-            self.teams[team]["lineup"] = [self.teams[team]["xi"].copy(),
-                                          self.teams[team]["bench"].copy()]
 
     def TM_analysis(self):
         self.page = Page(self.url, valid_from=self.valid_from)
@@ -622,6 +666,12 @@ class Game:
                 return player
         prints.error("Game: get_keeper", f"Failed to find keeper: {self.url}")
         return None
+
+    def team_to_type(self, team):
+        if team == self.teams["home"]["team"]:
+            return "home"
+        else:
+            return "away"
 
     def opponent(self, team):
         if team == self.teams["home"]["team"]:

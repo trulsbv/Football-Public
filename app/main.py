@@ -101,7 +101,6 @@ def update() -> None:
                 prints.start("Read games")
                 pn1_schedule = tournament.schedule
                 pn1_schedule.fetch_games()
-
                 ft.push_json()  # TODO: This might not be neeeded
                 settings.SAVED_TOURNAMENTS.append(tournament)
                 prints.success()

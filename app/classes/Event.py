@@ -45,12 +45,21 @@ class YellowCard(Booking):
             reason = lst[4]
         super().__init__(game, time, team, player, reason)
         team.assign_points(self)
+        self.name = "Yellow card"
 
     def to_dict(self) -> str:
         cur = {
             "card": "Yellow",
         }
         return {**cur, **super().to_dict()}
+
+    def high_level_dict(self) -> str:
+        return {
+            "name": "Yellow card",
+            "team": self.team,
+            "time": self.time,
+            "player": self.player
+        }
 
     def __repr__(self) -> str:
         return super().__repr__() + " yellow card"
@@ -77,12 +86,21 @@ class RedCard(Booking):
             reason = lst[4]
         super().__init__(game, time, team, player, reason)
         team.assign_points(self)
+        self.name = "Red card"
 
     def to_dict(self) -> str:
         cur = {
             "card": "Red",
         }
         return {**cur, **super().to_dict()}
+
+    def high_level_dict(self) -> str:
+        return {
+            "name": "Red card",
+            "team": self.team,
+            "time": self.time,
+            "player": self.player
+        }
 
     def __repr__(self) -> str:
         return super().__repr__() + " red card"
@@ -101,6 +119,7 @@ class Substitute(Event):
     def __init__(
         self, game=None, time=None, team=None, players=None, reason=None, lst=None
     ):
+        self.name = "Substitution"
         if lst:
             game = lst[0]
             time = lst[1]
@@ -171,6 +190,13 @@ class Substitute(Event):
             + f"{self.team}, {self._in} => {self._out} ({self.game.date})"
         )
 
+    def high_level_dict(self) -> str:
+        return {
+            "name": "Substitution",
+            "team": self.team,
+            "time": self.time
+        }
+
     def to_json(self):
         out = None
         _in = None
@@ -193,9 +219,10 @@ class Assist():
     def __init__(self, player, info, url):
         self.player = player
         player.events.append(self)
-        self.inf = info.strip()
+        self.inf = None if not info else info.strip()
         self.goal = None
         self.url = url
+        self.name = "Assist"
 
     def to_dict(self) -> str:
         return {
@@ -266,6 +293,16 @@ class PlayGoal(Goal):
         ConcededGoal(self, game.get_keeper(opponent))
         self.inf = info
         team.assign_points(self)
+        self.name = "Play goal"
+
+    def high_level_dict(self) -> str:
+        return {
+            "name": "Goal",
+            "team": self.team,
+            "time": self.time,
+            "player": self.player,
+            "type": self.inf
+        }
 
     def to_dict(self) -> str:
         cur = {"action": "Active", "assist": self.assist, "how": self.inf}
@@ -310,11 +347,21 @@ class Penalty(Goal):
         self.goal = goal
         self.fouled = fouled
         self.inf = "Penalty"
+        self.name = "Penalty goal"
         if goal:
             opponent = game.opponent(team)
             opponent.conceded_goals.append(self)
             ConcededGoal(self, game.get_keeper(opponent))
         team.assign_points(self)
+
+    def high_level_dict(self) -> str:
+        return {
+            "name": "Goal",
+            "team": self.team,
+            "time": self.time,
+            "player": self.player,
+            "type": self.inf
+        }
 
     def to_dict(self) -> str:
         cur = {
@@ -322,6 +369,7 @@ class Penalty(Goal):
             "keeper": self.keeper,
             "fouled": self.fouled if self.fouled else "Unknown",
             "goal": self.goal,
+            "how": "Penalty"
         }
         return {**cur, **super().to_dict()}
 
@@ -353,6 +401,15 @@ class OwnGoal(Goal):
         ConcededGoal(self, game.get_keeper(team))
         team.assign_points(self)
         self.inf = "Own goal"
+
+    def high_level_dict(self) -> str:
+        return {
+            "name": "Goal",
+            "team": self.game.opponent(self.team),
+            "time": self.time,
+            "player": "Own goal",
+            "type": self.inf
+        }
 
     def to_dict(self) -> str:
         cur = {
@@ -389,5 +446,6 @@ class ConcededGoal():
                 "by": self.keeper,
                 "goal": self.goal,
                 "game": self.goal.game,
-                "how": self.goal.inf
+                "how": self.goal.inf,
+                "assist": None if not self.goal.assist else self.goal.assist.inf
             }

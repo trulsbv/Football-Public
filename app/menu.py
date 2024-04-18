@@ -11,8 +11,6 @@ import export
 
 def menu(update_function) -> None:
     inp = ""
-    export.export_game_pdf(select_tournament(), force_team())
-    exit()
     while inp.upper() != "QUIT":
         display_info()
         print("[1] Team overview")
@@ -65,7 +63,8 @@ def export_menu():
         "Assist graph",
         "Assist bar chart",
         "Goal bar chart",
-        "Goals heatmap"
+        "Goals heatmap",
+        "Export team PDF"
         ]
     what_to_export = _list_items(types_of_export)
     if what_to_export == "Players":
@@ -82,6 +81,8 @@ def export_menu():
             export_bar("ConcededGoal")
     if what_to_export == "Goals heatmap":
         export_goals_heatmap()
+    if what_to_export == "Export team PDF":
+        export.export_team_pdf(select_tournament(), select_team())
 
 
 def export_players():
@@ -114,23 +115,25 @@ def export_bar(type):
     df.fillna("Unreported", inplace=True)
     df = df[df["type"] == type]
     df = df[["team", "by", "how"]]
-    print(df)
     what_to_export = _list_items(["Tournament", "Team", "Player"])
     if what_to_export == "Tournament":
-        export.export_assists(df, f"{type}s in {tournament.name}")
+        export.bar_chart(df, f"{type}s in {tournament.name}")
     if what_to_export == "Team":
         team = select_team(tournament)
         df = df[df["team"] == team.name]
-        export.export_assists(df, f"{type}s by {team.name}")
+        export.bar_chart(df, f"{type}s by {team.name}")
     if what_to_export == "Player":
         player = select_player()
         df = df[df["by"] == player.name]
-        export.export_assists(df, f"{type}s by {player.name}")
+        export.bar_chart(df, f"{type}s by {player.name}")
 
 
 def export_assists_graph():
+    # TODO: Move this into export
+    import matplotlib.pyplot as plt
     team = select_team()
     team.graphs["assists"].export_graph(team.name)
+    plt.show()
 
 
 def export_goals_heatmap():

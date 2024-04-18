@@ -4,6 +4,8 @@ import colorsys as cs
 import os
 import settings
 import shutil
+import matplotlib.image as mpimg
+import matplotlib.pyplot as plt
 
 
 def generate_random_dark_color():
@@ -104,9 +106,10 @@ class DirectedCumulativeGraph():
 
     def export_graph(self, club_name):
         dot = gv.Graph()
-        format = "svg"
+        dot.attr(label=f'{club_name} assist graph', labelloc='t', fontname='Arial', fontsize='20')
+        format = "png"
         for node in self.nodes:
-            dot.node(node.name, node.display(), color=node.color)
+            dot.node(node.name, node.display(), color=node.color, fontname='Arial', fontsize='15')
 
         for edge in self.edges:
             dot.edge(edge.first.name,
@@ -117,7 +120,7 @@ class DirectedCumulativeGraph():
 
         name = f'{club_name}_assists'
         filename = f"{name}.{format}"
-        folder = f"{os.getcwd()}/{settings.FOLDER}/{format}"
+        folder = f"{os.getcwd()}/{settings.FOLDER}/temp"
         dot.render(f'{club_name}_assists', format=format)
 
         if os.path.exists(name) and not os.path.isdir(name) and not os.path.islink(name):
@@ -129,5 +132,20 @@ class DirectedCumulativeGraph():
 
         cur = f"{os.getcwd()}/{filename}"
         new = f"{folder}/{filename}"
-        print(f"File:\n{new}")
         shutil.move(cur, new)
+
+        img = mpimg.imread(new)
+        fig, ax = plt.subplots(dpi=300)
+        ax.imshow(img)
+        ax.axis('off')  # Turn off the axis display
+        ax.set_xticks([])  # Remove x-axis ticks
+        ax.set_yticks([])  # Remove y-axis ticks
+        ax.set_xlabel('')  # Remove x-axis label
+        ax.set_ylabel('')  # Remove y-axis label
+        try:
+            shutil.rmtree(folder)
+        except OSError as e:
+            print(f"Error: {folder} - {e.strerror}")
+        value = plt.gcf()
+        plt.close()
+        return value
