@@ -1,7 +1,13 @@
 # A work in progress looking at fotball data from transfermarkt.com
 
-This is my current procastination project. I fetch data from transfermarkt.com to see how different teams
-performs during the season.
+This is my current procastination project. I fetch data from transfermarkt.com to see how different teams performs during the season.
+
+Required dependencies:
+* pandas
+* graphviz
+* randomcolor
+* matplotlib
+* seaborn
 
 Run it by cloning the project and running app/main.py. 
 ! THIS WILL BE SLOW THE FIRST TIME IT IS RUN !

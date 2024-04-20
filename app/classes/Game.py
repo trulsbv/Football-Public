@@ -334,6 +334,8 @@ class Game:
                 data = involved.get_text(strip=True).split("Assist:")
                 px = rt.standard_reg(goal, r'(-\d+px -\d+)')
                 time = self.px_to_minute(px)
+                u = "https://www.transfermarkt.com" + rt.standard_reg(goal, r'href="(.*)/saison')
+                url = u.replace("leistungsdatendetails", "profil")
                 assist = None
                 if len(data) > 1:
                     splitted = data[1].split(",")
@@ -356,10 +358,11 @@ class Game:
                                              time,
                                              temp_team,
                                              temp_team.get_player(name=splitted[0],
+                                                                  url=url,
                                                                   source_url=self.url)])
                     continue
                 if "PENALTY" in splitted[1].upper():
-                    player = team.get_player(name=splitted[0], source_url=self.url)
+                    player = team.get_player(name=splitted[0], url=url, source_url=self.url)
                     self.temp_events.append(["Penalty",
                                              self,
                                              time,
@@ -373,7 +376,8 @@ class Game:
                                         self,
                                         time,
                                         team,
-                                        team.get_player(name=splitted[0], source_url=self.url),
+                                        team.get_player(name=splitted[0],
+                                                        url=url, source_url=self.url),
                                         assist,
                                         info])
 

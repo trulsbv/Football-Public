@@ -30,7 +30,7 @@ class HTML:
             text = wt.get_html(self.page.url)
             self.fetched = date.today()
             self._save_html(text)
-            return text
+            return f"{self.fetched}\n{text}"
         else:
             value = ft.find_html(self.page.id)
             if value == 0:
