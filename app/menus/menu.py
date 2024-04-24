@@ -1,4 +1,3 @@
-import math
 import tools.prints as prints
 import settings
 import os
@@ -7,6 +6,7 @@ from classes.Team import Team
 from datetime import datetime
 import pandas as pd
 import export
+from menus import functions as lf
 
 
 def menu(update_function) -> None:
@@ -66,7 +66,7 @@ def export_menu():
         "Goals heatmap",
         "Export team PDF"
         ]
-    what_to_export = _list_items(types_of_export)
+    what_to_export = lf._list_items(types_of_export)
     if what_to_export == "Players":
         export_players()
     if what_to_export == "Assist graph":
@@ -74,7 +74,7 @@ def export_menu():
     if what_to_export == "Assist bar chart":
         export_bar("Assist")
     if what_to_export == "Goal bar chart":
-        export_type = _list_items(["Goals scored", "Goals conceded"])
+        export_type = lf._list_items(["Goals scored", "Goals conceded"])
         if export_type == "Goals scored":
             export_bar("Goal")
         if export_type == "Goals conceded":
@@ -94,10 +94,10 @@ def export_players():
             frames.append({**data, **{"team": team}})
     df = pd.DataFrame(frames)
     df.fillna("Unreported", inplace=True)
-    what_to_export = _list_items(["Tournament", "Team"])
+    what_to_export = lf._list_items(["Tournament", "Team"])
     if what_to_export == "Team":
         df = df[df["team"] == select_team(tournament).name]
-    category = _list_items(df.columns)
+    category = lf._list_items(df.columns)
     df = df[category]
     export.export_series(df, f"{category} for {what_to_export}")
 
@@ -115,7 +115,7 @@ def export_bar(type):
     df.fillna("Unreported", inplace=True)
     df = df[df["type"] == type]
     df = df[["team", "by", "how"]]
-    what_to_export = _list_items(["Tournament", "Team", "Player"])
+    what_to_export = lf._list_items(["Tournament", "Team", "Player"])
     if what_to_export == "Tournament":
         export.bar_chart(df, f"{type}s in {tournament.name}")
     if what_to_export == "Team":
@@ -148,80 +148,20 @@ def export_goals_heatmap():
 
     df = pd.concat(frames, ignore_index=True)
     df.fillna("Unreported", inplace=True)
-    export_type = _list_items(["Goals scored", "Goals conceded"])
+    export_type = lf._list_items(["Goals scored", "Goals conceded"])
     if export_type == "Goals scored":
         df = df[df["type"] == "Goal"]
     if export_type == "Goals conceded":
         df = df[df["type"] == "ConcededGoal"]
     df = df[["type", "time", "team", "name"]]
 
-    what_to_export = _list_items(["Tournament", "Team"])
+    what_to_export = lf._list_items(["Tournament", "Team"])
     if what_to_export == "Tournament":
         export.export_heatmap(df, "team", f"{export_type} for {tournament.name}")
     if what_to_export == "Team":
         team = select_team(tournament)
         df = df[df["team"] == team.name]
         export.export_heatmap(df, "name", f"{export_type} for {team.name}")
-
-
-def _list_items(items: list, per_page: int = 10, page=0, accept_none=False) -> any:
-    """
-    Takes a list and items per page. Lets the user
-    Choose one of the items in the list
-
-    Arguments:
-        * List of items
-        * Number of items to show per page
-
-    Returns:
-        * String name of item
-    """
-    max_pages = math.floor(len(items) / per_page)
-    if len(items) - (max_pages * per_page) > 0:
-        max_pages = max_pages + 1
-
-    ctr = per_page * page
-    i = 0
-    inp = ""
-    print(f"\nPage {page+1}/{max_pages}")
-    while ctr < len(items) and i < per_page:
-        print(f"[{i}] {items[ctr]}")
-        ctr += 1
-        i += 1
-    s = "[0 - "
-    if len(items) < per_page:
-        s += f"{len(items)-1}"
-    else:
-        s += f"{per_page-1}"
-    s += "] Select"
-    if accept_none:
-        s += ", [Q] Quit"
-    if len(items) > per_page:
-        s += ", [P] Previous page, [N] Next page"
-    print(s)
-    inp = input(" => ")
-    if accept_none and inp == "":
-        return None
-
-    if inp.isnumeric():
-        inp = int(inp)
-        if not (inp < 0 or inp >= i):
-            return items[page * per_page + inp]
-    else:
-        inp = inp.upper()
-        if inp == "Q":
-            return None
-        if inp == "N":
-            if ctr >= len(items):
-                return _list_items(items, per_page, 0)
-            return _list_items(items, per_page, page + 1)
-        if inp == "P":
-            if page == 0:
-                return _list_items(items, per_page, max_pages - 1)
-            return _list_items(items, per_page, page - 1)
-
-    prints.error("Select item", "Invalid input")
-    return _list_items(items, per_page, page)
 
 
 def print_system_stats() -> None:
@@ -247,7 +187,7 @@ def select_team(tournament: Tournament = None, accept_none: bool = False) -> Tea
         return force_team()
     if not tournament:
         tournament = select_tournament()
-    team = _list_items(list(tournament.team), 10, accept_none=accept_none)
+    team = lf._list_items(list(tournament.team), 10, accept_none=accept_none)
     if team:
         return tournament.team[team]
     return None
@@ -256,7 +196,7 @@ def select_team(tournament: Tournament = None, accept_none: bool = False) -> Tea
 def select_player(team: Team = None, accept_none: bool = False) -> Team:
     if not team:
         team = select_team()
-    return _list_items(list(team.players), 10, accept_none=accept_none)
+    return lf._list_items(list(team.players), 10, accept_none=accept_none)
 
 
 def print_players_events() -> None:
@@ -451,11 +391,11 @@ def choose_player_stats() -> None:
     and asks user to choose one. Then displays stats about that player.
     """
     tournament = select_tournament()
-    team_name = _list_items(list(tournament.team), 10)
+    team_name = lf._list_items(list(tournament.team), 10)
     if not team_name:
         return
     team = tournament.team[team_name]
-    player = _list_items(list(team.players), 10)
+    player = lf._list_items(list(team.players), 10)
     player.print_stats()
 
 
@@ -503,7 +443,7 @@ def print_team_stats() -> None:
     Prints team stats
     """
     tournament = select_tournament()
-    team = _list_items(list(tournament.team), 10)
+    team = lf._list_items(list(tournament.team), 10)
     if team:
         team = tournament.team[team]
         team.print_team_stats()

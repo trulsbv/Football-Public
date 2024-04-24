@@ -5,10 +5,13 @@ from classes.Continent import Continent
 import tools.prints as prints
 import tools.file_tools as ft
 import settings
-from menu import menu
+from menus.presets import preset_menu
+from menus.menu import menu
 
 
 def main() -> None:
+    preset_menu()
+    exit()
     args = ", ".join(sys.argv[1:])
     if len(sys.argv) > 1 and "-help" in args:
         pos_args = [

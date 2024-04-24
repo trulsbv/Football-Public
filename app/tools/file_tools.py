@@ -159,7 +159,7 @@ def find_file(folder, name):
     return False
 
 
-def find_html(id, extension=".html"):
+def find_html(id, extension=".html", create_if_not=False):
     """
     Takes an id and searches through the files folder for a [id].txt file
     to see if we already have the html from a previous fetch
@@ -333,6 +333,27 @@ def get_baneinfo(html):
     for key in dict:
         out.append(dict[key])
     return out
+
+
+def fetch_presets():
+    folder = Path(settings.FOLDER)
+    f = find_file(folder, "presets.json")
+    if not f:
+        f = folder / "presets.json"
+        f = open(f, "a", encoding="UTF-8")
+        return None
+    f = open(f, encoding="UTF-8")
+    s = ""
+    for line in f.readlines():
+        s += line.rstrip()
+    d = json.loads(s)
+    f.close()
+    return d
+
+
+def save_presets(pre):
+    file = open(settings.FOLDER+"/presets.json", "w", encoding="UTF-8")
+    json.dump(pre, file, indent=4, ensure_ascii=False)
 
 
 def log(msg):
