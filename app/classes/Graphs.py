@@ -110,6 +110,7 @@ class DirectedCumulativeGraph():
     def export_graph(self, club_name):
         dot = gv.Graph()
         dot.attr(label=f'{club_name} assist graph', labelloc='t', fontname='Arial', fontsize='20')
+        club_name = club_name.replace('/', '_')
         format = "png"
         node_sizes = {}
 
